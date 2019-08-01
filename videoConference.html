@@ -679,24 +679,24 @@
                 }
                 // 创建 peerConnect
                 cleanOneUser(data.from.id);
-                createUserPeerConnection(data.from.id);
-                createUserDataChannel(data.from.id, roomId);
-                createUserOffer(data.from.id);
+                createPeerConnection(data.from.id);
+                createDataChannel(data.from.id, roomId);
+                createOffer(data.from.id);
             };
 
             WS.prototype.offer = function (data) {
                 cleanOneUser(data.from.id);
-                createUserPeerConnection(data.from.id);
-                setUserRemoteDesc(data.from.id, data.data);
-                createUserAnswer(data.from.id);
+                createPeerConnection(data.from.id);
+                setRemoteDesc(data.from.id, data.data);
+                createAnswer(data.from.id);
             };
 
             WS.prototype.answer = function (data) {
-                setUserRemoteDesc(data.from.id, data.data);
+                setRemoteDesc(data.from.id, data.data);
             };
 
             WS.prototype.candidate = function (data) {
-                addUserIceCandidate(data.from.id, data.data);
+                addIceCandidate(data.from.id, data.data);
             };
 
             // 全体静音
@@ -973,144 +973,12 @@
             return 'roomUser_' + userId;
         }
 
-
-        // 清除某个人的信息
-        function cleanOneUser(userId) {
-            if (remotePeer[userId]) {
-                remotePeer[userId].close();
-                remotePeer[userId] = null;
-                remoteChannel[userId] = null;
-                if(document.getElementById(userId)){
-                    document.getElementById(userId).srcObject = null;
-                }
-            }
-        }
-
-
-
-        function createRemoteVideoElement(userId) {
-            if (!document.getElementById(userId)) {
-                if(userId == roomInfo.owner && localUserId != roomInfo.owner){
-                    $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
-                }else{
-                    $('body').append(`
-                <video class="allVideo" id="${userId}" data-id="${userId}" playsinline autoplay></video>
-            `);
-                }
-            }
-        }
-
-
-        function createUserPeerConnection(userId, roomId) {
-            if(!remotePeer[userId]){
-                // 每有一个人连接就创建一个video标签播放远程资源视频
-                createRemoteVideoElement(userId);
-
-                // 创建远程连接
-                remotePeer[userId] = peerConnection();
-
-                createPeerConnection(remotePeer[userId], null, (e)=>{
-                    ws.send({
-                        action: 'webrtc',
-                        event: 'candidate',
-                        mine:{
-                            id: localUserId
-                        },
-                        webrtc:{
-                            id: userId
-                        },
-                        data: {
-                            sdpMLineIndex: e.sdpMLineIndex,
-                            id: e.sdpMid,
-                            candidate: e.candidate
-                        }
-                    });
-                }, (e)=>{
-
-
-                }, () => {
-                    if (remotePeer[userId]) {
-                        if (localUserStream) {
-                            localUserStream.getTracks().forEach((track) => {
-                                remotePeer[userId].addTrack(track, localUserStream);
-                            });
-                        } else if (localDisplayStream) {
-                            localDisplayStream.getTracks().forEach((track) => {
-                                remotePeer[userId].addTrack(track, localDisplayStream);
-                            });
-                        }
-                    }
-                });
-
-                onDataChannel(remotePeer[userId], userId);
-            }
-        }
-
-
-        function createUserOffer(userId) {
-            createOffer(remotePeer[userId], (offerDesc)=>{
-                ws.send({
-                    action: 'webrtc',
-                    event: 'offer',
-                    mine:{
-                        id: localUserId
-                    },
-                    webrtc:{
-                        id: userId
-                    },
-                    data: offerDesc
-                });
-            }, (err)=>{
-                console.error('Failed to create offer:', err);
-            });
-        }
-
-
-        function createUserAnswer(userId) {
-            createAnswer(remotePeer[userId], (answerDesc)=>{
-                ws.send({
-                    action: 'webrtc',
-                    event: 'answer',
-                    mine:{
-                        id: localUserId
-                    },
-                    webrtc:{
-                        id: userId
-                    },
-                    data: answerDesc
-                });
-            }, (err)=>{
-                console.error('Failed to create answer:', err);
-            })
-        }
-
-
-        function setUserRemoteDesc(userId, desc) {
-            setRemoteDesc(remotePeer[userId], desc, (error)=>{
-                console.log(`Failed to set session description: ${error.toString()}`);
-            });
-        }
-
-
-        function createUserDataChannel(userId, roomId){
-            createDataChannel(remotePeer[userId] ,userId, roomId);
-        }
-
-
-        function addUserIceCandidate(userId, data) {
-            let candidate = new RTCIceCandidate({
-                sdpMLineIndex: data.sdpMLineIndex,
-                candidate: data.candidate
-            });
-            remotePeer[userId].addIceCandidate(candidate);
-        }
-
     })
 </script>
 <script src="js/webrtc/adapter-latest.js"></script>
 <script src="js/webrtc/userMedia.js"></script>
 <script src="js/webrtc/displayMedia.js"></script>
-<script src="js/webrtc/peerConnection.js"></script>
+<!--<script src="js/webrtc/peerConnection.js"></script>-->
 <script src="js/webrtc/dataChannel.js"></script>
 <script src="js/webrtc/webSocketEvent.js"></script>
 <script src="js/webrtc.js"></script>
