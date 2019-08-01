@@ -126,21 +126,6 @@
                         }
                     });
 
-                    $('.avatar').on('click' , function () {
-                        let maxVideoId = $(this).parent().attr('data-id');
-                        ws.send({
-                            action:'webrtc',
-                            event:'maxVideo',
-                            mine:{
-                                id: localUserId
-                            },
-                            room:{
-                                id:roomId,
-                            },
-                            maxVideoId: maxVideoId
-                        });
-                    });
-
                     // var userList = [
                     //     {
                     //         userName: '中华小当家',
@@ -1071,6 +1056,26 @@
             });
         }
 
+
+        $('#userList').on('click','.avatar',function() {
+            $('.videoStyle').each(function () {
+                $(this).removeClass('videoStyle');
+                $('body').append($(this))
+            });
+            let maxVideoId = $(this).parent().attr('data-id');
+            ws.send({
+                action:'webrtc',
+                event:'maxVideo',
+                mine:{
+                    id: localUserId
+                },
+                room:{
+                    id:roomId,
+                },
+                maxVideoId: maxVideoId
+            });
+            bigVideo(maxVideoId);
+        });
 
         function setRoomUserId(userId) {
             return 'roomUser_' + userId;
