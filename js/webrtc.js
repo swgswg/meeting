@@ -62,7 +62,7 @@ var channelOptions = {
     maxRetransmits:5, // 消息失败的重传次数
 };
 
-function createRemoteVideoElement(userId) {
+function createRemoteVideoElement(userId, roomInfo) {
     if (!document.getElementById(userId)) {
         if(userId === roomInfo.owner && localUserId !== roomInfo.owner){
             $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
@@ -83,10 +83,10 @@ function createRemoteVideoElement(userId) {
  * key=userid, value=peerconnection
  * @param userId  远程用户的id
  */
-function createPeerConnection(userId) {
+function createPeerConnection(userId, roomInfo) {
     if(!remotePeer[userId]){
         // 每有一个人连接就创建一个video标签播放远程资源视频
-        createRemoteVideoElement(userId);
+        createRemoteVideoElement(userId, roomInfo);
         
         // 创建远程连接
         remotePeer[userId] = new RTCPeerConnection(pcConfig);

@@ -677,14 +677,14 @@
                 }
                 // 创建 peerConnect
                 cleanOneUser(data.from.id);
-                createPeerConnection(data.from.id);
+                createPeerConnection(data.from.id, roomInfo);
                 createDataChannel(remotePeer[data.from.id], roomId);
                 createOffer(data.from.id);
             };
 
             WS.prototype.offer = function (data) {
                 cleanOneUser(data.from.id);
-                createPeerConnection(data.from.id);
+                createPeerConnection(data.from.id, roomInfo);
                 setRemoteDesc(data.from.id, data.data);
                 createAnswer(data.from.id);
             };
