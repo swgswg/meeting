@@ -1,0 +1,638 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a;
+}
+
+.meetingRoom {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* 视频会议左侧 */
+.meetingRoom .meeting-l {
+    width: 25%;
+    height: 100%;
+    background: #f5f5f5;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* 用户列表 */
+.meeting-l-userList,
+.meeting-l-chat {
+    width: 100%;
+    height: 50%;
+}
+
+/* 用户列表--头部 */
+.meeting-l .meeting-title {
+    width: 100%;
+    height: 20%;
+    background: #2a2d3b;
+    position: relative;
+}
+
+.meeting-title div {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0, -50%);
+    -moz-transform: translate(0, -50%);
+    -o-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+}
+
+.meeting-title p {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.meeting-title i.titleLogo {
+    display: inline-block;
+    width: .4rem;
+    height: .4rem;
+    background: #f5f5f5;
+    font-size: .4rem;
+    border-radius: 50%;
+    margin-left: 5%;
+    vertical-align: middle;
+}
+
+.meeting-title span {
+    line-height: .4rem;
+    font-size: .15rem;
+    display: inline-block;
+    font-weight: 600;
+    color: #fff;
+    vertical-align: middle;
+}
+
+span#roomName {
+    position: absolute;
+    bottom: -45%;
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-weight: normal;
+}
+
+.meeting-title i.titleMenu {
+    line-height: .4rem;
+    display: inline-block;
+    color: #fff !important;
+    vertical-align: middle;
+    font-size: .3rem;
+    float: right;
+    margin-right: 5%;
+}
+
+/* 用户列表--头部结束 */
+/* 用户列表--列表 */
+.meeting-l .meeting-list {
+    width: 100%;
+    height: 80%;
+    background: #f5f5f5;
+    overflow: auto;
+}
+
+.meeting-l .meeting-list ul,
+.meeting-l .meeting-list li {
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.meeting-l .meeting-list li {
+    height: .6rem;
+    background: #ffffff;
+    line-height: 0.6rem;
+    font-size: .12rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.meeting-list i.avatar {
+    display: inline-block;
+    width: .4rem;
+    height: .4rem;
+    font-size: .25rem;
+    line-height: .4rem;
+    background: #eeeeee;
+    border-radius: 50%;
+    vertical-align: middle;
+    text-align: center;
+    margin-left: 5%;
+}
+
+.meeting-list i.voice {
+    margin-right: 5%;
+    font-size: .15rem;
+}
+
+.meeting-list i.more {
+    margin-right: 5%;
+    font-size: .15rem;
+}
+
+
+/* 菜单按钮及弹窗 */
+span#roomName {
+    /* 不会捕获任何click事件，让事件穿过该元素到达下面的元素 */
+    pointer-events: none;
+}
+
+.meeting-title i.titleMenu {
+    cursor: pointer;
+}
+
+.meeting-title i.titleMenu:hover {
+    text-shadow: 0px 0px 5px #fff;
+}
+
+.meeting-title .titleMenu-dialog {
+    width: 1.4rem;
+    height: 0.7rem;
+    position: absolute;
+    top: 0.9rem;
+    right: 0.2rem;
+    background: #fff;
+    z-index: 2;
+    box-shadow: 0 0 0.02rem #ccc;
+    border-radius: 0.02rem;
+    display: none;
+}
+
+.meeting-title .titleMenu-dialog .menu-item {
+    width: 1.4rem;
+    height: 0.35rem;
+    line-height: 0.35rem;
+    position: static;
+    transform: translate(0, 0);
+    cursor: pointer;
+}
+
+.meeting-title .titleMenu-dialog .menu-item:hover {
+    background: rgb(245, 245, 245)
+}
+
+.titleMenu-dialog .menu-item .menu-item-icon {
+    display: inline-block;
+    width: 0.3rem;
+    height: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding-left: 0.25rem;
+}
+
+.titleMenu-dialog .menu-item .menu-item-title {
+    width: 1rem;
+    height: 100%;
+    color: #212121;
+    font-weight: normal;
+    display: inline-block;
+    vertical-align: baseline;
+    font-size: .15rem;
+    text-align: center;
+}
+
+/* 设置更多 */
+.meeting-l .meeting-list li {
+    position: relative;
+}
+
+.setMore-dialog {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.15rem;
+    width: 0.6rem;
+    height: 0.75rem;
+    background: #ffffff;
+    z-index: 2;
+    box-shadow: 0 0 0.02rem #ccc;
+    border-radius: 0.02rem;
+    display: none;
+}
+
+.setMore-item {
+    height: 0.375rem;
+    line-height: 0.375rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.setMore-item:hover {
+    background: rgb(245, 245, 245)
+}
+
+.meeting-list i.voice {
+    cursor: pointer;
+}
+
+.meeting-list i.more {
+    cursor: pointer;
+}
+/* 用户列表--列表结束 */
+/* 用户列表结束 */
+/* 会议聊天 */
+/* 会议聊天--头部 */
+.meeting-l-chat .meeting-title span {
+    margin-left: 5%;
+}
+
+.meeting-l-chat .meeting-title i {
+    line-height: .4rem;
+    display: inline-block;
+    color: #fff !important;
+    vertical-align: middle;
+    font-size: .25rem;
+    float: right;
+    margin-right: 5%;
+}
+
+/* 会议聊天--头部结束 */
+/* 会议聊天--会话 */
+.meeting-chatList {
+    width: 100%;
+    height: 60%;
+    overflow: auto;
+}
+
+.meeting-chatList ul,
+.meeting-chatList li,
+.meeting-chatList p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.meeting-chatList li {
+    width: 90%;
+    padding: 0 5% !important;
+    margin: 5px 0 !important;
+}
+
+.meeting-chatList li span {
+    font-weight: 600;
+    font-size: .14rem;
+}
+
+.meeting-chatList li p {
+    word-wrap: break-word;
+    word-break: normal;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+    padding: 5px !important;
+    background: #fff;
+}
+
+.meeting-sendMessage {
+    width: 100%;
+    height: 20%;
+    background: #fff;
+    position: relative;
+}
+
+.meeting-sendMessage textarea {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    width: 80%;
+    height: 60%;
+    -webkit-transform: translate(0, -50%);
+    -moz-transform: translate(0, -50%);
+    -o-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+}
+
+.meeting-sendMessage i {
+    font-size: .28rem;
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    -webkit-transform: translate(0, -50%);
+    -moz-transform: translate(0, -50%);
+    -o-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    cursor: pointer;
+}
+
+/* 会议聊天--会话结束 */
+/* 会议聊天结束 */
+/* 视频会议左侧结束 */
+/* 视频会议右侧 */
+.meetingRoom .meeting-r {
+    width: 75%;
+    height: 100%;
+    position: relative;
+    background: #1a1a1a;
+    z-index: 2;
+    left: 25%;
+}
+
+/* 中间大屏 */
+.meeting-r-center {
+    width: 100%;
+    height: 80%;
+    background: #787976;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+/* 一大屏 */
+
+.videoStyle {
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+    object-fit: cover;
+    /* transform: scaleX(-1); */
+}
+
+/* 一大屏 */
+
+/* 自己小屏 */
+.myself {
+    width: 20%;
+    /* height: 20%; */
+    right: 0;
+    top: 0;
+    border-radius: 2px;
+    margin: 16px;
+    position: absolute;
+    z-index: 5;
+}
+
+.myself-videoBox,
+.onePeople-videoBox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 1px 1px 8px black;
+
+}
+
+.myself-videoBox video, .onePeople-videoBox video {
+    width: 100%;
+    height: 100%;
+}
+
+.myself-show {
+    right: .1rem;
+    top: .1rem;
+    position: absolute;
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+.v-hide {
+    display: inline-block;
+    cursor: pointer;
+    text-transform: uppercase;
+    color: white !important;
+    font-size: .3rem !important;
+    text-shadow: 1px 1px 1px #333;
+    opacity: 0.8;
+}
+
+/* 自己小屏 结束*/
+/* 左上小屏 */
+.onePeople {
+    width: 20%;
+    /* height: 20%; */
+    left: 0;
+    top: 0;
+    border-radius: 2px;
+    margin: 16px;
+    position: absolute;
+    z-index: 5;
+}
+
+/* 左上小屏 结束*/
+
+/* 1:7 */
+.videoList-1-7 {
+    width: 90%;
+    height: 20%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 5%;
+    /* background: pink; */
+    /* z-index: 10; */
+}
+.videoList-1-7 ul{
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;
+}
+.videoList-1-7 li{
+    float: left;
+    width: 20%;
+    height: 100%;
+}
+.videoList-1-7 li video {
+    width: 100%;
+    height: 100%;
+}
+
+/* 1:7 结束*/
+/* 4分屏 */
+.videoList-4 {
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.videoList-4 ul {
+    width: 100%;
+    height: 100%;
+}
+
+.videoList-4 ul li {
+    width: 50%;
+    height: 50%;
+    float: left;
+}
+
+.videoList-4 ul li video {
+    width: 100%;
+    height: 100%;
+}
+
+/* 4分屏结束 */
+/* 下边菜单 */
+.right-footer {
+    position: absolute;
+    bottom: 0;
+    /* background-color: black; */
+    width: 100%;
+}
+
+.right-icons {
+    height: 0.6rem;
+}
+
+.right-icons-l {
+    box-sizing: border-box;
+    width: 0.6rem;
+    padding: 0 0 0.2rem 0.2rem;
+}
+
+.right-icons-c {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0%);
+    display: flex;
+}
+
+.right-icons-r {
+    box-sizing: border-box;
+    width: 1.05rem;
+    padding: 0 0.2rem 0.2rem 0;
+    display: flex;
+}
+
+.right-icons-container {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: #283337;
+    text-align: center;
+    line-height: 0.4rem;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.right-icons-container:hover {
+    opacity: 0.7;
+}
+
+.icon-margin-r {
+    margin-right: 0.05rem;
+}
+
+.xinxi-icon {
+    margin-right: 0.05rem;
+}
+
+.right-fonts {
+    font-size: 0.3rem;
+    color: #ffffff !important;
+}
+
+.dianhuared {
+    background: #f14435;
+}
+
+/* 分屏容器开始 */
+.fenping-container {
+    width: 2.5rem;
+    height: 1rem;
+    position: absolute;
+    bottom: 0.65rem;
+    left: 50%;
+    visibility: hidden;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.15rem;
+    background: #000;
+    opacity: 0.8;
+    color: #fff;
+    border-radius: 0.05rem;
+}
+
+.fenping-items {
+    cursor: pointer;
+}
+
+.fenping-img {
+    width: 0.4rem;
+    height: 0.3rem;
+}
+
+.fenping-des {
+    font-size: 0.12rem;
+    margin: 0.05rem 0 0 0;
+    text-align: center;
+    color: #ffffff;
+}
+
+/* 分屏容器结束 */
+
+/* 分享图片pdf开始 */
+.share-dialog {
+    width: 4.8rem !important;
+    border-radius: 0.05rem !important;
+}
+
+.share-container {
+    width: 4.4rem;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.share-item {
+    box-sizing: border-box;
+    width: 2rem;
+    height: 1.5rem;
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+    border: 0.07rem solid #ffffff;
+}
+
+.share-item:hover {
+    border: 0.07rem solid #badbf3;
+}
+
+.share-img {
+    width: 1rem;
+    height: 1rem;
+}
+
+.share-title {
+    text-align: center;
+}
+
+.share-cancel-btn {
+    font-size: 0.12rem !important;
+}
+
+.share-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    height: 1.36rem;
+    width: 1.86rem;
+    z-index: 9;
+}
+
+.btn-hidden{
+    display:none;
+}
+/* 分享图片pdf结束 */
+/* 下边菜单结束 */
+/* 视频会议右侧结束 */

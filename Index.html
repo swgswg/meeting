@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>视频会议</title>
+  <link rel="stylesheet" href="uikit-2.25.0/css/uikit.min.css">
+  <link rel="stylesheet" href="uikit-2.25.0/css/components/notify.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="uikit-2.25.0/js/uikit.min.js"></script>
+  <script src="uikit-2.25.0/js/components/notify.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/login/style.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1301614_jpqbozb1m6d.css">
+  <!--图标库-->
+  <!-- <script src="js/login/ionicons.js"></script> -->
+</head>
+
+<body>
+  <div class="container" id="container">
+    <div class="form-container sign-up-container">
+      <form action="#">
+        <h1>创建会议室</h1><br>
+        <div><span class="">房间号：</span><span id="RoomID"></span></div>
+        <input type="text" placeholder="会议室名称" id="roomName">
+        <input type="text" placeholder="会议室密码" id="roomPsw">
+        <button id="createdRoom">创建</button>
+      </form>
+    </div>
+    <div class="form-container sign-in-container">
+      <form action="#">
+        <h1>加入会议室</h1><br>
+        <input type="text" placeholder="会议室号码" id="roomNum">
+        <input type="password" placeholder="会议室密码" id="userPsw">
+        <input type="text" placeholder="会议室中显示昵称" id="userName">
+        <button id="enterRoom">加入</button>
+        <i class="icon-shezhi iconfont uk-animation-hover uk-animation-shake setting" id="Setting"
+          data-uk-modal="{target:'#setModal',bgclose:false,center:true}"></i>
+      </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>欢迎回来</h1>
+          <p>加入会议室，旅程即将为您起航！</p>
+          <button class="ghost" id="signIn">加入会议室</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>欢迎光临</h1>
+          <p>创建会议室，并与我们一起开始旅程~</p>
+          <button class="ghost" id="signUp">创建会议室</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 模态对话框 -->
+  <div id="setModal" class="uk-modal">
+    <div class="uk-modal-dialog my-setModal-dialog">
+      <a class="uk-modal-close uk-close"></a>
+      <div class="uk-modal-header my-setModal-header">设置</div>
+      <div class="uk-overflow-container my-overflow-setCntainer">
+        <form class="uk-form uk-form-stacked">
+          <fieldset>
+            <legend>媒体</legend>
+            <div class="uk-form-row my-setForm-row">
+              <label class="uk-form-label" for="videoSource">摄像头</label>
+              <div class="uk-form-controls">
+                <select id="videoSource" class="uk-width-1-1">
+                </select>
+              </div>
+              <div class="my-videoContainer uk-width-1-1">
+                <video id="video" playsinline="" autoplay="" class="my-video"></video>
+              </div>
+            </div>
+            <div class="uk-form-row my-setForm-row">
+              <label class="uk-form-label" for="audioSource">麦克风</label>
+              <div class="uk-form-controls">
+                <select id="audioSource" class="uk-width-1-1">
+                </select>
+              </div>
+              <label><input type="checkbox" id="isMeetingMute" value="1">入会后静音</label>
+            </div>
+
+            <div class="uk-form-row my-setForm-row">
+              <label class="uk-form-label" for="audioOutput">音频输出</label>
+              <div class="uk-form-controls">
+                <select id="audioOutput" class="uk-width-1-1">
+                </select>
+              </div>
+              <!-- <label><input type="checkbox" id="isShowOptions" value="2">显示摄像头/麦克风选项</label> -->
+            </div>
+            <!-- <div class="uk-form-row my-setForm-row">
+              <label class="uk-form-label" for="form-s-it">视频模式</label>
+              <div class="uk-form-controls">
+                <select id="form-s-s" class="uk-width-1-1">
+                  <option>高清模式</option>
+                  <option>流畅模式</option>
+                </select>
+              </div>
+            </div> -->
+          </fieldset>
+          <fieldset>
+            <legend>高级</legend>
+            <div class="uk-form-row my-setForm-row">
+              <label class="uk-form-label" for="form-s-it">视频分享质量</label>
+              <div class="uk-form-controls .uk-form-controls-condensed">
+                <p id="fpxNumber" class="fpx-number"></p>
+                <span class="rangeDes">清晰度</span>
+                <input id="fpxRange" type="range" min="1" max="30" step="1" style="width:80%">
+                <span class="rangeDes">运动</span>
+              </div>
+              <br>
+              <!-- <label><input type="checkbox"id="isShowAgree" value="3">当断开时显示确认对话框</label><br /> -->
+              <!-- <label><input type="checkbox" id="isVideoRemote" value="4">视频形式展示远程分享</label> -->
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="uk-modal-footer uk-text-right">
+        <button type="button" id='setModalqxBtn' class="uk-button my-setButton">取消</button>
+        <button type="button" id="setModalqdBtn"
+          class="uk-button uk-button-primary my-setButton my-setModal-submit">确定</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/login/script.js"></script>
+  <script src="js/util.js"></script>
+  <script src="js/webrtc/webSocketEvent.js"></script>
+  
+    
+    <script>
+      $(function () {
+        // 创建websocket
+        const ws = new WS();
+        WS.prototype.open = function (e){
+          console.log(e)
+            this.send({
+                action:'open',
+                webrtc: {
+                    id: roomInfo.userId
+                }
+            });
+        };
+        
+        WS.prototype.actionOpen = function (data) {
+
+        };
+        
+        WS.prototype.created = function (data){
+          UIkit.notify('会议室创建成功！', {
+            status: 'success',
+            timeout: 1000
+          })
+        };
+        WS.prototype.disJoin = function (data){
+          UIkit.notify(data.data, {
+            status: 'danger',
+            timeout: 1000
+          })
+        };
+        WS.prototype.joined = function (data){
+          ws.close();
+          localStorage.setItem('roomInfo',  JSON.stringify(roomInfo));
+          location.href = "./videoConference.html";
+        };
+
+        // 定义房间号、用户名、用户id、密码
+        // roomInfo: 房间号roomId  密码psw  userId 用户名userName
+        var roomInfo ={}
+
+        roomInfo.userId = 'webrtc_' + getRandChars(6);    //用户id
+        // 开启ws
+        // ws.open();
+
+        // 创建会议室开始
+        // var RoomId = userId = 'webrtc_' + getRandChars(6);
+        var rand = parseInt(Math.random() * (60000 - 0 + 1) + 0);
+        var rand1 = parseInt(Math.random() * (70000 - 0 + 1) + 0);
+        var roomId = rand + rand1;
+        roomId = generateRoomId(roomId); //房间号
+        $('#RoomID').append(`${roomId}`);
+        $('#createdRoom').on('click', function () {
+          if ($('#roomName').val() == '' || $('#roomPsw').val() == '') {
+            UIkit.notify("会议室名称、会议室密码不能为空！", {
+              status: 'danger',
+              timeout: 1000
+            })
+          }else{
+            var roomName = $('#roomName').val().trim();
+            var roomPsw = $('#roomPsw').val().trim();
+            ws.send({
+              action: 'webrtc',
+              event: 'createRoom',
+              mine: {
+                id: roomInfo.userId
+              },
+              room: {
+                id: roomId,
+                owner: roomInfo.userId,
+                name: roomName,
+                max: 8,
+                pwd: roomPsw,
+              },
+            });
+               var container = document.getElementById('container')
+               container.classList.remove("right-panel-active");
+           
+          }
+          return false;
+        })
+        // 创建会议室结束
+
+        // 进入会议室开始
+        $('#enterRoom').on('click', function () {
+          if ($('#roomNum').val() == '' || $('#userPsw').val() == '' || $('#userName').val() == '') {
+            UIkit.notify("会议室号码、会议室密码、会议室中显示昵称不能为空！", {
+              status: 'danger',
+              timeout: 1000
+            })
+          } else {
+            roomInfo.roomId = $('#roomNum').val().trim();
+            roomInfo.psw = $('#userPsw').val().trim();
+            roomInfo.userName = $('#userName').val().trim();
+            ws.send({
+              action: 'webrtc',
+              event: 'joinRoom',
+              mine: {
+                  id: roomInfo.userId
+              },
+              room: {
+                  id: roomInfo.roomId,
+                  pwd:  roomInfo.psw,
+              },
+            });
+          }
+          return false;
+        })
+        // 进入会议室结束
+      });
+    </script>
+    <script>
+        
+        $(function () {
+          
+        });
+      </script>
+  <script>
+    (
+    function () {
+
+
+
+
+
+
+
+
+
+
+
+
+      // 初始化fpxNumber
+      window.onload = function () {
+        $('#fpxNumber')[0].innerText = $('#fpxRange')[0].value + 'fpx'
+      }
+      // 滑动杆数值赋值p标签
+      $('#fpxRange').on("input", function () {
+        let val = this.value;
+        $('#fpxNumber')[0].innerText = val + 'fpx'
+      });
+      let setModal = UIkit.modal("#setModal");
+      // 取消按钮
+      $('#setModalqxBtn').on('click', function () {
+        setModal.hide()
+      })
+      // 确定按钮
+      $('#setModalqdBtn').on('click', function () {
+        let setOptions = {};
+        let aa = $('input[type="checkbox"]');
+        /* console.log(aa.attr('checked')){
+          console.log(aa.val())
+        } */
+        console.log(aa[0].checked)
+        /* if (aa.attr('checked')) {
+          console.log($(this))
+          setOptions[$(this)[0].id] = JSON.parse($(this).val());
+        } else {
+          setOptions[$(this)[0].id] = false;
+        } */
+        setOptions[$('input[type="checkbox"]')[0].id] = JSON.parse($('input[type="checkbox"]')[0].checked);
+        // 摄像头
+        setOptions[$('#videoSource')[0].id] = $('#videoSource').val();
+        // 麦克风
+        setOptions[$('#audioSource')[0].id] = $('#audioSource').val();
+        // 音频输出
+        setOptions[$('#audioOutput')[0].id] = $('#audioOutput').val();
+        // 分享质量
+        setOptions[$('#fpxRange')[0].id] = $('#fpxRange').val();
+        localStorage.setItem('setOptions', JSON.stringify(setOptions))
+        localStorage.getItem('userName')
+        setModal.hide()
+      })
+    })()
+  </script>
+  <!-- webrtc START -->
+  <script async="" src="//www.google-analytics.com/analytics.js"></script>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <!-- 设备选择 -->
+  <script src="js/login/devices/main.js" async></script>
+  <!-- 视频模式 -->
+  <!-- <script src="js/login/getusermedia/main.js" async></script> -->
+  <script src="js/login/ga.js" async></script>
+  <!-- webrtc END -->
+</body>
+
+</html>

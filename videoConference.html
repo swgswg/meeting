@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>视频会议</title>
+    <!-- 通用css -->
+    <link rel="stylesheet" href="./css/common.css">
+    <!-- 视频会议css -->
+    <link rel="stylesheet" href="./css/videoConference.css">
+    <!-- uikit框架 -->
+    <link rel="stylesheet" href="uikit-2.25.0/css/uikit.min.css">
+    <link rel="stylesheet" href="uikit-2.25.0/css/components/notify.css">
+    <link rel="stylesheet" href="uikit-2.25.0/css/components/slider.css">
+
+    <!-- 字体图标 -->
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1301614_m1jweeyr6iq.css">
+
+    <!-- jquery -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/util.js"></script>
+    <script src="uikit-2.25.0/js/uikit.min.js"></script>
+    <script src="uikit-2.25.0/js/components/notify.js"></script>
+    <script src="uikit-2.25.0/js/components/slider.js"></script>
+</head>
+
+<body>
+<div class="meetingRoom">
+    <!-- 视频会议左侧 -->
+    <div class="meeting-l">
+        <!-- 用户列表 -->
+        <div class="meeting-l-userList">
+            <!-- 用户列表--头部 -->
+            <div class="meeting-title">
+                <div class="clearfix">
+                    <i class="iconfont icon-huiyikaihuitaolun titleLogo"></i>
+                    <span id="roomNum"></span>
+                    <span id="userNum"></span>
+                    <i class="iconfont icon-caidan titleMenu" id="menuBtn"></i>
+                    <span id="roomName"></span>
+                </div>
+                <div class="titleMenu-dialog" id="menuDialog">
+                    <div class="menu-item" id="allMute">
+                        <i class="iconfont icon-maikefeng-jingyin menu-item-icon"></i>
+                        <span class="menu-item-title">全体静音</span>
+                    </div>
+                    <div class="menu-item" id="closeMeeting">
+                        <i class="iconfont icon-phonedianhua menu-item-icon"></i>
+                        <span class="menu-item-title">结束会议</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 用户列表--头部结束 -->
+            <!-- 用户列表--列表 -->
+            <div class="meeting-list">
+                <ul id="userList">
+                    <!-- <li> -->
+                    <!-- <i class="iconfont icon-icontouxiang-copy avatar"></i> -->
+                    <!-- <span id="host">主持人</span> -->
+                    <!-- <span>访客</span> -->
+                    <!-- <em>（我）</em> -->
+                    <!-- 更多 -->
+                    <!-- <i class="iconfont icon-gengduo fr more"></i> -->
+                    <!-- 麦克风 -->
+                    <!-- <i class="iconfont icon-maikefeng-tianchong fr voice"></i> -->
+                    <!-- <i class="iconfont icon-maikefeng-jingyin-tianchongsvg"></i> -->
+                    <!-- </li> -->
+                </ul>
+            </div>
+            <script>
+                $(function () {
+                    // 点击菜单按钮
+                    $('#menuBtn').click(function () {
+                        if ($('#menuDialog').css('display') === 'none') {
+                            $('#menuDialog').show()
+                        } else {
+                            $('#menuDialog').hide()
+                        }
+                    })
+                    // 全体静音
+                    $('#allMute').click(function () {
+                        console.log($(this))
+                    })
+                    // 结束会议
+                    $('#closeMeeting').click(function () {
+                        console.log($(this))
+                    })
+
+
+                    // var userList = [
+                    //     {
+                    //         userName: '中华小当家',
+                    //         identity: '主持人', //主持人、访客
+                    //         founder: 1, //会议室创始人 1创始人   0非创始人
+                    //     },
+                    //     {
+                    //         userName: '华北扛把子',
+                    //         identity: '访客', //主持人、访客
+                    //         founder: 0, //会议室创始人 1创始人   0非创始人
+                    //     },
+                    //     {
+                    //         userName: '神厨小福贵',
+                    //         identity: '主持人', //主持人、访客
+                    //         founder: 0, //会议室创始人 1创始人   0非创始人
+                    //     },
+                    //     {
+                    //         userName: '李现女朋友',
+                    //         identity: '访客', //主持人、访客
+                    //         founder: 0, //会议室创始人 1创始人   0非创始人
+                    //     },
+                    //     {
+                    //         userName: '隔壁老樊',
+                    //         identity: '访客', //主持人、访客
+                    //         founder: 0, //会议室创始人 1创始人   0非创始人
+                    //     },
+                    //     {
+                    //         userName: '大吉大利，晚上吃鸡',
+                    //         identity: '访客', //主持人、访客
+                    //         founder: 0, //会议室创始人 1创始人   0非创始人
+                    //     }
+                    // ]
+                    // var str = '';
+                    // // 按钮数组
+                    // let moreSetBtn = [];
+                    // // 弹窗数组
+                    // let moreSetDialog = [];
+                    // // 静音数组
+                    // let muteArr = [];
+                    // // 改名数组
+                    // let gmArr = [];
+                    // // 移除数组
+                    // let ycArr = [];
+                    // // 保存会议所有人的id
+                    // let idArr = [];
+                    // userList.forEach((item, index) => {
+                    //     // 把所有人的id保存到idArr中
+                    //     idArr.push(item.id);
+                    //     // 循环绑定按钮id
+                    //     let btnId = `btn${index}`;
+                    //     // 循环绑定弹窗id
+                    //     let dlgId = `dlg${index}`;
+                    //     // 循环绑定静音id
+                    //     let muteId = `jingyin${index}`
+                    //     // 循环绑定改名id
+                    //     let gmId = `gm${index}`
+                    //     // 循环绑定移除id
+                    //     let ycId = `yc${index}`;
+                    //     // 保存所有按钮id，给每个更多按钮设置点击事件，绑定元素id
+                    //     moreSetBtn.push(btnId);
+                    //     // 保存所有弹窗id，给每个更多按钮设置对应的弹框
+                    //     moreSetDialog.push(dlgId);
+                    //     // 保存所有静音id
+                    //     muteArr.push(muteId);
+                    //     // 保存所有改名id
+                    //     gmArr.push(gmId)
+                    //     // 保存所有移除id
+                    //     ycArr.push(ycId)
+                    //     str += `
+                    //         <li>
+                    //             <i class="iconfont icon-icontouxiang-copy avatar"></i>
+                    //             <span ${item.founder == 1 ? '' : 'class="dis-n"'}>主持人</span>
+                    //             <em ${item.founder == 1 ? '' : 'class="dis-n"'}>（我）</em>
+                    //             <span> ${item.founder == 0 ? item.userName : ''}</span>
+                    //             <span> ${item.founder == 0 ? item.identity : ''}</span>
+                    //             <!-- 更多 -->
+                    //             <i ${item.founder == 1 || item.identity == '主持人' ? 'class="iconfont icon-gengduo fr more"' : 'class="dis-n"'}  title="设置更多" id="${btnId}" ></i>
+                    //             <!-- 麦克风 -->
+                    //             <i ${item.founder == 1 || item.identity == '主持人' ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.userName}" id="${muteId}"></i>
+                    //             <div ${item.founder == 1 || item.identity == '主持人' ? 'class="setMore-dialog"' : 'class="dis-n"'} id="${dlgId}">
+                    //               <div class="setMore-item" id="${gmId}">改名</div>
+                    //               <div class="setMore-item" id="${ycId}">移除</div>
+                    //             </div>
+                    //
+                    //         </li>
+                    //     `
+                    // })
+                    // $('#userList').append(str)
+                    // // 循环绑定更多设置按钮点击事件
+                    // moreSetBtn.forEach((item, index) => {
+                    //     $(`#${item}`).click(function() {
+                    //         if ($(`#${moreSetDialog[index]}`).css('display') === 'none') {
+                    //             $(`#${moreSetDialog[index]}`).show();
+                    //         } else {
+                    //             $(`#${moreSetDialog[index]}`).hide()
+                    //         }
+                    //     })
+                    // });
+                    //
+                    //
+                    // // 循环绑定按钮改名点击事件
+                    // gmArr.forEach((item, index) => {
+                    //     $(`#${item}`).click(function () {
+                    //         // 返回改名人的id
+                    //         console.log(idArr[index])
+                    //         return idArr[index];
+                    //     })
+                    // })
+                    // // 循环绑定按钮移除点击事件
+                    // ycArr.forEach((item, index) => {
+                    //     $(`#${item}`).click(function () {
+                    //         // 返回改名人的id
+                    //         console.log(idArr[index])
+                    //         return idArr[index];
+                    //     })
+                    // })
+                    // // 循环绑定按钮静音点击事件
+                    // muteArr.forEach((item, index) => {
+                    //     $(`#${item}`).click(function () {
+                    //         // 返回改名人的id
+                    //         console.log(idArr[index])
+                    //         return idArr[index];
+                    //     })
+                    // })
+
+                })
+                <!-- 用户列表--列表结束 -->
+            </script>
+        </div>
+
+        <!-- 用户列表结束 -->
+        <!-- 会议聊天 -->
+        <div class="meeting-l-chat">
+            <!-- 会议聊天--头部 -->
+            <div class="meeting-title">
+                <div class="clearfix">
+                    <span>文字沟通</span>
+                    <!-- <i class="iconfont icon-xia fr"></i> -->
+                    <!-- <i class="iconfont icon-shang fr"></i> -->
+                </div>
+            </div>
+            <!-- 会议聊天--头部结束 -->
+            <!-- 会议聊天--会话 -->
+            <div class="meeting-chatList">
+                <ul id="chatList">
+                    <li>
+                        <span>华北扛把子：</span>
+                        <p>
+                            哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="meeting-sendMessage">
+                <textarea name="" id="sendMessage" cols="" rows=""></textarea>
+                <i class="iconfont icon-daifasong" id="Send" onclick="Send()"></i>
+            </div>
+            <!-- 会议聊天--会话结束 -->
+            <script>
+                $(function () {
+                    function receiveContent(userName, userId, message) {
+                        var str = `
+                            <li>
+                            <span>${userName}：</span>
+                            <p data-id="${userId}">
+                            ${message}
+                            </p >
+                            </li>
+                        `;
+                        $('#chatList').append(str);
+                    }
+
+                    // 回车发送
+                    $(document).keydown(function (e) {
+                        if (e.keyCode == 13) {
+                            Send();
+                            return false;
+                        }
+                    });
+                });
+
+                // 点击发送
+                function Send() {
+                    var sendVal = $('#sendMessage').val();
+                    if (sendVal == '') {
+                        UIkit.notify("发送内容不能为空！", {
+                            status: 'danger',
+                            timeout: 1000
+                        })
+                        return;
+                    }
+                    sendChannelData({
+                        content: sendVal,
+                        userName: userName
+                    });
+                    $('#chatList').append(`
+                        <li>
+                            <span>我：</span>
+                            <p>
+                            ${sendVal}
+                            </p >
+                        </li>
+                    `);
+                    $(".meeting-chatList").scrollTop($(".meeting-chatList")[0].scrollHeight);
+                    $('#sendMessage').val('');
+                };
+            </script>
+        </div>
+        <!-- 会议聊天结束 -->
+
+
+    </div>
+    <!-- 视频会议左侧结束 -->
+
+    <div class="meeting-r">
+        <!-- 中间盒子 -->
+        <div class="meeting-r-center">
+            <!-- 一大分屏 -->
+            <!-- <video class="videoStyle" src=""></video> -->
+            <!-- 一大分屏结束 -->
+
+            <!-- 4分屏 -->
+            <div class="videoList-4">
+                <ul class="clearfix">
+                </ul>
+            </div>
+            <!-- 4分屏结束 -->
+        </div>
+        <!-- 中间盒子结束 -->
+        <!-- 右上自己小分屏 -->
+        <div class="myself">
+            <div class="myself-videoBox">
+                <video id="localVideoSmall" src="" playsinline autoplay></video>
+            </div>
+            <div class="myself-show">
+                <i class="icon-zuixiaohua- iconfont v-hide" onclick="myhide()"></i>
+                <i class="icon-zhankai iconfont v-hide" onclick="myShow()"></i>
+            </div>
+        </div>
+        <script>
+            // var videoSrc = './images/1.mp4';
+            // $('.myself-videoBox video').attr('src', videoSrc);
+            $('i.icon-zhankai').hide();
+
+            function myhide() {
+                $('.myself-videoBox').hide();
+                $('i.icon-zuixiaohua-').hide();
+                $('i.icon-zhankai').show();
+            }
+
+            function myShow() {
+                $('.myself-videoBox').show();
+                $('i.icon-zuixiaohua-').show();
+                $('i.icon-zhankai').hide();
+            }
+        </script>
+        <!-- 右上自己小分屏结束 -->
+        <!-- 左上小分屏 -->
+        <div class="onePeople">
+            <div class="onePeople-videoBox">
+                <video src=""></video>
+            </div>
+        </div>
+        <script>
+            // var videoSrc = './images/2.mp4';
+            // $('.onePeople-videoBox video').attr('src', videoSrc);
+        </script>
+        <!-- 左上小分屏结束 -->
+        <!-- 1:7 -->
+        <div class="videoList-1-7" id="videoBanner">
+            <ul class="clearfix" id="otherVideo">
+            </ul>
+        </div>
+        <!-- 1:7结束 -->
+
+        <script>
+            var videoList = [{
+                id: 0,
+                src: './images/2.mp4'
+            },
+                {
+                    id: 1,
+                    src: './images/3.mp4'
+                },
+                {
+                    id: 2,
+                    src: './images/1.mp4'
+                },
+                {
+                    id: 4,
+                    src: './images/2.mp4'
+                },
+                {
+                    id: 5,
+                    src: './images/3.mp4'
+                },
+                {
+                    id: 6,
+                    src: './images/2.mp4'
+                }
+            ]
+            var str = '';
+            videoList.forEach((item, index) => {
+                str += `
+                        <video class="allVideo" data-id="${item.id}" src="${item.src}"></video>
+                    `;
+            })
+            $('body').append(str)
+            $('.allVideo').each(function () {
+                $(this).hide();
+            });
+            $(function () {
+                // video1I7();
+                $('.videoList-1-7').hide();
+            })
+            // 放置 大屏
+            bigVideo(2);
+
+            function bigVideo(videoId) {
+                $('.videoList-4').hide();
+                $('.allVideo').each(function () {
+                    if ($(this).attr('data-id') == videoId) {
+                        $(this).show();
+                        $(this).addClass('videoStyle');
+                        $('.meeting-r-center').append($(this));
+                    }
+                })
+            }
+
+            // 放置 1:7
+            var bigId = $('.videoStyle').attr('data-id');
+
+            function video1I7() {
+                $('.videoStyle').show();
+                var Height = window.screen.availHeight * 0.2;
+                var Width = window.screen.availWidth * 0.75 * 0.9 * 0.20;
+                var str = ''
+                $('.allVideo').each(function () {
+                    if ($(this).attr('data-id') != bigId) {
+                        $('#otherVideo').append($(this));
+                        $(this).wrap('<li></li>')
+                        $(this).show();
+                    }
+                })
+                //    $('body > .allVideo').each(function (){
+                //         console.log($(this).parent().html())
+                //     })
+                $('#videoBanner li').css({
+                    height: Height + 'px',
+                    width: Width + 'px',
+                })
+                $('.videoList-1-7').show();
+            }
+
+            // 取消 1：7
+            function unVideo1I7() {
+                $('.allVideo').each(function () {
+                    if ($(this).attr('data-id') != bigId) {
+                        $(this).unwrap()
+                        $('body').append($(this));
+                        $(this).hide();
+                    }
+                    $('.videoList-1-7').hide();
+                })
+            }
+
+            // 4分屏
+            // flex4()
+            function flex4() {
+                // $('.videoStyle').hide();
+                $('.videoList-4').show();
+                $('.allVideo').each(function (i) {
+                    console.log(i)
+                    if (i <= 3) {
+                        $('.videoList-4 ul').append($(this));
+                        $(this).wrap('<li></li>')
+                        $(this).show();
+                    }
+                })
+            }
+
+            // 取消 4分屏
+            // unFlex()
+            function unFlex4() {
+                // $('.videoStyle').show();
+                $('.videoList-4 .allVideo').each(function (i) {
+                    if (i == 0) {
+                        $(this).unwrap();
+                        $('.meeting-r-center').append($(this));
+                    } else {
+                        $(this).unwrap();
+                        $('body').append($(this));
+                        $(this).hide();
+                    }
+                });
+                $('.videoList-4').hide();
+            }
+
+        </script>
+        <!-- 下边菜单 -->
+        <div class="right-footer">
+            <!-- 左侧图标开始 -->
+            <div class="right-icons right-icons-l fl" data-uk-offcanvas="{target:'#drawer'}">
+                <div id="closeL" class="right-icons-container" title="隐藏状态栏">
+                    <i class="iconfont icon-jiantouarrowhead7 right-fonts"></i>
+                </div>
+                <div id="openL" class="right-icons-container btn-hidden" title="显示状态栏">
+                    <i class="iconfont icon-jiantouarrow487 right-fonts"></i>
+                </div>
+            </div>
+            <!-- 左侧图标结束 -->
+            <!-- 中间图标开始 -->
+            <div class="right-icons right-icons-c fl">
+                <div class="right-icons-container icon-margin-r" title="静音麦克风" id="muteBtn">
+                    <i class="iconfont icon-maikefeng right-fonts"></i>
+                </div>
+                <div class="right-icons-container icon-margin-r" title="禁用摄像头" id="cameraCloseBtn">
+                    <i class="iconfont icon-shexiangtou_shiti right-fonts"></i>
+                </div>
+                <div class="right-icons-container icon-margin-r" style="background:#09b708;" id="EnterBtn" title="连接会议">
+                    <i class="iconfont icon-jinru right-fonts"></i>
+                </div>
+                <div class="right-icons-container icon-margin-r dianhuared" id="disconnectBtn" title="断开">
+                    <i class="iconfont icon-phonedianhua right-fonts"></i>
+                </div>
+                <div class="right-icons-container icon-margin-r" id="shareDesktopBtn" title="开始桌面共享">
+                    <i class="iconfont icon-yunzhuomian right-fonts"></i>
+                </div>
+                <div class="right-icons-container icon-margin-r"
+                     data-uk-modal="{target:'#shareDocModal',bgclose:false,center:true}" id="shareDocBtn" title="分享">
+                    <i class="iconfont icon-tupian right-fonts"></i>
+                </div>
+                <div class="right-icons-container" title="更多" id="moreBtn">
+                    <i class="iconfont icon-shenglvehao right-fonts"></i>
+                </div>
+            </div>
+            <!-- 中间图标结束 -->
+            <!-- 右侧图标开始 -->
+            <div class="right-icons right-icons-r fr">
+                <!-- 连接状态 -->
+                <div class="right-icons-container xinxi-icon" title="连接状态">
+                    <i class="iconfont icon-xinxi right-fonts"></i>
+                </div>
+                <!-- 全屏 -->
+                <div class="right-icons-container" title="全屏" id="quanpingBtn">
+                    <i class="iconfont icon-fangda right-fonts"></i>
+                </div>
+            </div>
+            <!-- 右侧图标结束 -->
+        </div>
+        <!-- 分屏选项开始 -->
+        <div class="fenping-container" id="fenpingContainer">
+            <div>
+                布局
+            </div>
+            <div class="fenping-items" id="1screen" onclick="screen1()">
+                <img src="./images/1click.png" alt="1大屏" class="fenping-img">
+                <p class="fenping-des">1大屏</p>
+            </div>
+            <div class="fenping-items" id="4screen" onclick="screen4()">
+                <img src="./images/4screen.png" alt="4分屏" class="fenping-img">
+                <p class="fenping-des">4分屏</p>
+            </div>
+            <div class="fenping-items" id="8screen" onclick="screen17()">
+                <img src="./images/8screen.png" alt="1+7分屏" class="fenping-img">
+                <p class="fenping-des">1+7</p>
+            </div>
+
+        </div>
+        <script>
+            function screen1() {
+                // unFlex4();
+                // unVideo1I7();
+            }
+
+            function screen4() {
+                // unVideo1I7();
+                // flex4();
+            }
+
+            function screen17() {
+                // unFlex4();
+                // video1I7()
+            }
+        </script>
+        <!-- 分屏选项开始 -->
+
+        <!-- 分享文件弹窗开始 -->
+        <div id="shareDocModal" class="uk-modal">
+            <div class="uk-modal-dialog share-dialog">
+                <a class="uk-modal-close uk-close"></a>
+                <div class="uk-modal-header">选择分享内容</div>
+                <div class="share-container">
+                    <div class="share-item" id="shareImgBtn">
+                        <input type="file" id="imgInp" class="share-input">
+                        <img src="./images/shareImg.png" class="share-img" alt="">
+                        <p class="share-title">图片</p>
+                    </div>
+                    <div class="share-item">
+                        <input type="file" id="pdfInp" class="share-input">
+                        <img src="./images/sharePDF.png" class="share-img" alt="">
+                        <p class="share-title">PDF</p>
+                    </div>
+                </div>
+                <div class="uk-modal-footer uk-text-right">
+                    <button type="button" id='shareCancelBtn' class="uk-button share-cancel-btn">取消</button>
+                </div>
+            </div>
+        </div>
+        <!-- 下边菜单结束 -->
+    </div>
+</div>
+<script>
+    $(function () {
+        var localUserId = null;
+        var userName = null;
+        var roomId = null;
+        var pwd = null;
+        var roomInfo = null;
+        var remoteChannel = {};
+        var remotePeer = {};
+        var localUserStream = null;
+        var localDisplayStream = null;
+        var mediaSource = null;
+        var ws = null;
+
+
+        roomInfo = JSON.parse(localStorage.getItem('roomInfo')) || {};
+        console.log(roomInfo);
+        localUserId = roomInfo.userId || null;
+        userName = roomInfo.userName || null;
+        roomId = roomInfo.roomId || null;
+        pwd = roomInfo.psw || null;
+
+        // 开启视频
+        let videoOptions = JSON.parse(localStorage.getItem('setOptions')) || {};
+        getUserMedia(() => {
+            mediaSource = 'user';
+        }, videoOptions);
+
+        // ws事件
+        if (localUserId || userName || roomId || pwd) {
+            // 开启ws
+            WS.prototype.open = function (e) {
+                this.send({
+                    action: 'open',
+                    webrtc: {
+                        id: localUserId
+                    },
+                    info: {
+                        id: localUserId,
+                        name: userName,
+                    }
+                });
+            };
+
+            WS.prototype.actionOpen = function (e) {
+
+            };
+
+            WS.prototype.joined = function (data) {
+                UIkit.notify("进入会议室成功", {
+                    status: 'success',
+                    timeout: 1000
+                });
+
+                roomInfo = data.roomInfo;
+                roomInfo.userCount = data.userCount;
+
+                // 房间信息
+                $('#roomNum').text(roomInfo.roomId);
+                $('#userNum').text(`—— 共${roomInfo.userCount}人` );
+                $('#roomName').text(roomInfo.name);
+
+                // 设置userInfo
+                if (data.userInfo || data.userInfo.length > 0) {
+                    $('#userList').empty();
+                    setRoomUser(data.userInfo);
+                }
+            };
+
+
+            WS.prototype.otherJoin = function (data) {
+                // 设置userInfo
+                if (data.userInfo && data.userInfo.length > 0) {
+                    $('#userList').empty();
+                    $('#userNum').text(`—— 共${data.userInfo.length}人`);
+                    setRoomUser(data.userInfo);
+                }
+                // 创建 peerConnect
+                cleanOneUser(data.from.id);
+                createUserPeerConnection(data.from.id);
+                createUserDataChannel(data.from.id);
+                createUserOffer(data.from.id);
+            };
+
+            WS.prototype.offer = function (data) {
+                cleanOneUser(data.from.id);
+                createUserPeerConnection(data.from.id);
+                setUserRemoteDesc(data.from.id, data.data);
+                createUserAnswer(data.from.id);
+            };
+
+            WS.prototype.answer = function (data) {
+                setUserRemoteDesc(data.from.id, data.data);
+            };
+
+            WS.prototype.candidate = function (data) {
+                addUserIceCandidate(data.from.id, data.data);
+            };
+
+            // 全体静音
+            WS.prototype.muteAudio = function (data) {
+                muteUserAudio(data.auth);
+                muteDisplayAudio(data.auth);
+            };
+
+            // 用户静音
+            WS.prototype.userAudio = function (data) {
+                muteUserAudio(data.auth);
+                muteDisplayAudio(data.auth);
+            };
+
+            // 设置管理者
+            WS.prototype.setAdmin = function (data) {
+
+            };
+
+            // 布局
+            WS.prototype.roomLayout = function (data) {
+
+            };
+
+            // 最大视频的人
+            WS.prototype.maxVideo = function (data) {
+
+            };
+
+            // 修改名称
+            WS.prototype.editName = function (data) {
+                if (data.webrtc.id) {
+                    let roomUserId = setRoomUserId(data.webrtc.id);
+                    $(`#${roomUserId} span`).text(data.webrtc.name);
+                }
+            };
+
+            // 关闭房间
+            WS.prototype.closeRoom = function (data) {
+
+            };
+
+            // 用户退出
+            WS.prototype.out = function (data) {
+                $(`#${data.from.id}`).remove();
+                cleanOneUser(data.from.id);
+            };
+
+            ws = new WS();
+        }
+
+
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 13.36 + 'px';
+        $('#closeL').on('click', function () {
+            var left = 0
+            var timer = 0
+            timer = setInterval(function () {
+                if (left < 25) {
+                    left += 1
+                    $('.meeting-l').css({
+                        left: '-' + left + '%'
+                    })
+                    $('.meeting-r').css({
+                        left: (25 - left) + '%',
+                        width: (75 + left) + '%'
+                    })
+                } else {
+                    clearInterval(timer);
+                }
+            }, 20);
+            $('#closeL').css('display', 'none');
+            $('#openL').css('display', 'block')
+        })
+        $('#openL').on('click', function () {
+            var left = -25
+            var timer = 0
+            timer = setInterval(function () {
+                if (left < 0) {
+                    left += 1
+                    $('.meeting-l').css({
+                        left: left + '%'
+                    })
+                    $('.meeting-r').css({
+                        left: (25 + left) + '%',
+                        width: (75 - left) + '%'
+                    })
+                } else {
+                    clearInterval(timer);
+                }
+            }, 20);
+            $('#openL').css('display', 'none')
+            $('#closeL').css('display', 'block');
+        })
+        /* 图标区域 */
+        /* **************点击静音麦克风************** */
+        $('#muteBtn').click(() => {
+            console.log('静音麦克风')
+        })
+
+        /* **************点击禁用摄像头************** */
+        $('#cameraCloseBtn').click(() => {
+            console.log('禁用摄像头')
+        })
+        // 连接会议室
+        $('#EnterBtn').on('click', function () {
+            console.log('开启会议');
+            $(this).hide();
+            $('#disconnectBtn').show();
+
+            ws.send({
+                action: 'webrtc',
+                event: 'joinRoom',
+                mine: {
+                    id: localUserId
+                },
+                room: {
+                    id: roomId,
+                    pwd: pwd,
+                },
+            });
+
+        });
+
+        /* **************点击挂断************** */
+        $('#disconnectBtn').click(() => {
+            console.log('断开')
+            // 跳转
+            // location.href = "./index.html";
+        })
+
+        /* **************点击开启桌面共享************** */
+        $('#shareDesktopBtn').click(() => {
+            console.log('开启桌面共享')
+        })
+
+        /* **************分享文件************** */
+        let shareModal = UIkit.modal("#shareDocModal");
+        // 取消按钮
+        $('#shareCancelBtn').click(() => {
+            shareModal.hide()
+        })
+        // 点击上传图片
+        $('#imgInp').change(function () {
+            console.log($(this))
+            let file = $(this)[0].files[0];
+            console.log(file)
+            // 关闭模态框
+            // shareModal.hide()
+        })
+        // 点击上传pdf
+        $('#pdfInp').change(function () {
+            console.log($(this))
+            let file = $(this)[0].files[0];
+            console.log(file)
+            // 关闭模态框
+            // shareModal.hide();
+        })
+
+        /* **************分屏开始************** */
+        // 点击更多按钮显示隐藏fenpingContainer
+        $('#moreBtn').click(() => {
+            if ($('#fenpingContainer').css('visibility') === 'hidden' ? true : false) {
+                $('#fenpingContainer').css('visibility', 'visible')
+            } else {
+                $('#fenpingContainer').css('visibility', 'hidden')
+            }
+        })
+        // 点击1大屏切换图片
+        $('#1screen').click(() => {
+            $('#1screen').find("img").eq(0).attr('src', './images/1screen.png');
+            $('#4screen').find("img").eq(0).attr('src', './images/4screen.png');
+            $('#8screen').find("img").eq(0).attr('src', './images/8screen.png');
+            $('#1screen').find("img").eq(0).attr('src', './images/1click.png');
+        })
+        // 点击4大屏切换图片
+        $('#4screen').click(() => {
+            $('#1screen').find("img").eq(0).attr('src', './images/1screen.png');
+            $('#4screen').find("img").eq(0).attr('src', './images/4screen.png');
+            $('#8screen').find("img").eq(0).attr('src', './images/8screen.png');
+            $('#4screen').find("img").eq(0).attr('src', './images/4click.png');
+        })
+        // 点击1+7大屏切换图片
+        $('#8screen').click(() => {
+            console.log('111')
+            $('#1screen').find("img").eq(0).attr('src', './images/1screen.png');
+            $('#4screen').find("img").eq(0).attr('src', './images/4screen.png');
+            $('#8screen').find("img").eq(0).attr('src', './images/8screen.png');
+            $('#8screen').find("img").eq(0).attr('src', './images/8click.png');
+        })
+
+        /* **************点击全屏按钮开始************** */
+        function FullScreen() {
+            var ele = document.documentElement;
+            if (ele.requestFullscreen) {
+                ele.requestFullscreen();
+            } else if (ele.mozRequestFullScreen) {
+                ele.mozRequestFullScreen();
+            } else if (ele.webkitRequestFullScreen) {
+                ele.webkitRequestFullScreen();
+            }
+        }
+
+        $('#quanpingBtn').click(() => {
+            FullScreen();
+        });
+
+
+        function setRoomUser(userInfo) {
+            // 按钮数组
+            var moreSetBtn = [];
+            // 弹窗数组
+            var moreSetDialog = [];
+            // 静音数组
+            var muteArr = [];
+            // 改名数组
+            var gmArr = [];
+            // 移除数组
+            var ycArr = [];
+            // 保存会议所有人的id
+            var idArr = [];
+
+            userInfo.forEach(function (item, index) {
+                if (item || item.id !== localUserId) {
+                    let roomUserId = setRoomUserId;
+                    // 把所有人的id保存到idArr中
+                    idArr.push(item.id);
+                    // 循环绑定按钮id
+                    let btnId = `btn${index}`;
+                    // 循环绑定弹窗id
+                    let dlgId = `dlg${index}`;
+                    // 循环绑定静音id
+                    let muteId = `jingyin${index}`;
+                    // 循环绑定改名id
+                    let gmId = `gm${index}`;
+                    // 循环绑定移除id
+                    let ycId = `yc${index}`;
+                    // 保存所有按钮id，给每个更多按钮设置点击事件，绑定元素id
+                    moreSetBtn.push(btnId);
+                    // 保存所有弹窗id，给每个更多按钮设置对应的弹框
+                    moreSetDialog.push(dlgId);
+                    // 保存所有静音id
+                    muteArr.push(muteId);
+                    // 保存所有改名id
+                    gmArr.push(gmId);
+                    // 保存所有移除id
+                    ycArr.push(ycId);
+
+                    $('#userList').append(`
+                         <li id="${roomUserId}">
+                            <i class="iconfont icon-icontouxiang-copy avatar"></i>
+                            <span ${item.id === roomInfo.owner  ? '' : 'class="dis-n"'}>主持人</span>
+                            <em ${item.id === localUserId ? '' : 'class="dis-n"'}>（我）</em>
+                            <span> ${item.founder !== roomInfo.owner ? item.name : ''}</span>
+                            <span> ${item.founder !== roomInfo.owner ? '访客' : '主持人'}</span>
+                            <!-- 更多 -->
+                            <i ${item.founder === roomInfo.owner ? 'class="iconfont icon-gengduo fr more"' : 'class="dis-n"'}  title="设置更多" id="${btnId}" ></i>
+                            <!-- 麦克风 -->
+                            <i ${item.founder === roomInfo.owner ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.userName}" id="${muteId}"></i>
+                            <div ${item.founder === roomInfo.owner ? 'class="setMore-dialog"' : 'class="dis-n"'} id="${dlgId}">
+                              <div class="setMore-item" id="${gmId}">改名</div>
+                              <div class="setMore-item" id="${ycId}">移除</div>
+                            </div>
+                        </li>
+                    `);
+                }
+            });
+        }
+
+
+        function setRoomUserId(userId) {
+            return 'roomUser_' + userId;
+        }
+
+
+        // 清除某个人的信息
+        function cleanOneUser(userId) {
+            if (remotePeer[userId]) {
+                remotePeer[userId].close();
+                remotePeer[userId] = null;
+                remoteChannel[userId] = null;
+                document.getElementById(userId + '_user').srcObject = null;
+                document.getElementById(userId + '_display').srcObject = null;
+            }
+        }
+
+
+        // 创建video 标签
+        function createRemoteVideoElement(userId) {
+            if (!document.getElementById(userId)) {
+                $('body').append(`
+                        <video class="allVideo" id="${userId}" data-id="${userId}" playsinline autoplay></video>
+                    `);
+            }
+        }
+
+
+        // 创建pc连接
+        function createUserPeerConnection(userId) {
+            if (!remotePeer[userId]) {
+                // 每有一个人连接就创建一个video标签播放远程资源视频
+                createRemoteVideoElement(userId);
+
+                // 创建远程连接
+                remotePeer[userId] = peerConnection();
+
+                createPeerConnection(remotePeer[userId], null, (e) => {
+                    ws.send({
+                        action: 'many',
+                        event: 'candidate',
+                        mine: {
+                            id: localUserId
+                        },
+                        webrtc: {
+                            id: userId
+                        },
+                        data: {
+                            sdpMLineIndex: e.sdpMLineIndex,
+                            id: e.sdpMid,
+                            candidate: e.candidate
+                        }
+                    });
+                }, (e) => {
+                    document.getElementById(userId).srcObject = e.streams[0];
+
+                }, () => {
+                    if (remotePeer[userId]) {
+                        if (mediaSource === 'user') {
+                            if (localUserStream) {
+                                localUserStream.getTracks().forEach((track) => {
+                                    remotePeer[userId].addTrack(track, localUserStream);
+                                });
+                            }
+                        } else if (mediaSource === 'display') {
+                            if (localDisplayStream) {
+                                localDisplayStream.getTracks().forEach((track) => {
+                                    remotePeer[userId].addTrack(track, localDisplayStream);
+                                });
+                            }
+                        }
+                    }
+                });
+
+                onDataChannel(remotePeer[userId], userId);
+            }
+        }
+
+        function createUserOffer(userId) {
+            createOffer(remotePeer[userId], (offerDesc) => {
+                ws.send({
+                    action: 'many',
+                    event: 'offer',
+                    mine: {
+                        id: localUserId
+                    },
+                    webrtc: {
+                        id: userId
+                    },
+                    data: offerDesc
+                });
+            }, (err) => {
+                console.error('Failed to create offer:', err);
+            });
+        }
+
+
+        function createUserAnswer(userId) {
+            createAnswer(remotePeer[userId], (answerDesc) => {
+                ws.send({
+                    action: 'many',
+                    event: 'answer',
+                    mine: {
+                        id: localUserId
+                    },
+                    webrtc: {
+                        id: userId
+                    },
+                    data: answerDesc
+                });
+            }, (err) => {
+                console.error('Failed to create answer:', err);
+            })
+        }
+
+
+        function setUserRemoteDesc(userId, desc) {
+            setRemoteDesc(remotePeer[userId], desc, (error) => {
+                console.log(`Failed to set session description: ${error.toString()}`);
+            });
+        }
+
+
+        function createUserDataChannel(userId, roomId) {
+            createDataChannel(remotePeer[userId], userId, roomId);
+        }
+
+
+        function addUserIceCandidate(userId, data) {
+            let candidate = new RTCIceCandidate({
+                sdpMLineIndex: data.sdpMLineIndex,
+                candidate: data.candidate
+            });
+            remotePeer[userId].addIceCandidate(candidate);
+        }
+
+
+    })
+</script>
+<script src="js/webrtc/adapter-latest.js"></script>
+<script src="js/webrtc/userMedia.js"></script>
+<script src="js/webrtc/displayMedia.js"></script>
+<script src="js/webrtc/peerConnection.js"></script>
+<script src="js/webrtc/dataChannel.js"></script>
+<script src="js/webrtc/webSocketEvent.js"></script>
+<script src="js/webrtc/ga.js"></script>
+</body>
+
+</html>
