@@ -729,11 +729,11 @@ function onChannelState(userId) {
         console.log('remoteChannel state');
         console.log(readyState);
         if (readyState === 'open') {
-            // document.querySelector('#sendValue').disabled = false;
+            // document.querySelector('#Send').disabled = false;
             // document.querySelector('#sendValue').focus();
             // document.querySelector('#sendButton').disabled = false;
         } else {
-            // document.querySelector('#sendValue').disabled = true;
+            document.querySelector('#Send').disabled = true;
             // document.querySelector('#sendButton').disabled = true;
         }
     }
@@ -782,7 +782,6 @@ function onChannelMessage(event) {
                 chunkSize:0,
                 buffer: []
             };
-            // document.getElementById(`progress_${fileInfo.fileId}`).max = message.data.fileSize;
         } else {
             receiveContent(message.data.userName, message.data.userId, message.data.content);
         }

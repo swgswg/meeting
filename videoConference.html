@@ -828,15 +828,21 @@
 
         /* **************点击挂断************** */
         $('#disconnectBtn').click(() => {
-            console.log('断开')
-            // 跳转
-            // location.href = "./index.html";
-        })
+            var r = confirm("是否确认离开会议室");
+            if (r == true) {
+                ws.close();
+                // 跳转
+                location.href = "./index.html";
+            }
+        });
 
         /* **************点击开启桌面共享************** */
         $('#shareDesktopBtn').click(() => {
-            console.log('开启桌面共享')
-        })
+            console.log('开启桌面共享');
+            localStream = {};
+            document.getElementById('localVideoSmall').srcObject = null;
+            startWebRTC(localUserId, roomId, roomInfo, false, true, videoOptions);
+        });
 
         /* **************分享文件************** */
         let shareModal = UIkit.modal("#shareDocModal");
@@ -846,12 +852,23 @@
         })
         // 点击上传图片
         $('#imgInp').change(function () {
-            console.log($(this))
             let file = $(this)[0].files[0];
-            console.log(file)
+            if (file.size <= 0) {
+                return;
+            }
+            createSendProgress(file.name);
+            sendChannelData({
+                hasFile: true,
+                // fileId: 'file_' + localUserId,
+                fileSize: file.size,
+                fileName: file.name,
+                fileType: file.type
+            }, 'json');
+            sendFiles(file);
             // 关闭模态框
-            // shareModal.hide()
-        })
+            shareModal.hide()
+        });
+
         // 点击上传pdf
         $('#pdfInp').change(function () {
             console.log($(this))
