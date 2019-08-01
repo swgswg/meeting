@@ -205,6 +205,7 @@ function getUserMediaSuccess(stream) {
 
 function getDisplayMediaSuccess(stream) {
     localStream.display  = stream;
+    localVideoSmall.srcObject = stream;
     // getMediaSuccess();
     // centerVideoBig.srcObject = stream;
 }
@@ -256,7 +257,7 @@ function gotDevices(deviceInfos) {}
 function createRemoteVideoElement(userId) {
     if(!document.getElementById(userId)) {
         if(userId === roomInfo.owner && localUserId !== roomInfo.owner){
-            if($('video.imageStyle').length = 0){
+            if($('video .imageStyle').length <= 0){
                 $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
             }else{
                 $('body').append(`
@@ -386,7 +387,9 @@ function addIceCandidate(userId, data) {
         sdpMLineIndex: data.sdpMLineIndex,
         candidate: data.candidate
     });
-    remotePeer[userId].addIceCandidate(candidate);
+    if(remotePeer[userId]){
+        remotePeer[userId].addIceCandidate(candidate);
+    }
 }
 
 
@@ -743,12 +746,12 @@ function onChannelError(userId, error) {
 
 
 function receiveContent(userName, userId, message) {
-    var str = `
+    let str = `
         <li>
-        <span>${userName}：</span>
-        <p data-id="${userId}">
-        ${message}
-        </p >
+            <span>${userName}：</span>
+            <p data-id="${userId}">
+                ${message}
+            </p >
         </li>
     `;
     $('#chatList').append(str);

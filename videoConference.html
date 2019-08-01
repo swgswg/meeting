@@ -307,8 +307,8 @@
                     }
                     sendChannelData({
                         userId: localUserId,
+                        userName: userName,
                         content: sendVal,
-                        userName: userName
                     }, 'json');
                     $('#chatList').append(`
                         <li>
@@ -401,7 +401,7 @@
                 if($('video.imageStyle').length > 0){
                     if($('video.videoStyle').length > 0 ){
                         $('video.videoStyle').hide();
-                        $('body').append($('video.videoStyle'))
+                        $('body').append($('video.videoStyle'));
                         $('video.videoStyle').removeClass('videoStyle');
                     }
                 }
@@ -468,12 +468,11 @@
                 var bigId = $('.videoStyle').attr('data-id');
                 $('.allVideo').each(function () {
                     if ($(this).attr('data-id') == bigId) {
-                        console.log($(this))
                         $(this).removeClass('videoStyle');
                         $('body').append($(this));
                         $(this).hide();
                     }else{
-                        $(this).unwrap()
+                        $(this).unwrap();
                         $('body').append($(this));
                         $(this).hide();
                     }
@@ -731,8 +730,8 @@
                 // 创建 peerConnect
                 cleanOneUser(data.from.id);
                 createPeerConnection(data.from.id);
-                createOffer(data.from.id);
                 createDataChannel(data.from.id);
+                createOffer(data.from.id);
             };
 
             WS.prototype.offer = function (data) {
@@ -794,14 +793,14 @@
                 if(removeUserId === localUserId){
                     alert('您已被移出会议室!!!');
                     ws.close();
-                    window.location.href = './index.html';
+                    window.location.href = 'index.html';
                 }
             };
 
             // 关闭房间
             WS.prototype.closeRoom = function (data) {
                 ws.close();
-                window.location.href = './index.html';
+                window.location.href = 'index.html';
             };
 
             // 用户退出
@@ -841,11 +840,11 @@
             $('#openL').css('display', 'block')
         })
         $('#openL').on('click', function () {
-            var left = -25
-            var timer = 0
+            var left = -25;
+            var timer = 0;
             timer = setInterval(function () {
                 if (left < 0) {
-                    left += 1
+                    left += 1;
                     $('.meeting-l').css({
                         left: left + '%'
                     })
@@ -857,7 +856,7 @@
                     clearInterval(timer);
                 }
             }, 20);
-            $('#openL').css('display', 'none')
+            $('#openL').css('display', 'none');
             $('#closeL').css('display', 'block');
         })
         /* 图标区域 */
@@ -891,7 +890,6 @@
         // 连接会议室
         $('#disconnectBtn').hide();
         $('#EnterBtn').on('click', function () {
-            console.log('开启会议');
             $(this).hide();
             $('#disconnectBtn').show();
             ws.send({
@@ -916,7 +914,7 @@
                 stopUserTrack();
                 stopDisplayTrack();
                 // 跳转
-                location.href = "./index.html";
+                location.href = "index.html";
             }
         });
 
@@ -926,6 +924,18 @@
             localStream = {};
             document.getElementById('localVideoSmall').srcObject = null;
             startWebRTC(localUserId, roomId, roomInfo, false, true, videoOptions);
+            stopUserTrack();
+            ws.send({
+                action: 'webrtc',
+                event: 'joinRoom',
+                mine: {
+                    id: localUserId
+                },
+                room: {
+                    id: roomId,
+                    pwd: pwd,
+                },
+            });
         });
 
         /* **************分享文件************** */

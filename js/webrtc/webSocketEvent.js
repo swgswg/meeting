@@ -63,6 +63,7 @@ var WS = function (obj) {
             // this.handleAction[action](data);
             switch (action){
                 case 'open': this.actionOpen(data);
+                break;
             }
         }
     };
