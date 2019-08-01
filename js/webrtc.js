@@ -206,7 +206,7 @@ function getUserMediaSuccess(stream) {
 function getDisplayMediaSuccess(stream) {
     localStream.display  = stream;
     // getMediaSuccess();
-    centerVideoBig.srcObject = stream;
+    // centerVideoBig.srcObject = stream;
 }
 
 
@@ -343,8 +343,8 @@ function onIceCandidate(userId) {
                     id: userId
                 },
                 data: {
-                    label:event.candidate.sdpMLineIndex,
-                    id:event.candidate.sdpMid,
+                    sdpMLineIndex:event.candidate.sdpMLineIndex,
+                    sdpMid:event.candidate.sdpMid,
                     candidate: event.candidate.candidate
                 }
             });
@@ -407,7 +407,7 @@ function addTrack(userId) {
  */
 function addIceCandidate(userId, data) {
     let candidate = new RTCIceCandidate({
-        sdpMLineIndex: data.label,
+        sdpMLineIndex: data.sdpMLineIndex,
         candidate: data.candidate
     });
     remotePeer[userId].addIceCandidate(candidate);
@@ -528,8 +528,9 @@ function cleanOneUser(userId) {
         remotePeer[userId].close();
         remotePeer[userId] = null;
         remoteChannel[userId] = null;
-        document.getElementById(userId + '_user').srcObject = null;
-        document.getElementById(userId+ '_display').srcObject = null;
+        if(document.getElementById(userId)){
+            document.getElementById(userId).srcObject = null;
+        }
     }
 }
 
@@ -709,24 +710,26 @@ function sendChannelData(data, dataType = 'json', receiveId = '') {
 
 
 function sendDataByJson(data, receiveId) {
-    dataChannelSend(
-        remoteChannel[receiveId],
-        JSON.stringify({
-            userId: localUserId,
-            data:data,
-        })
-    );
+    let jsonData = JSON.stringify({
+        userId: localUserId,
+        data:data,
+    });
+    onChannelSend(receiveId, jsonData);
 }
 
 
 function sendDataByString(data, receiveId) {
-    dataChannelSend(remoteChannel[receiveId], data);
+    onChannelSend(receiveId, data);
 }
 
 
-function dataChannelSend(dc, data) {
-    if(dc.send){
-        dc.send(data);
+function onChannelSend(userId, data) {
+    try {
+        if(remoteChannel[userId].readyState || remoteChannel[userId].readyState === 'open'){
+            remoteChannel[userId].send(data);
+        }
+    } catch (e) {
+    
     }
 }
 
@@ -765,34 +768,29 @@ function onChannelError(userId, error) {
 }
 
 
-/**
- * 监听dataChannel接收消息
- * @param event
- */
-var hasFile = false;
 var fileInfo = {};
 function onChannelMessage(event) {
-    if(hasFile){
-        receiveChannelFile(event.data);
-    } else {
+    try {
         let message = JSON.parse(event.data);
         if(message.data.hasFile){
-            hasFile = true;
-            // createReceiveProgress(message.userId, message.data.fileId);
+            createReceiveProgress(message.userId, message.data.fileId);
             fileInfo = {};
             fileInfo = {
                 userId: message.userId,
                 fileId: message.data.fileId,
                 fileName: message.data.fileName,
                 fileSize: message.data.fileSize,
-                userName: message.data.userName,
+                fileType: message.data.fileType,
                 chunkSize:0,
                 buffer: []
             };
             // document.getElementById(`progress_${fileInfo.fileId}`).max = message.data.fileSize;
         } else {
-            createChatTextLeft(message);
+            receiveContent(message.userName, message.userId, message.data.content);
         }
+    } catch (e) {
+        // 文件数据
+        receiveChannelFile( event.data );
     }
 }
 
@@ -837,7 +835,7 @@ function createReceiveProgress(userId, fileId) {
 function receiveChannelFile(fileBuffer) {
     fileInfo.buffer.push(fileBuffer);
     fileInfo.chunkSize += fileBuffer.byteLength;
-    // document.getElementById(`progress_${fileInfo.fileId}`).value = fileInfo.chunkSize;
+    document.getElementById(`progress_${fileInfo.fileId}`).value = fileInfo.chunkSize;
     if (fileInfo.chunkSize === fileInfo.fileSize) {
         let received = new Blob(fileInfo.buffer);
         let href = URL.createObjectURL(received);
@@ -847,8 +845,63 @@ function receiveChannelFile(fileBuffer) {
             fileSize: fileInfo.fileSize,
             href: href
         });
-        createChatTextLeft({data:{userName:fileInfo.userName, content: '接收到文件: '+fileInfo.fileName+', 请去文档里查看'}});
+        let ext = getFileExt(fileInfo.fileName);
+        if(['pdf'].includes(ext)){
+            $('#pdf').addClass('pdf-show');
+            $('#pdf-object').attr('data', href);
+            
+        } else if(['png', 'jpeg', 'jpg', 'gif'].includes(ext)){
+            $('#pdf').addClass('pdf-show');
+            $('#receive-img').attr('src', href);
+        }
         fileInfo = {};
-        hasFile = false;
     }
+}
+
+
+
+/**
+ * 创建a标签下载文件
+ * @param userId
+ * @param fileInfo
+ */
+function createDownloadAnchor(userId, fileInfo) {
+    $('#chatText').append(`
+        <div class="chatTextBox chatTextLeft">
+            <div class="chatTextLeftID">${userId}: </div>
+            <div class="chatTextLeftContent">
+                <a id="fileId_${fileInfo.fileId}"></a>
+            </div>
+        </div>
+    `);
+    let downloadAnchor = document.getElementById(`fileId_${fileInfo.fileId}`);
+    downloadAnchor.href = fileInfo.href;
+    downloadAnchor.download = fileInfo.fileName;
+    let size = bytesTo(fileInfo.fileSize);
+    downloadAnchor.textContent = `点击下载 '${fileInfo.fileName}' (${size})`;
+}
+
+
+function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize = 1200) {
+    let fileReader = new FileReader();
+    let offset = 0;
+    fileReader.addEventListener('error', error => console.error('Error reading file:', error));
+    fileReader.addEventListener('abort', event => console.log('File reading aborted:', event));
+    fileReader.addEventListener('load', e => {
+        sendChannelData(e.target.result, 'string');
+        offset += e.target.result.byteLength;
+        // sendProgress.value = offset;
+        offsetChange(offset);
+        if (offset < file.size) {
+            readSlice(offset);
+        } else {
+            // createChatTextRight('发送文件:' + file.name);
+            readEnd(file);
+        }
+    });
+    const readSlice = o => {
+        const slice = file.slice(offset, o + chunkSize);
+        fileReader.readAsArrayBuffer(slice);
+    };
+    readSlice(0);
 }

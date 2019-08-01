@@ -134,7 +134,6 @@
         // 创建websocket
         const ws = new WS();
         WS.prototype.open = function (e){
-          console.log(e)
             this.send({
                 action:'open',
                 webrtc: {

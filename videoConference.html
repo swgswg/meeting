@@ -282,7 +282,7 @@
                     sendChannelData({
                         content: sendVal,
                         userName: userName
-                    });
+                    }, 'json');
                     $('#chatList').append(`
                         <li>
                             <span>我：</span>
@@ -602,15 +602,15 @@
 </div>
 
 <script>
+    var localUserId = null;
+    var userName = null;
+    var roomId = null;
+    var pwd = null;
+    var roomInfo = null;
+    var ws = null;
+
+
     $(function () {
-        var localUserId = null;
-        var userName = null;
-        var roomId = null;
-        var pwd = null;
-        var roomInfo = null;
-        var ws = null;
-
-
         roomInfo = JSON.parse(localStorage.getItem('roomInfo')) || {};
         console.log(roomInfo);
         localUserId = roomInfo.userId || null;
@@ -690,6 +690,7 @@
             };
 
             WS.prototype.candidate = function (data) {
+                console.log(data.data);
                 addIceCandidate(data.from.id, data.data);
             };
 
@@ -968,10 +969,6 @@
 
 </script>
 <script src="js/webrtc/adapter-latest.js"></script>
-<!--<script src="js/webrtc/userMedia.js"></script>-->
-<!--<script src="js/webrtc/displayMedia.js"></script>-->
-<!--<script src="js/webrtc/peerConnection.js"></script>-->
-<!--<script src="js/webrtc/dataChannel.js"></script>-->
 <script src="js/webrtc/webSocketEvent.js"></script>
 <script src="js/webrtc.js"></script>
 <script src="js/webrtc/ga.js"></script>
