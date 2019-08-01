@@ -680,7 +680,7 @@
                 // 创建 peerConnect
                 cleanOneUser(data.from.id);
                 createUserPeerConnection(data.from.id);
-                createUserDataChannel(data.from.id);
+                createUserDataChannel(data.from.id, roomId);
                 createUserOffer(data.from.id);
             };
 
