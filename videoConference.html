@@ -600,27 +600,17 @@
         <!-- 下边菜单结束 -->
     </div>
 </div>
-<script src="js/webrtc/adapter-latest.js"></script>
-<script src="js/webrtc/userMedia.js"></script>
-<script src="js/webrtc/displayMedia.js"></script>
-<!--<script src="js/webrtc/peerConnection.js"></script>-->
-<script src="js/webrtc/dataChannel.js"></script>
-<script src="js/webrtc/webSocketEvent.js"></script>
-<script src="js/webrtc.js"></script>
-<script src="js/webrtc/ga.js"></script>
+
 <script>
     var localUserId = null;
     var userName = null;
     var roomId = null;
     var pwd = null;
     var roomInfo = null;
-    var remoteChannel = {};
-    var remotePeer = {};
     var localUserStream = null;
     var localDisplayStream = null;
     var mediaSource = null;
     var ws = null;
-
 
     $(function () {
         roomInfo = JSON.parse(localStorage.getItem('roomInfo')) || {};
@@ -980,8 +970,15 @@
         }
     })
 
-
 </script>
+<script src="js/webrtc/adapter-latest.js"></script>
+<script src="js/webrtc/userMedia.js"></script>
+<script src="js/webrtc/displayMedia.js"></script>
+<!--<script src="js/webrtc/peerConnection.js"></script>-->
+<!--<script src="js/webrtc/dataChannel.js"></script>-->
+<script src="js/webrtc/webSocketEvent.js"></script>
+<script src="js/webrtc.js"></script>
+<script src="js/webrtc/ga.js"></script>
 
 </body>
 
