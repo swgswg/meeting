@@ -1,3 +1,11 @@
+var channelOptions = {
+    negotiatend: true,  // 是否双方通信
+    id: roomId,
+    ordered: true,    // 指示数据通道是否保证按顺序传递消息
+    maxRetransmits:5, // 消息失败的重传次数
+};
+var remoteChannel = {};
+
 /**
  * 创建 dataChannel 传输通道
  * @param pc

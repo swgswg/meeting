@@ -601,20 +601,20 @@
     </div>
 </div>
 <script>
+    var localUserId = null;
+    var userName = null;
+    var roomId = null;
+    var pwd = null;
+    var roomInfo = null;
+    var remoteChannel = {};
+    var remotePeer = {};
+    var localUserStream = null;
+    var localDisplayStream = null;
+    var mediaSource = null;
+    var ws = null;
+
+
     $(function () {
-        var localUserId = null;
-        var userName = null;
-        var roomId = null;
-        var pwd = null;
-        var roomInfo = null;
-        var remoteChannel = {};
-        var remotePeer = {};
-        var localUserStream = null;
-        var localDisplayStream = null;
-        var mediaSource = null;
-        var ws = null;
-
-
         roomInfo = JSON.parse(localStorage.getItem('roomInfo')) || {};
         console.log(roomInfo);
         localUserId = roomInfo.userId || null;
@@ -680,7 +680,7 @@
                 // 创建 peerConnect
                 cleanOneUser(data.from.id);
                 createPeerConnection(data.from.id);
-                createDataChannel(data.from.id, roomId);
+                createDataChannel(remotePeer[data.from.id], roomId);
                 createOffer(data.from.id);
             };
 
@@ -954,9 +954,7 @@
                             <em ${item.id === localUserId ? '' : 'class="dis-n"'}>（我）</em>
                             <span> ${item.id !== roomInfo.owner ? item.name : ''}</span>
                             <span> ${item.id !== roomInfo.owner ? '访客' : '主持人'}</span>
-                            <!-- 更多 -->
                             <i ${item.id === roomInfo.owner ? 'class="iconfont icon-gengduo fr more"' : 'class="dis-n"'}  title="设置更多" id="${btnId}" ></i>
-                            <!-- 麦克风 -->
                             <i ${item.id === roomInfo.owner ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.userName}" id="${muteId}"></i>
                             <div ${item.id === roomInfo.owner ? 'class="setMore-dialog"' : 'class="dis-n"'} id="${dlgId}">
                               <div class="setMore-item" id="${gmId}">改名</div>

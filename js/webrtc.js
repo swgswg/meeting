@@ -87,7 +87,7 @@ function createPeerConnection(userId) {
         onIceCandidate(userId);
         
         // 监听 datachannel
-        onDataChannel(userId);
+        onDataChannel(remotePeer[userId], userId);
         
         // 获取远程资源放到对应用户的video标签上播放
         onTrack(userId);
@@ -302,7 +302,6 @@ function cleanOneUser(userId) {
         remotePeer[userId].close();
         remotePeer[userId] = null;
         remoteChannel[userId] = null;
-        document.getElementById(userId + '_user').srcObject = null;
-        document.getElementById(userId+ '_display').srcObject = null;
+        document.getElementById(userId).srcObject = null;
     }
 }
