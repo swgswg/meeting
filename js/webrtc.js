@@ -8,10 +8,9 @@ var roomInfo = {};
 var isDisplayMedia = false;
 
 // 显示自己的video标签
-var centerVideoBig = document.getElementById('centerVideoBig');
-var centerVideoSmall = document.getElementById('centerVideoSmall');
-var width = centerVideoSmall.offsetWidth;
-var height = centerVideoSmall.offsetHeight;
+var localVideoSmall = document.getElementById('localVideoSmall');
+var width = localVideoSmall.offsetWidth;
+var height = localVideoSmall.offsetHeight;
 
 
 // 本地视频资源
@@ -199,7 +198,7 @@ function getDisplayMedia() {
 function getUserMediaSuccess(stream) {
     localStream.user  = stream;
     // getMediaSuccess();
-    centerVideoSmall.srcObject = stream;
+    localVideoSmall.srcObject = stream;
     return navigator.mediaDevices.enumerateDevices();
 }
 
