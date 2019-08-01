@@ -80,14 +80,66 @@
                         }
                     })
                     // 全体静音
+                    var isAllMute = true;
                     $('#allMute').click(function () {
-                        console.log($(this))
-                    })
+                        ws.send({
+                            action:'webrtc',
+                            event: 'muteAudio',
+                            mine:{
+                                id: localUserId
+                            },
+                            roomId:{
+                                id:roomId
+                            },
+                            auth: isAllMute // true静音/false取消静音
+                        });
+                        if(isAllMute){
+                            $('#allMute .menu-item-title').text('取消静音');
+                            $('#allMute .iconfont').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng');
+                        } else {
+                            $('#allMute .menu-item-title').text('全体静音');
+                            $('#allMute .iconfont').removeClass('icon-maikefeng').addClass('icon-maikefeng-jingyin');
+
+                        }
+                        isAllMute = !isAllMute;
+
+                    });
+
+
                     // 结束会议
                     $('#closeMeeting').click(function () {
-                        console.log($(this))
-                    })
+                        var r = confirm("是否确定要关闭该会议室!!!");
+                        if (r == true) {
+                            ws.send({
+                                action:'webrtc',
+                                event: 'closeRoom',
+                                mine:{
+                                    id: localUserId
+                                },
+                                room:{
+                                    id: roomId
+                                },
+                            });
+                            setTimeout(function () {
+                                ws.close();
+                            }, 1000);
+                        }
+                    });
 
+                    $('.avatar').click(function () {
+                        let maxVideoId = $(this).parent().attr('data-id');
+                        ws.send({
+                            action:'webrtc',
+                            event:'maxVideo',
+                            mine:{
+                                id: localUserId
+                            },
+                            room:{
+                                id:roomId,
+                            },
+                            maxVideoId: maxVideoId
+                        });
+                    });
 
                     // var userList = [
                     //     {
@@ -399,12 +451,12 @@
             function bigVideo(videoId) {
                 $('.videoList-4').hide();
                 $('.allVideo').each(function () {
-                    if ($(this).attr('data-id') == videoId) {
+                    if ($(this).attr('data-id') === videoId) {
                         $(this).show();
                         $(this).addClass('videoStyle');
                         $('.meeting-r-center').append($(this));
                     }
-                })
+                });
             }
 
             // 放置 1:7
@@ -549,19 +601,37 @@
         </div>
         <script>
             function screen1() {
+                sendLayout(1);
                 // unFlex4();
                 // unVideo1I7();
             }
 
             function screen4() {
+                sendLayout(4);
                 // unVideo1I7();
                 // flex4();
             }
 
             function screen17() {
+                sendLayout(17);
                 // unFlex4();
                 // video1I7()
             }
+
+            function sendLayout(layout) {
+                ws.send({
+                    action:'webrtc',
+                    event:'roomLayout',
+                    mine:{
+                        id: localUserId
+                    },
+                    room:{
+                        id:roomId,
+                    },
+                    layout: layout
+                });
+            }
+
         </script>
         <!-- 分屏选项开始 -->
 
@@ -702,12 +772,12 @@
 
             // 布局
             WS.prototype.roomLayout = function (data) {
-
+                let layout = data.layout; // 1 4 17
             };
 
             // 最大视频的人
             WS.prototype.maxVideo = function (data) {
-
+                bigVideo(data.maxVideoId);
             };
 
             // 修改名称
@@ -720,7 +790,8 @@
 
             // 关闭房间
             WS.prototype.closeRoom = function (data) {
-
+                ws.close();
+                window.location.href = './index.html';
             };
 
             // 用户退出
@@ -853,10 +924,20 @@
         // 点击上传图片
         $('#imgInp').change(function () {
             let file = $(this)[0].files[0];
+            sendF(file);
+        });
+
+        // 点击上传pdf
+        $('#pdfInp').change(function () {
+            let file = $(this)[0].files[0];
+            sendF(file);
+        });
+
+
+        function sendF(file){
             if (file.size <= 0) {
                 return;
             }
-            createSendProgress(file.name);
             sendChannelData({
                 hasFile: true,
                 // fileId: 'file_' + localUserId,
@@ -867,16 +948,7 @@
             sendFiles(file);
             // 关闭模态框
             shareModal.hide()
-        });
-
-        // 点击上传pdf
-        $('#pdfInp').change(function () {
-            console.log($(this))
-            let file = $(this)[0].files[0];
-            console.log(file)
-            // 关闭模态框
-            // shareModal.hide();
-        })
+        }
 
         /* **************分屏开始************** */
         // 点击更多按钮显示隐藏fenpingContainer
@@ -969,7 +1041,7 @@
                     ycArr.push(ycId);
 
                     $('#userList').append(`
-                         <li id="${roomUserId}">
+                         <li id="${roomUserId}" data-id="${roomUserId}">
                             <i class="iconfont icon-icontouxiang-copy avatar"></i>
                             <span ${item.id === roomInfo.owner  ? '' : 'class="dis-n"'}>主持人</span>
                             <em ${item.id === localUserId ? '' : 'class="dis-n"'}>（我）</em>

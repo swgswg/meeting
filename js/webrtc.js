@@ -833,16 +833,16 @@ function createReceiveProgress(userId, fileId) {
 function receiveChannelFile(fileBuffer) {
     fileInfo.buffer.push(fileBuffer);
     fileInfo.chunkSize += fileBuffer.byteLength;
-    document.getElementById(`progress_${fileInfo.fileId}`).value = fileInfo.chunkSize;
+    // document.getElementById(`progress_${fileInfo.fileId}`).value = fileInfo.chunkSize;
     if (fileInfo.chunkSize === fileInfo.fileSize) {
         let received = new Blob(fileInfo.buffer);
         let href = URL.createObjectURL(received);
-        createDownloadAnchor(fileInfo.userId, {
-            fileId: fileInfo.fileId,
-            fileName: fileInfo.fileName,
-            fileSize: fileInfo.fileSize,
-            href: href
-        });
+        // createDownloadAnchor(fileInfo.userId, {
+        //     fileId: fileInfo.fileId,
+        //     fileName: fileInfo.fileName,
+        //     fileSize: fileInfo.fileSize,
+        //     href: href
+        // });
         let ext = getFileExt(fileInfo.fileName);
         if(['pdf'].includes(ext)){
             $('#pdf').addClass('pdf-show');
