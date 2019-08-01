@@ -578,44 +578,27 @@ function muteVideo(stream, enabled = false) {
 }
 
 
-
-function createChatTextLeft(message) {
-    $('#chatList').append(`
-        <li class="chat-l cq-fl">
-            <span>${ message.data.userName}</span>
-            <p>${ message.data.content}</p>
-        </li>
-    `);
+function stopUserTrack() {
+    stopTrack(localStream.user);
 }
 
-function createChatTextRight(data) {
-    $('#chatList').append(`
-       <li class="chat-r cq-fr">
-            <span class="cq-fr">${userName}</span>
-            <p class="cq-fr">${data}</p>
-        </li>
-    `);
+function stopDisplayTrack() {
+    stopTrack(localStream.display);
 }
 
 
 /**
- * 创建a标签下载文件
- * @param userId
- * @param fileInfo
+ * 停止资源流分发
+ * @param stream
  */
-function createDownloadAnchor(userId, fileInfo) {
-    let size = bytesTo(fileInfo.fileSize);
-    $('#fileList').append(`
-        <li class="c-b cq-tac">
-            <span>文件: ${fileInfo.fileName} (${size})</span>
-            <a id="fileId_${fileInfo.fileId}"></a>
-        </li>
-    `);
-    let downloadAnchor = document.getElementById(`fileId_${fileInfo.fileId}`);
-    downloadAnchor.href = fileInfo.href;
-    downloadAnchor.download = fileInfo.fileName;
-    downloadAnchor.textContent = `点击下载`;
+function stopTrack(stream) {
+    if(stream){
+        stream.getTracks().forEach( (track) => {
+            track.stop();
+        });
+    }
 }
+
 
 
 /**
@@ -771,7 +754,6 @@ function onChannelMessage(event) {
     try {
         let message = JSON.parse(event.data);
         if(message.data.hasFile){
-            createReceiveProgress(message.userId, message.data.fileId);
             fileInfo = {};
             fileInfo = {
                 userId: message.userId,
@@ -793,38 +775,6 @@ function onChannelMessage(event) {
 }
 
 
-// 自己发送文件次数
-let sendProgressNumber = 0;
-function createSendProgress(fileName) {
-    ++sendProgressNumber;
-    let progress = `
-        <div class="progress">
-            <div class="label">发送: ${fileName}</div>
-            <progress id="progress_${sendProgressNumber}" max="0" value="0"></progress>
-        </div>
-    `;
-    $('#fileProgress').append(progress);
-}
-
-
-/**
- * 创建接收文件的进度条
- * @param userId
- * @param fileId
- */
-function createReceiveProgress(userId, fileId) {
-    if(document.getElementById(`progress_${fileId}`)){
-        return;
-    }
-    let progress = `
-        <div class="progress">
-            <div class="label">接收 ${userId}:</div>
-            <progress id="progress_${fileId}" max="0" value="0"></progress>
-        </div>
-    `;
-    $('#fileProgress').append(progress);
-}
-
 
 /**
  * 接收dataChannel中的file信息
@@ -833,24 +783,27 @@ function createReceiveProgress(userId, fileId) {
 function receiveChannelFile(fileBuffer) {
     fileInfo.buffer.push(fileBuffer);
     fileInfo.chunkSize += fileBuffer.byteLength;
-    // document.getElementById(`progress_${fileInfo.fileId}`).value = fileInfo.chunkSize;
-    if (fileInfo.chunkSize === fileInfo.fileSize) {
-        let received = new Blob(fileInfo.buffer);
+    if (fileInfo.chunkSize >= fileInfo.fileSize) {
+        let received = new Blob(fileInfo.buffer, {type: fileInfo.fileType});
         let href = URL.createObjectURL(received);
-        // createDownloadAnchor(fileInfo.userId, {
-        //     fileId: fileInfo.fileId,
-        //     fileName: fileInfo.fileName,
-        //     fileSize: fileInfo.fileSize,
-        //     href: href
-        // });
+        console.log(href);
         let ext = getFileExt(fileInfo.fileName);
+        let bbb = $('.meeting-r-center video.videoStyle');
+        if(bbb.length > 0){
+            bbb.removeClass('videoStyle');
+            $('.onePeople-videoBox').append(bbb);
+        }
         if(['pdf'].includes(ext)){
-            $('#pdf').addClass('pdf-show');
-            $('#pdf-object').attr('data', href);
+            let str = `
+                <object data="${href}" class="videoStyle"></object>
+            `;
+            $('.meeting-r-center').append(str);
             
         } else if(['png', 'jpeg', 'jpg', 'gif'].includes(ext)){
-            $('#pdf').addClass('pdf-show');
-            $('#receive-img').attr('src', href);
+            let str = `
+                <img src="${href}" class="videoStyle" />
+            `;
+            $('.meeting-r-center').append(str);
         }
         fileInfo = {};
     }
@@ -858,29 +811,7 @@ function receiveChannelFile(fileBuffer) {
 
 
 
-/**
- * 创建a标签下载文件
- * @param userId
- * @param fileInfo
- */
-function createDownloadAnchor(userId, fileInfo) {
-    $('#chatText').append(`
-        <div class="chatTextBox chatTextLeft">
-            <div class="chatTextLeftID">${userId}: </div>
-            <div class="chatTextLeftContent">
-                <a id="fileId_${fileInfo.fileId}"></a>
-            </div>
-        </div>
-    `);
-    let downloadAnchor = document.getElementById(`fileId_${fileInfo.fileId}`);
-    downloadAnchor.href = fileInfo.href;
-    downloadAnchor.download = fileInfo.fileName;
-    let size = bytesTo(fileInfo.fileSize);
-    downloadAnchor.textContent = `点击下载 '${fileInfo.fileName}' (${size})`;
-}
-
-
-function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize = 1200) {
+function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize = 10240) {
     let fileReader = new FileReader();
     let offset = 0;
     fileReader.addEventListener('error', error => console.error('Error reading file:', error));
@@ -888,12 +819,12 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
     fileReader.addEventListener('load', e => {
         sendChannelData(e.target.result, 'string');
         offset += e.target.result.byteLength;
-        // sendProgress.value = offset;
         offsetChange(e.target.result);
         if (offset < file.size) {
-            readSlice(offset);
+            setTimeout(function () {
+                readSlice(offset);
+            }, 100);
         } else {
-            // createChatTextRight('发送文件:' + file.name);
             readEnd(file);
         }
     });

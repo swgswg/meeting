@@ -236,6 +236,55 @@ span#roomName {
 .meeting-list i.more {
     cursor: pointer;
 }
+
+.gmdialog{
+    width: 3.5rem;
+    height: 1.9rem;
+    background: #f5f5f5;
+    border-radius: 0.05rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%)!important;
+    margin: 0;
+}
+.gmInp{
+    box-sizing: border-box;
+    width: 2.65rem;
+    height: 0.3rem;
+    padding: 0.04rem 0.08rem;
+    background-color: white;
+    color: #212121;
+    box-shadow: 0 0 0.02rem #cccc;
+}
+.gmForm{
+    height: 0.85rem;
+    width: 100%;
+    text-align: center;
+    line-height: 0.85rem;
+    box-shadow: 0 0 0.02rem #ccc;
+}
+.gmFooter{
+    text-align: center;
+}
+.gmdlgBtn{
+    font-size: 0.12rem !important;
+    width: 0.75rem;
+    height: 0.3rem;
+    border-radius: 0.06rem;
+}
+.gmSubBtn,.gmSubBtn:hover{
+    background: #1abd9b;
+    margin-right:0.1rem;
+    border: 0.01rem solid #efe7e7;
+}
+
+.gmHeader{
+    font-size: 0.15rem;
+}
+
+.gmCancelBtn:hover{
+    background-color: #eee;
+}
 /* 用户列表--列表结束 */
 /* 用户列表结束 */
 /* 会议聊天 */

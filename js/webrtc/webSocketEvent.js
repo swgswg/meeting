@@ -52,6 +52,8 @@ var WS = function (obj) {
                 break;
                 case 'editName': this.editName(data);
                 break;
+                case 'removeUser': this.removeUser(data);
+                break;
                 case 'closeRoom': this.closeRoom(data);
                 break;
                 case 'out': this.out(data);
