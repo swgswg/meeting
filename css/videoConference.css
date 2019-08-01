@@ -409,7 +409,11 @@ span#roomName {
     object-fit: cover;
     /* transform: scaleX(-1); */
 }
-
+.imageStyle {
+    height: 100%;
+    margin: 0 auto;
+    object-fit: cover;
+}
 /* 一大屏 */
 
 /* 自己小屏 */

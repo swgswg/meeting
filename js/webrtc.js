@@ -795,13 +795,13 @@ function receiveChannelFile(fileBuffer) {
         }
         if(['pdf'].includes(ext)){
             let str = `
-                <object data="${href}" class="videoStyle"></object>
+                <object data="${href}" class="imageStyle"></object>
             `;
             $('.meeting-r-center').append(str);
             
         } else if(['png', 'jpeg', 'jpg', 'gif'].includes(ext)){
             let str = `
-                <img src="${href}" class="videoStyle" />
+                <img src="${href}" class="imageStyle" />
             `;
             $('.meeting-r-center').append(str);
         }

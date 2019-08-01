@@ -391,50 +391,13 @@
         <!-- 1:7结束 -->
 
         <script>
-            var videoList = [{
-                id: 0,
-                src: './images/2.mp4'
-            },
-                {
-                    id: 1,
-                    src: './images/3.mp4'
-                },
-                {
-                    id: 2,
-                    src: './images/1.mp4'
-                },
-                {
-                    id: 4,
-                    src: './images/2.mp4'
-                },
-                {
-                    id: 5,
-                    src: './images/3.mp4'
-                },
-                {
-                    id: 6,
-                    src: './images/2.mp4'
-                }
-            ]
-            var str = '';
-            // videoList.forEach((item, index) => {
-            //     str += `
-            //             <video class="allVideo" data-id="${item.id}" ></video>
-            //         `;
-            // })
-            // $('body').append(str);
-            $('.allVideo').each(function () {
-                $(this).hide();
-            });
-            $(function () {
-                // video1I7();
+            $(function(){
+                $('.videoList-4').hide();
                 $('.videoList-1-7').hide();
             })
-            // 放置 大屏
-            bigVideo(2);
-
             function bigVideo(videoId) {
-                $('.videoList-4').hide();
+                unFlex4();
+                unVideo1I7();
                 $('.allVideo').each(function () {
                     if ($(this).attr('data-id') === videoId) {
                         $(this).show();
@@ -443,36 +406,66 @@
                     }
                 });
             }
-
+            // 放置 大屏
+            function oneVideo() {
+                console.log($('video.videoStyle'), 'aaaa')
+                if($('video.videoStyle').length == 0){
+                    $('.allVideo').each(function (i) {
+                        if(i == 0){
+                            $(this).show();
+                            $(this).addClass('videoStyle');
+                            $('.meeting-r-center').append($(this));
+                        }
+                    });
+                }
+            }
             // 放置 1:7
-            var bigId = $('.videoStyle').attr('data-id');
-
             function video1I7() {
-                $('.videoStyle').show();
+                unVideo1I7()
+                var bigId = $('.videoStyle').attr('data-id');
+                if($('.videoStyle').length > 0){
+                    console.log('a')
+                    $('.videoStyle').show();
+                    $('.allVideo').each(function () {
+                        if ($(this).attr('data-id') != bigId) {
+                            $('#otherVideo').append($(this));
+                            $(this).wrap('<li></li>')
+                            $(this).show();
+                        }
+                    })
+                }else{
+                    console.log('b')
+                    $('.allVideo').each(function (i) {
+                        if(i == 0){
+                            $(this).addClass('videoStyle')
+                            $(this).show();
+                            $('.meeting-r-center').append($(this));
+                        }else{
+                            $('#otherVideo').append($(this));
+                            $(this).wrap('<li></li>')
+                            $(this).show();
+                        }
+                    })
+                }
                 var Height = window.screen.availHeight * 0.2;
                 var Width = window.screen.availWidth * 0.75 * 0.9 * 0.20;
                 var str = ''
-                $('.allVideo').each(function () {
-                    if ($(this).attr('data-id') != bigId) {
-                        $('#otherVideo').append($(this));
-                        $(this).wrap('<li></li>')
-                        $(this).show();
-                    }
-                })
-                //    $('body > .allVideo').each(function (){
-                //         console.log($(this).parent().html())
-                //     })
                 $('#videoBanner li').css({
                     height: Height + 'px',
                     width: Width + 'px',
                 })
                 $('.videoList-1-7').show();
             }
-
             // 取消 1：7
             function unVideo1I7() {
+                var bigId = $('.videoStyle').attr('data-id');
                 $('.allVideo').each(function () {
-                    if ($(this).attr('data-id') != bigId) {
+                    if ($(this).attr('data-id') == bigId) {
+                        console.log($(this))
+                        $(this).removeClass('videoStyle');
+                        $('body').append($(this));
+                        $(this).hide();
+                    }else{
                         $(this).unwrap()
                         $('body').append($(this));
                         $(this).hide();
@@ -484,10 +477,13 @@
             // 4分屏
             // flex4()
             function flex4() {
-                // $('.videoStyle').hide();
+                if($('video.videoStyle').length > 0 ){
+                    $('video.videoStyle').hide();
+                    $('body').append($('video.videoStyle'))
+                    $('video.videoStyle').removeClass('videoStyle');
+                }
                 $('.videoList-4').show();
                 $('.allVideo').each(function (i) {
-                    console.log(i)
                     if (i <= 3) {
                         $('.videoList-4 ul').append($(this));
                         $(this).wrap('<li></li>')
@@ -499,20 +495,13 @@
             // 取消 4分屏
             // unFlex()
             function unFlex4() {
-                // $('.videoStyle').show();
                 $('.videoList-4 .allVideo').each(function (i) {
-                    if (i == 0) {
-                        $(this).unwrap();
-                        $('.meeting-r-center').append($(this));
-                    } else {
-                        $(this).unwrap();
-                        $('body').append($(this));
-                        $(this).hide();
-                    }
+                    $(this).unwrap();
+                    $('body').append($(this));
+                    $(this).hide();
                 });
                 $('.videoList-4').hide();
             }
-
         </script>
         <!-- 下边菜单 -->
         <div class="right-footer">
@@ -587,20 +576,21 @@
         <script>
             function screen1() {
                 sendLayout(1);
-                // unFlex4();
-                // unVideo1I7();
+                unFlex4();
+                unVideo1I7();
+                oneVideo();
             }
 
             function screen4() {
                 sendLayout(4);
-                // unVideo1I7();
-                // flex4();
+                unVideo1I7();
+                flex4();
             }
 
             function screen17() {
                 sendLayout(17);
-                // unFlex4();
-                // video1I7()
+                unFlex4();
+                video1I7()
             }
 
             function sendLayout(layout) {
@@ -964,22 +954,28 @@
             sendFiles(file, (buffer)=>{
                 buffers.push(buffer);
                 chunks += buffer.byteLength;
-                if (chunks >= file.size) {
-                    let received = new Blob(buffers, {type: file.type});
+                if (chunks === file.size) {
+                    let received = new Blob(buffers,{type: file.type});
                     let href = URL.createObjectURL(received);
                     var ppp = $('.meeting-r-center video.videoStyle');
                     if(ppp.length > 0){
+                        console.log('aaa')
                         ppp.removeClass('videoStyle');
                         $('.onePeople-videoBox').append(ppp);
                     }
+                    unFlex4();
+                    unVideo1I7();
+                    if($('img.imageStyle').length>0){
+                        $('img.imageStyle').remove()
+                    }
                     if(num == 1){
                         var str = `
-                            <img src="${href}" class="videoStyle" />
+                            < img src="${href}" class="imageStyle"></img>
                         `;
                         $('.meeting-r-center').append(str);
                     }else if(num == 2){
                         var str = `
-                            <object data="${href}" class="videoStyle"></object>
+                            <object data="${href}" class="imageStyle"></object>
                         `;
                         $('.meeting-r-center').append(str);
                     }
@@ -995,6 +991,9 @@
         /* **************分屏开始************** */
         // 点击更多按钮显示隐藏fenpingContainer
         $('#moreBtn').click(() => {
+            if($('.meeting-r-center img').length > 0 || $('.meeting-r-center object').length > 0){
+                return;
+            }
             if ($('#fenpingContainer').css('visibility') === 'hidden' ? true : false) {
                 $('#fenpingContainer').css('visibility', 'visible')
             } else {
@@ -1103,10 +1102,14 @@
 
 
         $('#userList').on('click','.avatar',function() {
-            var isImg = $('img.videoStyle')
-            console.log(isImg)
+            unFlex4();
+            unVideo1I7();
+            var isImg = $('img.imageStyle')
             if(isImg.length > 0){
                 isImg.remove();
+            }
+            if($('object').length > 0){
+                $('object').remove();
             }
             $('video.videoStyle').each(function () {
                 $(this).removeClass('videoStyle');
