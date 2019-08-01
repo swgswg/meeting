@@ -215,7 +215,6 @@
                     // })
 
                 })
-                <!-- 用户列表--列表结束 -->
             </script>
         </div>
 
@@ -391,12 +390,12 @@
                 }
             ]
             var str = '';
-            videoList.forEach((item, index) => {
-                str += `
-                        <video class="allVideo" data-id="${item.id}" src="${item.src}"></video>
-                    `;
-            })
-            $('body').append(str)
+            // videoList.forEach((item, index) => {
+            //     str += `
+            //             <video class="allVideo" data-id="${item.id}" ></video>
+            //         `;
+            // })
+            // $('body').append(str);
             $('.allVideo').each(function () {
                 $(this).hide();
             });
@@ -922,7 +921,8 @@
 
             userInfo.forEach(function (item, index) {
                 if (item || item.id !== localUserId) {
-                    let roomUserId = setRoomUserId;
+                    let roomUserId = setRoomUserId(item.id);
+
                     // 把所有人的id保存到idArr中
                     idArr.push(item.id);
                     // 循环绑定按钮id
@@ -951,13 +951,13 @@
                             <i class="iconfont icon-icontouxiang-copy avatar"></i>
                             <span ${item.id === roomInfo.owner  ? '' : 'class="dis-n"'}>主持人</span>
                             <em ${item.id === localUserId ? '' : 'class="dis-n"'}>（我）</em>
-                            <span> ${item.founder !== roomInfo.owner ? item.name : ''}</span>
-                            <span> ${item.founder !== roomInfo.owner ? '访客' : '主持人'}</span>
+                            <span> ${item.id !== roomInfo.owner ? item.name : ''}</span>
+                            <span> ${item.id !== roomInfo.owner ? '访客' : '主持人'}</span>
                             <!-- 更多 -->
-                            <i ${item.founder === roomInfo.owner ? 'class="iconfont icon-gengduo fr more"' : 'class="dis-n"'}  title="设置更多" id="${btnId}" ></i>
+                            <i ${item.id === roomInfo.owner ? 'class="iconfont icon-gengduo fr more"' : 'class="dis-n"'}  title="设置更多" id="${btnId}" ></i>
                             <!-- 麦克风 -->
-                            <i ${item.founder === roomInfo.owner ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.userName}" id="${muteId}"></i>
-                            <div ${item.founder === roomInfo.owner ? 'class="setMore-dialog"' : 'class="dis-n"'} id="${dlgId}">
+                            <i ${item.id === roomInfo.owner ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.userName}" id="${muteId}"></i>
+                            <div ${item.id === roomInfo.owner ? 'class="setMore-dialog"' : 'class="dis-n"'} id="${dlgId}">
                               <div class="setMore-item" id="${gmId}">改名</div>
                               <div class="setMore-item" id="${ycId}">移除</div>
                             </div>
@@ -987,9 +987,13 @@
         // 创建video 标签
         function createRemoteVideoElement(userId) {
             if (!document.getElementById(userId)) {
-                $('body').append(`
+                if(userId == roomInfo.owner && localUserId != roomInfo.owner){
+                    $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
+                }else{
+                    $('body').append(`
                         <video class="allVideo" id="${userId}" data-id="${userId}" playsinline autoplay></video>
                     `);
+                }
             }
         }
 
