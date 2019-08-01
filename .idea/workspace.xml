@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4e629ec7-201e-4971-996b-0b99566e94b8" name="Default" comment="" />
+    <list default="true" id="4e629ec7-201e-4971-996b-0b99566e94b8" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/js/webrtc/dataChannel.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/webrtc/dataChannel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/videoConference.html" beforeDir="false" afterPath="$PROJECT_DIR$/videoConference.html" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,8 +20,8 @@
       <file leaf-file-name="videoConference.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videoConference.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="919" column="25" lean-forward="true" selection-start-line="919" selection-start-column="25" selection-end-line="919" selection-end-column="25" />
+            <state relative-caret-position="419">
+              <caret line="981" column="65" lean-forward="true" selection-start-line="981" selection-start-column="65" selection-end-line="981" selection-end-column="65" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
                 <element signature="n#style#0;n#div#2;n#div#1;n#div#4;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -72,7 +75,11 @@
       <find>roomNum</find>
       <find>—— 共${infor.userNum}人</find>
       <find>EnterBtn</find>
+      <find>cleanOneUser</find>
     </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -83,10 +90,10 @@
         <option value="$PROJECT_DIR$/js/webrtc/userMedia.js" />
         <option value="$PROJECT_DIR$/js/webrtc/peerConnection.js" />
         <option value="$PROJECT_DIR$/js/webrtc.js" />
-        <option value="$PROJECT_DIR$/js/webrtc/dataChannel.js" />
         <option value="$PROJECT_DIR$/css/videoConference.css" />
         <option value="$PROJECT_DIR$/Index.html" />
         <option value="$PROJECT_DIR$/js/webrtc/webSocketEvent.js" />
+        <option value="$PROJECT_DIR$/js/webrtc/dataChannel.js" />
         <option value="$PROJECT_DIR$/videoConference.html" />
       </list>
     </option>
@@ -106,6 +113,7 @@
     <option name="width" value="1550" />
     <option name="height" value="823" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -185,23 +193,23 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1564625835053</updated>
-      <workItem from="1564625836499" duration="20336000" />
+      <workItem from="1564625836499" duration="20832000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20336000" />
+    <option name="totallyTimeSpent" value="20832000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.13540569" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13540569" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -293,13 +301,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/webrtc/dataChannel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="152" column="82" selection-start-line="152" selection-start-column="82" selection-end-line="152" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/videoConference.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
@@ -345,10 +346,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/webrtc/dataChannel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="671">
+          <caret line="104" column="36" lean-forward="true" selection-start-line="104" selection-start-column="36" selection-end-line="104" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/videoConference.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="919" column="25" lean-forward="true" selection-start-line="919" selection-start-column="25" selection-end-line="919" selection-end-column="25" />
+        <state relative-caret-position="419">
+          <caret line="981" column="65" lean-forward="true" selection-start-line="981" selection-start-column="65" selection-end-line="981" selection-end-column="65" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="n#style#0;n#div#2;n#div#1;n#div#4;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />

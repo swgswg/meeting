@@ -979,8 +979,7 @@
                 remotePeer[userId].close();
                 remotePeer[userId] = null;
                 remoteChannel[userId] = null;
-                document.getElementById(userId + '_user').srcObject = null;
-                document.getElementById(userId + '_display').srcObject = null;
+                document.getElementById(userId).srcObject = null;
             }
         }
 

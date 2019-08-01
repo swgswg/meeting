@@ -103,12 +103,12 @@ function onChannelState(userId) {
         console.log('remoteChannel state');
         console.log(readyState);
         if (readyState === 'open') {
-            document.querySelector('#sendValue').disabled = false;
-            document.querySelector('#sendValue').focus();
-            document.querySelector('#sendButton').disabled = false;
+            // document.querySelector('#sendValue').disabled = false;
+            // document.querySelector('#sendValue').focus();
+            // document.querySelector('#sendButton').disabled = false;
         } else {
-            document.querySelector('#sendValue').disabled = true;
-            document.querySelector('#sendButton').disabled = true;
+            // document.querySelector('#sendValue').disabled = true;
+            // document.querySelector('#sendButton').disabled = true;
         }
     }
 }
