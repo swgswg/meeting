@@ -889,7 +889,7 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
         sendChannelData(e.target.result, 'string');
         offset += e.target.result.byteLength;
         // sendProgress.value = offset;
-        offsetChange(offset);
+        offsetChange(e.target.result);
         if (offset < file.size) {
             readSlice(offset);
         } else {

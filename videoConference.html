@@ -945,7 +945,19 @@
                 fileName: file.name,
                 fileType: file.type
             }, 'json');
-            sendFiles(file);
+            var buffers = [];
+            var chunks = 0;
+            sendFiles(file, (buffer)=>{
+                buffers.push(buffer);
+                chunks += buffer.byteLength;
+                if (chunks === file.size) {
+                    let received = new Blob(fileInfo.buffer);
+                    let href = URL.createObjectURL(received);
+                }
+            }, ()=>{
+                buffers = [];
+                chunks = 0;
+            });
             // 关闭模态框
             shareModal.hide()
         }
