@@ -256,7 +256,13 @@ function gotDevices(deviceInfos) {}
 function createRemoteVideoElement(userId) {
     if(!document.getElementById(userId)) {
         if(userId === roomInfo.owner && localUserId !== roomInfo.owner){
-            $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
+            if($('video.imageStyle').length = 0){
+                $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
+            }else{
+                $('body').append(`
+                    <video class="allVideo" id="${userId}" data-id="${userId}" playsinline autoplay style="display: none;"></video>
+                `);
+            }
         }else{
             $('body').append(`
                 <video class="allVideo" id="${userId}" data-id="${userId}" playsinline autoplay style="display: none;"></video>
@@ -495,7 +501,7 @@ function setLocalAnswer(userId, answerDesc) {
 
 function cleanOneUser(userId) {
     if(remotePeer[userId]){
-        remotePeer[userId].close();
+        // remotePeer[userId].close();
         remotePeer[userId] = null;
         remoteChannel[userId] = null;
         if(document.getElementById(userId)){

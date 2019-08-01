@@ -375,7 +375,7 @@
         <!-- 左上小分屏 -->
         <div class="onePeople">
             <div class="onePeople-videoBox">
-                <video src=""></video>
+                <!--<video src=""></video>-->
             </div>
         </div>
         <script>
@@ -398,6 +398,13 @@
             function bigVideo(videoId) {
                 unFlex4();
                 unVideo1I7();
+                if($('video.imageStyle').length > 0){
+                    if($('video.videoStyle').length > 0 ){
+                        $('video.videoStyle').hide();
+                        $('body').append($('video.videoStyle'))
+                        $('video.videoStyle').removeClass('videoStyle');
+                    }
+                }
                 $('.allVideo').each(function () {
                     if ($(this).attr('data-id') === videoId) {
                         $(this).show();
@@ -799,6 +806,8 @@
 
             // 用户退出
             WS.prototype.out = function (data) {
+                unFlex4();
+                unVideo1I7();
                 $(`#${data.from.id}`).remove();
                 let roomUserId = setRoomUserId(data.from.id);
                 $(`#${roomUserId}`).remove();
@@ -1102,6 +1111,9 @@
 
 
         $('#userList').on('click','.avatar',function() {
+            if(localUserId !== roomInfo.owner){
+                return;
+            }
             unFlex4();
             unVideo1I7();
             var isImg = $('img.imageStyle')
@@ -1111,10 +1123,12 @@
             if($('object').length > 0){
                 $('object').remove();
             }
-            $('video.videoStyle').each(function () {
-                $(this).removeClass('videoStyle');
-                $('body').append($(this))
-            });
+            if($('video.videoStyle').length > 0){
+                $('video.videoStyle').each(function () {
+                    $(this).removeClass('videoStyle');
+                    $('body').append($(this))
+                });
+            }
             if($('.onePeople-videoBox video').length > 0){
                 $('.onePeople-videoBox video').each(function () {
                     $('body').append($(this))
