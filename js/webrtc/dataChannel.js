@@ -1,6 +1,6 @@
 var channelOptions = {
     negotiatend: true,  // 是否双方通信
-    id: roomId,
+    id: 0,
     ordered: true,    // 指示数据通道是否保证按顺序传递消息
     maxRetransmits:5, // 消息失败的重传次数
 };

@@ -57,7 +57,7 @@ var offerConfig = {
 
 function createRemoteVideoElement(userId) {
     if (!document.getElementById(userId)) {
-        if(userId == roomInfo.owner && localUserId != roomInfo.owner){
+        if(userId === roomInfo.owner && localUserId !== roomInfo.owner){
             $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
         }else{
             $('body').append(`
@@ -66,6 +66,7 @@ function createRemoteVideoElement(userId) {
         }
     }
 }
+
 
 
 /**
