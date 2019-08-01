@@ -726,6 +726,8 @@
             // 用户退出
             WS.prototype.out = function (data) {
                 $(`#${data.from.id}`).remove();
+                let roomUserId = setRoomUserId(data.from.id);
+                $(`#${roomUserId}`).remove();
                 cleanOneUser(data.from.id);
             };
 
@@ -777,14 +779,32 @@
         })
         /* 图标区域 */
         /* **************点击静音麦克风************** */
+        var isAudio = true;
         $('#muteBtn').click(() => {
-            console.log('静音麦克风')
-        })
+            if(isAudio){
+                muteUserAudio(false);
+                muteDisplayAudio(false);
+                isAudio = false;
+            } else {
+                muteUserAudio(true);
+                muteDisplayAudio(true);
+                isAudio = true;
+            }
+        });
 
         /* **************点击禁用摄像头************** */
+        var isVideo = true;
         $('#cameraCloseBtn').click(() => {
-            console.log('禁用摄像头')
-        })
+            if(isVideo){
+                muteUserVideo(false);
+                muteDisplayVideo(false);
+                isVideo = false;
+            } else {
+                muteUserVideo(true);
+                muteDisplayVideo(true);
+                isVideo = true;
+            }
+        });
         // 连接会议室
         $('#disconnectBtn').hide();
         $('#EnterBtn').on('click', function () {

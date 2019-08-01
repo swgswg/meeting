@@ -244,37 +244,7 @@ function getDisplayMediaError(e) {
 
 
 // 切换摄像头 麦克风
-function gotDevices(deviceInfos) {
-    // Handles being called several times to update labels. Preserve values.
-    // const values = selectors.map(select => select.value);
-    // selectors.forEach(select => {
-    //     while (select.firstChild) {
-    //         select.removeChild(select.firstChild);
-    //     }
-    // });
-    // for (let i = 0; i !== deviceInfos.length; ++i) {
-    //     const deviceInfo = deviceInfos[i];
-    //     const option = document.createElement('option');
-    //     option.value = deviceInfo.deviceId;
-    //     if (deviceInfo.kind === 'audioinput') {
-    //         option.text = deviceInfo.label || `microphone ${audioInputSelect.length + 1}`;
-    //         audioInputSelect.appendChild(option);
-    //     } else if (deviceInfo.kind === 'audiooutput') {
-    //         option.text = deviceInfo.label || `speaker ${audioOutputSelect.length + 1}`;
-    //         audioOutputSelect.appendChild(option);
-    //     } else if (deviceInfo.kind === 'videoinput') {
-    //         option.text = deviceInfo.label || `camera ${videoSelect.length + 1}`;
-    //         videoSelect.appendChild(option);
-    //     } else {
-    //         console.log('Some other kind of source/device: ', deviceInfo);
-    //     }
-    // }
-    // selectors.forEach((select, selectorIndex) => {
-    //     if (Array.prototype.slice.call(select.childNodes).some(n => n.value === values[selectorIndex])) {
-    //         select.value = values[selectorIndex];
-    //     }
-    // });
-}
+function gotDevices(deviceInfos) {}
 
 
 
@@ -536,14 +506,18 @@ function cleanOneUser(userId) {
 
 
 // 视频静音
-function muteUserAudio() {
-    return muteAudio(localStream.user);
+function muteUserAudio(enabled) {
+    if(localStream.user){
+        muteAudio(localStream.user, enabled);
+    }
 }
 
 
 // 屏幕静音
-function muteDisplayAudio() {
-    return muteAudio(localStream.display);
+function muteDisplayAudio(enabled) {
+    if(localStream.display){
+        muteAudio(localStream.display, enabled);
+    }
 }
 
 
@@ -551,43 +525,54 @@ function muteDisplayAudio() {
  * 静音
  * @returns {boolean}
  */
-function muteAudio(stream) {
+function muteAudio(stream, enabled = false) {
+    
     let audioTracks = stream.getAudioTracks();
     if (audioTracks.length === 0) {
         return false;
     }
-    for (let i = 0; i < audioTracks.length; ++i) {
-        audioTracks[i].enabled = !audioTracks[i].enabled;
+    if(audioTracks[0].enabled !== enabled){
+        let len = audioTracks.length;
+        for (let i = 0; i < len; ++i) {
+            audioTracks[i].enabled = enabled;
+        }
     }
     return audioTracks[0].enabled;
 }
 
 
 // 黑屏
-function muteUserVideo() {
-    return muteVideo(localStream.user);
+function muteUserVideo(enabled) {
+    if(localStream.user){
+        muteVideo(localStream.user, enabled);
+    }
 }
 
 
 // 共享屏幕黑屏
-function muteDisplayVideo() {
-    return muteVideo(localStream.display);
+function muteDisplayVideo(enabled) {
+    if(localStream.display){
+        muteVideo(localStream.display, enabled);
+    }
 }
 
 
 /**
  * 视频源黑屏
  * @param stream
+ * @param enabled
  * @returns {boolean}
  */
-function muteVideo(stream) {
+function muteVideo(stream, enabled = false) {
     let videoTracks = stream.getVideoTracks();
     if (videoTracks.length === 0) {
         return false;
     }
-    let len = videoTracks.length;
-    for (let i = 0; i < len; ++i) {
-        videoTracks[i].enabled = !videoTracks[i].enabled;
+    if(videoTracks[0].enabled !== enabled){
+        let len = videoTracks.length;
+        for (let i = 0; i < len; ++i) {
+            videoTracks[i].enabled = enabled;
+        }
     }
     return videoTracks[0].enabled;
 }
