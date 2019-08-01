@@ -602,17 +602,15 @@
 </div>
 
 <script>
-    var localUserId = null;
-    var userName = null;
-    var roomId = null;
-    var pwd = null;
-    var roomInfo = null;
-    var localUserStream = null;
-    var localDisplayStream = null;
-    var mediaSource = null;
-    var ws = null;
-
     $(function () {
+        var localUserId = null;
+        var userName = null;
+        var roomId = null;
+        var pwd = null;
+        var roomInfo = null;
+        var ws = null;
+
+
         roomInfo = JSON.parse(localStorage.getItem('roomInfo')) || {};
         console.log(roomInfo);
         localUserId = roomInfo.userId || null;
