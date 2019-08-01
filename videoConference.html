@@ -802,6 +802,7 @@
             console.log('禁用摄像头')
         })
         // 连接会议室
+        $('#disconnectBtn').hide();
         $('#EnterBtn').on('click', function () {
             console.log('开启会议');
             $(this).hide();
@@ -979,7 +980,9 @@
                 remotePeer[userId].close();
                 remotePeer[userId] = null;
                 remoteChannel[userId] = null;
-                document.getElementById(userId).srcObject = null;
+                if(document.getElementById(userId)){
+                    document.getElementById(userId).srcObject = null;
+                }
             }
         }
 
