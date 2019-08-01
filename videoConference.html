@@ -724,8 +724,8 @@
                 // 创建 peerConnect
                 cleanOneUser(data.from.id);
                 createPeerConnection(data.from.id);
-                createDataChannel(data.from.id);
                 createOffer(data.from.id);
+                createDataChannel(data.from.id);
             };
 
             WS.prototype.offer = function (data) {

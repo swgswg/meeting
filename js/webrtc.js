@@ -259,7 +259,7 @@ function createRemoteVideoElement(userId) {
             $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
         }else{
             $('body').append(`
-                <video class="allVideo" id="${userId}" data-id="${userId}" playsinline autoplay></video>
+                <video class="allVideo" id="${userId}" data-id="${userId}" playsinline autoplay style="display: none;"></video>
             `);
         }
     }
