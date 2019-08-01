@@ -1,14 +1,37 @@
+// 自己的userId
+var localUserId;
+// 房间号
+var roomId = 0;
+var roomInfo = {};
+
+// 是否共享屏幕 true是/false否
+var isDisplayMedia = false;
+
+// 显示自己的video标签
+var centerVideoBig = document.getElementById('centerVideoBig');
+var centerVideoSmall = document.getElementById('centerVideoSmall');
+var width = centerVideoSmall.offsetWidth;
+var height = centerVideoSmall.offsetHeight;
+
+
+// 本地视频资源
+var localStream = {};
+
+// 存放连接人的对应的PeerConnection  userId:peerConnecti
 var remotePeer = {};
+var remoteChannel ={};
 
-var remoteChannel = {};
+var offerOptions = {
+    offerToRecieveAudio: 1,
+    offerToRecieveVideo: 1
+};
 
-// pc配置项
 var pcConfig = {
     rtcpMuxPolicy: 'require',
     bundlePolicy: 'max-bundle',
     iceServers: [
         {
-            'urls': 'turn:39.105.118.224:3478',
+            'urls': 'turn:stun.chuanqingkeji.net:3478',
             'credential': "demo",
             'username': "demo"
         },
@@ -29,6 +52,15 @@ var pcConfig = {
         //     'urls': 'stun:stun.ekiga.net',
         // },
         // {
+        //     'urls': 'stun:stun.freeswitch.org',
+        // },
+        // {
+        //     'urls': 'stun:stun.xten.com',
+        // },
+        // {
+        //     'urls': 'stun:stun.voxgratia.org',
+        // },
+        // {
         //     'urls': 'stun:stun.ideasip.com',
         // },
         // {
@@ -40,30 +72,220 @@ var pcConfig = {
         // {
         //     'urls': 'stun:stun.voipstunt.com',
         // },
-        // {
-        //     'urls': 'stun:stun.voxgratia.org',
-        // },
-        // {
-        //     'urls': 'stun:stun.xten.com',
-        // },
     ]
 };
 
-// createOffer配置项
-var offerConfig = {
-    offerToRecieveAudio: 1,
-    offerToRecieveVideo: 1
-};
 
 var channelOptions = {
     negotiatend: true,  // 是否双方通信
-    id: 0,
+    id: roomId,
     ordered: true,    // 指示数据通道是否保证按顺序传递消息
     maxRetransmits:5, // 消息失败的重传次数
 };
 
-function createRemoteVideoElement(userId, roomInfo) {
-    if (!document.getElementById(userId)) {
+
+/**
+ * 开启 WebRTC 获取音视频资源
+ * @param _roomId
+ * @param _userId
+ * @param useUserStream
+ * @param useDisplayStream
+ */
+function startWebRTC(_userId, _roomId, _roomInfo, useUserStream = false, useDisplayStream = false, options = {}){
+    localUserId = _userId;
+    roomId = _roomId;
+    roomInfo = _roomInfo;
+    channelOptions.id = roomId;
+    getMediaStream(useUserStream, useDisplayStream, options);
+    
+}
+
+
+
+/**
+ * 获取资源
+ */
+function getMediaStream(useUserStream = false, useDisplayStream = false, options = {}) {
+    if(navigator.mediaDevices){
+        if(useUserStream){
+            getUserMedia(options);
+        }
+        if(useDisplayStream){
+            getDisplayMedia();
+        }
+    }else {
+        alert('您的浏览器不支持, 请更换浏览器!!!');
+    }
+}
+
+
+function setVideoConstraints(options = {}) {
+    let mute = false;
+    if(options.isMeetingMute){
+        mute = true;
+    }
+    let audio = mute ? false : {
+        // 音量调整（范围 0-1.0， 0为静音，1为最大声）
+        volume: 1,
+        // 回音消除 （true/false）
+        echoCancellation: true,
+        // 自动增益 （在原有录音的基础上是否增加音量， true/false）
+        autoGainControl: true,
+        // 是否开启降噪功能 （true/false）
+        noiseSuppression: true,
+        deviceId: options.audioSource ? {exact: options.audioSource} : undefined
+    };
+    
+    let video = {
+        width: options.width || width,
+        height: options.height || height,
+        // 帧率'
+        frameRate:options.fpxRange || 20,
+        // 摄像头 user前置摄像头 environment后置摄像头 left前置左侧摄像头 right前置右侧摄像头
+        facingMode: 'user',
+        // 采集画面是否裁剪
+        resizeMode: false,
+        // 多个摄像头或音频输入输出设备时，可进行设备切换（例如切换前后置摄像头）
+        deviceId: options.videoSource ? {exact: options.videoSource} : undefined
+    };
+    
+    return {
+        audio: audio,
+        video: video
+    };
+}
+
+
+/**
+ * 获取视频
+ * @param options
+ */
+function getUserMedia(options = {}) {
+    // const audioSource = audioInputSelect.value;
+    // const videoSource = videoSelect.value;
+    let constraints  = setVideoConstraints(options);
+    if(navigator.mediaDevices.getUserMedia){
+        navigator.mediaDevices
+            .getUserMedia(constraints)
+            .then(getUserMediaSuccess)
+            .then(gotDevices)
+            .catch(getUserMediaError);
+        
+    } else {
+        alert('您的浏览器不支持[视频], 请更换浏览器!!!');
+    }
+}
+
+
+function getDisplayMedia() {
+    let constraints = {
+        video: true,
+        audio:true
+    };
+    let displayMedia = null;
+    if (navigator.getDisplayMedia) {
+        displayMedia = navigator.getDisplayMedia(constraints);
+    } else if (navigator.mediaDevices.getDisplayMedia) {
+        displayMedia = navigator.mediaDevices.getDisplayMedia(constraints);
+    } else {
+        displayMedia = navigator.mediaDevices.getUserMedia({audio:true, video: {mediaSource: 'monitor'}});
+    }
+    displayMedia
+        .then(getDisplayMediaSuccess)
+        .catch(getDisplayMediaError);
+}
+
+
+function getUserMediaSuccess(stream) {
+    localStream.user  = stream;
+    // getMediaSuccess();
+    centerVideoSmall.srcObject = stream;
+    return navigator.mediaDevices.enumerateDevices();
+}
+
+
+function getDisplayMediaSuccess(stream) {
+    localStream.display  = stream;
+    // getMediaSuccess();
+    centerVideoBig.srcObject = stream;
+}
+
+
+/**
+ * WebRTC 开启成功
+ * 绑定自己的音视频到video标签
+ * @param stream
+ * @returns {Promise<MediaDeviceInfo[]>}
+ */
+function getMediaSuccess(){
+    if(isDisplayMedia){
+        // document.getElementById('displayMediaButton').textContent = '共享视频';
+    } else {
+        // document.getElementById('displayMediaButton').textContent = '共享屏幕';
+    }
+}
+
+
+/**
+ * 获取userMedia错误
+ * @param e
+ */
+function getUserMediaError(e){
+    console.log('getUserMediaError');
+    console.log(e);
+    alert('请确定您的电脑是否有摄像头!!!');
+}
+
+
+function getDisplayMediaError(e) {
+    console.log('getDisplayMediaError');
+    console.log(e);
+    isDisplayMedia = !isDisplayMedia;
+}
+
+
+// 切换摄像头 麦克风
+function gotDevices(deviceInfos) {
+    // Handles being called several times to update labels. Preserve values.
+    // const values = selectors.map(select => select.value);
+    // selectors.forEach(select => {
+    //     while (select.firstChild) {
+    //         select.removeChild(select.firstChild);
+    //     }
+    // });
+    // for (let i = 0; i !== deviceInfos.length; ++i) {
+    //     const deviceInfo = deviceInfos[i];
+    //     const option = document.createElement('option');
+    //     option.value = deviceInfo.deviceId;
+    //     if (deviceInfo.kind === 'audioinput') {
+    //         option.text = deviceInfo.label || `microphone ${audioInputSelect.length + 1}`;
+    //         audioInputSelect.appendChild(option);
+    //     } else if (deviceInfo.kind === 'audiooutput') {
+    //         option.text = deviceInfo.label || `speaker ${audioOutputSelect.length + 1}`;
+    //         audioOutputSelect.appendChild(option);
+    //     } else if (deviceInfo.kind === 'videoinput') {
+    //         option.text = deviceInfo.label || `camera ${videoSelect.length + 1}`;
+    //         videoSelect.appendChild(option);
+    //     } else {
+    //         console.log('Some other kind of source/device: ', deviceInfo);
+    //     }
+    // }
+    // selectors.forEach((select, selectorIndex) => {
+    //     if (Array.prototype.slice.call(select.childNodes).some(n => n.value === values[selectorIndex])) {
+    //         select.value = values[selectorIndex];
+    //     }
+    // });
+}
+
+
+
+/**
+ * 创建 远程连接的video标签
+ * video标签的id就是用户的id, 方便对应查找
+ * @param userId 远程用户的id
+ */
+function createRemoteVideoElement(userId) {
+    if(!document.getElementById(userId)) {
         if(userId === roomInfo.owner && localUserId !== roomInfo.owner){
             $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
         }else{
@@ -83,10 +305,10 @@ function createRemoteVideoElement(userId, roomInfo) {
  * key=userid, value=peerconnection
  * @param userId  远程用户的id
  */
-function createPeerConnection(userId, roomInfo) {
+function createPeerConnection(userId) {
     if(!remotePeer[userId]){
         // 每有一个人连接就创建一个video标签播放远程资源视频
-        createRemoteVideoElement(userId, roomInfo);
+        createRemoteVideoElement(userId);
         
         // 创建远程连接
         remotePeer[userId] = new RTCPeerConnection(pcConfig);
@@ -95,7 +317,7 @@ function createPeerConnection(userId, roomInfo) {
         onIceCandidate(userId);
         
         // 监听 datachannel
-        onDataChannel(remotePeer[userId], userId);
+        onDataChannel(userId);
         
         // 获取远程资源放到对应用户的video标签上播放
         onTrack(userId);
@@ -139,10 +361,8 @@ function onIceCandidate(userId) {
 function onTrack(userId) {
     // 获取远程资源放到对应用户的video标签上播放
     if( remotePeer[userId] === null || remotePeer[userId] === undefined) {
-        alert('userId is null or undefined!');
         return;
     }
-    
     remotePeer[userId].ontrack = (e)=>{
         getRemoteStream(userId, e);
     };
@@ -167,13 +387,13 @@ function getRemoteStream(userId, e){
 function addTrack(userId) {
     //add all track into peer connection
     if(remotePeer[userId]){
-        if(localUserStream){
-            localUserStream.getTracks().forEach((track)=>{
-                remotePeer[userId].addTrack(track, localUserStream);
+        if(localStream.user){
+            localStream.user.getTracks().forEach((track)=>{
+                remotePeer[userId].addTrack(track, localStream.user);
             });
-        }else if(localDisplayStream){
-            localDisplayStream.getTracks().forEach((track)=>{
-                remotePeer[userId].addTrack(track, localDisplayStream);
+        } else if(localStream.display){
+            localStream.display.getTracks().forEach((track)=>{
+                remotePeer[userId].addTrack(track, localStream.display);
             });
         }
     }
@@ -200,7 +420,7 @@ function addIceCandidate(userId, data) {
  * @param userId
  * @param _offerOptions
  */
-function createOffer(userId, _offerOptions = offerConfig) {
+function createOffer(userId, _offerOptions = offerOptions) {
     remotePeer[userId].createOffer(_offerOptions)
         .then((offerDesc)=>{
             setLocalOffer(userId, offerDesc);
@@ -304,16 +524,112 @@ function setLocalAnswer(userId, answerDesc) {
 }
 
 
-
 function cleanOneUser(userId) {
     if(remotePeer[userId]){
         remotePeer[userId].close();
         remotePeer[userId] = null;
         remoteChannel[userId] = null;
-        if(document.getElementById(userId)){
-            document.getElementById(userId).srcObject = null;
-        }
+        document.getElementById(userId + '_user').srcObject = null;
+        document.getElementById(userId+ '_display').srcObject = null;
     }
+}
+
+
+// 视频静音
+function muteUserAudio() {
+    return muteAudio(localStream.user);
+}
+
+
+// 屏幕静音
+function muteDisplayAudio() {
+    return muteAudio(localStream.display);
+}
+
+
+/**
+ * 静音
+ * @returns {boolean}
+ */
+function muteAudio(stream) {
+    let audioTracks = stream.getAudioTracks();
+    if (audioTracks.length === 0) {
+        return false;
+    }
+    for (let i = 0; i < audioTracks.length; ++i) {
+        audioTracks[i].enabled = !audioTracks[i].enabled;
+    }
+    return audioTracks[0].enabled;
+}
+
+
+// 黑屏
+function muteUserVideo() {
+    return muteVideo(localStream.user);
+}
+
+
+// 共享屏幕黑屏
+function muteDisplayVideo() {
+    return muteVideo(localStream.display);
+}
+
+
+/**
+ * 视频源黑屏
+ * @param stream
+ * @returns {boolean}
+ */
+function muteVideo(stream) {
+    let videoTracks = stream.getVideoTracks();
+    if (videoTracks.length === 0) {
+        return false;
+    }
+    let len = videoTracks.length;
+    for (let i = 0; i < len; ++i) {
+        videoTracks[i].enabled = !videoTracks[i].enabled;
+    }
+    return videoTracks[0].enabled;
+}
+
+
+
+function createChatTextLeft(message) {
+    $('#chatList').append(`
+        <li class="chat-l cq-fl">
+            <span>${ message.data.userName}</span>
+            <p>${ message.data.content}</p>
+        </li>
+    `);
+}
+
+function createChatTextRight(data) {
+    $('#chatList').append(`
+       <li class="chat-r cq-fr">
+            <span class="cq-fr">${userName}</span>
+            <p class="cq-fr">${data}</p>
+        </li>
+    `);
+}
+
+
+/**
+ * 创建a标签下载文件
+ * @param userId
+ * @param fileInfo
+ */
+function createDownloadAnchor(userId, fileInfo) {
+    let size = bytesTo(fileInfo.fileSize);
+    $('#fileList').append(`
+        <li class="c-b cq-tac">
+            <span>文件: ${fileInfo.fileName} (${size})</span>
+            <a id="fileId_${fileInfo.fileId}"></a>
+        </li>
+    `);
+    let downloadAnchor = document.getElementById(`fileId_${fileInfo.fileId}`);
+    downloadAnchor.href = fileInfo.href;
+    downloadAnchor.download = fileInfo.fileName;
+    downloadAnchor.textContent = `点击下载`;
 }
 
 
@@ -394,18 +710,26 @@ function sendChannelData(data, dataType = 'json', receiveId = '') {
 
 
 function sendDataByJson(data, receiveId) {
-    let jsonData = JSON.stringify({
-        userId: localUserId,
-        data:data,
-    });
-    onChannelSend(receiveId, jsonData);
+    dataChannelSend(
+        remoteChannel[receiveId],
+        JSON.stringify({
+            userId: localUserId,
+            data:data,
+        })
+    );
 }
 
 
 function sendDataByString(data, receiveId) {
-    onChannelSend(receiveId, data);
+    dataChannelSend(remoteChannel[receiveId], data);
 }
 
+
+function dataChannelSend(dc, data) {
+    if(dc.send){
+        dc.send(data);
+    }
+}
 
 
 /**
@@ -446,41 +770,30 @@ function onChannelError(userId, error) {
  * 监听dataChannel接收消息
  * @param event
  */
+var hasFile = false;
 var fileInfo = {};
 function onChannelMessage(event) {
-    try {
+    if(hasFile){
+        receiveChannelFile(event.data);
+    } else {
         let message = JSON.parse(event.data);
         if(message.data.hasFile){
-            createReceiveProgress(message.userId, message.data.fileId);
+            hasFile = true;
+            // createReceiveProgress(message.userId, message.data.fileId);
             fileInfo = {};
             fileInfo = {
                 userId: message.userId,
                 fileId: message.data.fileId,
                 fileName: message.data.fileName,
                 fileSize: message.data.fileSize,
-                fileType: message.data.fileType,
+                userName: message.data.userName,
                 chunkSize:0,
                 buffer: []
             };
-            document.getElementById(`progress_${fileInfo.fileId}`).max = message.data.fileSize;
+            // document.getElementById(`progress_${fileInfo.fileId}`).max = message.data.fileSize;
         } else {
-            // createChatTextLeft(message.userId, message.data.content);
-            receiveContent(message.userName, message.userId, message.data.content)
+            createChatTextLeft(message);
         }
-    } catch (e) {
-        // 文件数据
-        receiveChannelFile( event.data );
-    }
-}
-
-
-function onChannelSend(userId, data) {
-    try {
-        if(remoteChannel[userId].readyState || remoteChannel[userId].readyState === 'open'){
-            remoteChannel[userId].send(data);
-        }
-    } catch (e) {
-    
     }
 }
 
@@ -518,7 +831,6 @@ function createReceiveProgress(userId, fileId) {
 }
 
 
-
 /**
  * 接收dataChannel中的file信息
  * @param fileBuffer
@@ -526,7 +838,7 @@ function createReceiveProgress(userId, fileId) {
 function receiveChannelFile(fileBuffer) {
     fileInfo.buffer.push(fileBuffer);
     fileInfo.chunkSize += fileBuffer.byteLength;
-    document.getElementById(`progress_${fileInfo.fileId}`).value = fileInfo.chunkSize;
+    // document.getElementById(`progress_${fileInfo.fileId}`).value = fileInfo.chunkSize;
     if (fileInfo.chunkSize === fileInfo.fileSize) {
         let received = new Blob(fileInfo.buffer);
         let href = URL.createObjectURL(received);
@@ -536,62 +848,8 @@ function receiveChannelFile(fileBuffer) {
             fileSize: fileInfo.fileSize,
             href: href
         });
-        let ext = getFileExt(fileInfo.fileName);
-        if(['pdf'].includes(ext)){
-            $('#pdf').addClass('pdf-show');
-            $('#pdf-object').attr('data', href);
-            
-        } else if(['png', 'jpeg', 'jpg', 'gif'].includes(ext)){
-            $('#pdf').addClass('pdf-show');
-            $('#receive-img').attr('src', href);
-        }
+        createChatTextLeft({data:{userName:fileInfo.userName, content: '接收到文件: '+fileInfo.fileName+', 请去文档里查看'}});
         fileInfo = {};
+        hasFile = false;
     }
-}
-
-
-/**
- * 创建a标签下载文件
- * @param userId
- * @param fileInfo
- */
-function createDownloadAnchor(userId, fileInfo) {
-    $('#chatText').append(`
-        <div class="chatTextBox chatTextLeft">
-            <div class="chatTextLeftID">${userId}: </div>
-            <div class="chatTextLeftContent">
-                <a id="fileId_${fileInfo.fileId}"></a>
-            </div>
-        </div>
-    `);
-    let downloadAnchor = document.getElementById(`fileId_${fileInfo.fileId}`);
-    downloadAnchor.href = fileInfo.href;
-    downloadAnchor.download = fileInfo.fileName;
-    let size = bytesTo(fileInfo.fileSize);
-    downloadAnchor.textContent = `点击下载 '${fileInfo.fileName}' (${size})`;
-}
-
-
-function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize = 1200) {
-    let fileReader = new FileReader();
-    let offset = 0;
-    fileReader.addEventListener('error', error => console.error('Error reading file:', error));
-    fileReader.addEventListener('abort', event => console.log('File reading aborted:', event));
-    fileReader.addEventListener('load', e => {
-        sendChannelData(e.target.result, 'string');
-        offset += e.target.result.byteLength;
-        // sendProgress.value = offset;
-        offsetChange(offset);
-        if (offset < file.size) {
-            readSlice(offset);
-        } else {
-            // createChatTextRight('发送文件:' + file.name);
-            readEnd(file);
-        }
-    });
-    const readSlice = o => {
-        const slice = file.slice(offset, o + chunkSize);
-        fileReader.readAsArrayBuffer(slice);
-    };
-    readSlice(0);
 }

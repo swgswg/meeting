@@ -622,9 +622,7 @@
 
         // 开启视频
         let videoOptions = JSON.parse(localStorage.getItem('setOptions')) || {};
-        getUserMedia(() => {
-            mediaSource = 'user';
-        }, videoOptions);
+        startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
 
         // ws事件
         if (localUserId || userName || roomId || pwd) {
@@ -677,14 +675,14 @@
                 }
                 // 创建 peerConnect
                 cleanOneUser(data.from.id);
-                createPeerConnection(data.from.id, roomInfo);
-                createDataChannel(remotePeer[data.from.id], roomId);
+                createPeerConnection(data.from.id);
+                createDataChannel(data.from.id);
                 createOffer(data.from.id);
             };
 
             WS.prototype.offer = function (data) {
                 cleanOneUser(data.from.id);
-                createPeerConnection(data.from.id, roomInfo);
+                createPeerConnection(data.from.id);
                 setRemoteDesc(data.from.id, data.data);
                 createAnswer(data.from.id);
             };
@@ -972,8 +970,8 @@
 
 </script>
 <script src="js/webrtc/adapter-latest.js"></script>
-<script src="js/webrtc/userMedia.js"></script>
-<script src="js/webrtc/displayMedia.js"></script>
+<!--<script src="js/webrtc/userMedia.js"></script>-->
+<!--<script src="js/webrtc/displayMedia.js"></script>-->
 <!--<script src="js/webrtc/peerConnection.js"></script>-->
 <!--<script src="js/webrtc/dataChannel.js"></script>-->
 <script src="js/webrtc/webSocketEvent.js"></script>
