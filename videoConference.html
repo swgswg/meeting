@@ -126,7 +126,7 @@
                         }
                     });
 
-                    $('.avatar').click(function () {
+                    $('.avatar').on('click' , function () {
                         let maxVideoId = $(this).parent().attr('data-id');
                         ws.send({
                             action:'webrtc',
@@ -1053,14 +1053,14 @@
                     ycArr.push(ycId);
 
                     $('#userList').append(`
-                         <li id="${roomUserId}" data-id="${roomUserId}">
+                         <li id="${roomUserId}" data-id="${item.id}">
                             <i class="iconfont icon-icontouxiang-copy avatar"></i>
                             <span ${item.id === roomInfo.owner  ? '' : 'class="dis-n"'}>主持人</span>
-                            <em ${item.id === localUserId ? '' : 'class="dis-n"'}>（我）</em>
                             <span> ${item.id !== roomInfo.owner ? item.name : ''}</span>
                             <span> ${item.id !== roomInfo.owner ? '访客' : '主持人'}</span>
-                            <i ${item.id === roomInfo.owner ? 'class="iconfont icon-gengduo fr more"' : 'class="dis-n"'}  title="设置更多" id="${btnId}" ></i>
-                            <i ${item.id === roomInfo.owner ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.userName}" id="${muteId}"></i>
+                            <em ${item.id === localUserId ? '' : 'class="dis-n"'}>（我）</em>
+                            <i ${localUserId === roomInfo.owner ? 'class="iconfont icon-gengduo fr more"' : 'class="dis-n"'}  title="设置更多" id="${btnId}" ></i>
+                            <i ${localUserId === roomInfo.owner ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.userName}" id="${muteId}"></i>
                             <div ${item.id === roomInfo.owner ? 'class="setMore-dialog"' : 'class="dis-n"'} id="${dlgId}">
                               <div class="setMore-item" id="${gmId}">改名</div>
                               <div class="setMore-item" id="${ycId}">移除</div>
