@@ -302,6 +302,8 @@ function cleanOneUser(userId) {
         remotePeer[userId].close();
         remotePeer[userId] = null;
         remoteChannel[userId] = null;
-        document.getElementById(userId).srcObject = null;
+        if(document.getElementById(userId)){
+            document.getElementById(userId).srcObject = null;
+        }
     }
 }
