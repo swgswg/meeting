@@ -768,6 +768,19 @@ function onChannelError(userId, error) {
 }
 
 
+function receiveContent(userName, userId, message) {
+    var str = `
+        <li>
+        <span>${userName}：</span>
+        <p data-id="${userId}">
+        ${message}
+        </p >
+        </li>
+    `;
+    $('#chatList').append(str);
+}
+
+
 var fileInfo = {};
 function onChannelMessage(event) {
     try {
@@ -786,9 +799,10 @@ function onChannelMessage(event) {
             };
             // document.getElementById(`progress_${fileInfo.fileId}`).max = message.data.fileSize;
         } else {
-            receiveContent(message.userName, message.userId, message.data.content);
+            receiveContent(message.data.userName, message.data.userId, message.data.content);
         }
     } catch (e) {
+        console.log(e);
         // 文件数据
         receiveChannelFile( event.data );
     }
