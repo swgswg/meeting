@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4e629ec7-201e-4971-996b-0b99566e94b8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/js/webrtc.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/webrtc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/videoConference.html" beforeDir="false" afterPath="$PROJECT_DIR$/videoConference.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,9 +19,10 @@
       <file leaf-file-name="webrtc.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/webrtc.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="224" column="21" selection-start-line="224" selection-start-column="21" selection-end-line="224" selection-end-column="21" />
+            <state relative-caret-position="653">
+              <caret line="654" column="59" lean-forward="true" selection-start-line="654" selection-start-column="59" selection-end-line="654" selection-end-column="59" />
               <folding>
+                <element signature="e#2678#3648#0" />
                 <element signature="n#style#0;n#video#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#video#0;n#!!top" expanded="true" />
               </folding>
@@ -216,12 +216,12 @@
       <option name="presentableId" value="Default" />
       <updated>1564625835053</updated>
       <workItem from="1564625836499" duration="54779000" />
-      <workItem from="1564721863848" duration="14789000" />
+      <workItem from="1564721863848" duration="15086000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69568000" />
+    <option name="totallyTimeSpent" value="69865000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -282,6 +282,7 @@
         <state relative-caret-position="5964">
           <caret line="213" column="3" lean-forward="true" selection-start-line="213" selection-start-column="3" selection-end-line="213" selection-end-column="3" />
           <folding>
+            <element signature="e#2678#3648#0" />
             <element signature="n#style#0;n#video#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#video#0;n#!!top" expanded="true" />
           </folding>
@@ -406,9 +407,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/webrtc.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="224" column="21" selection-start-line="224" selection-start-column="21" selection-end-line="224" selection-end-column="21" />
+        <state relative-caret-position="653">
+          <caret line="654" column="59" lean-forward="true" selection-start-line="654" selection-start-column="59" selection-end-line="654" selection-end-column="59" />
           <folding>
+            <element signature="e#2678#3648#0" />
             <element signature="n#style#0;n#video#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#video#0;n#!!top" expanded="true" />
           </folding>

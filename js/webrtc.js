@@ -215,7 +215,7 @@ function getUserMediaSuccess(stream) {
         });
         autoEnter = false;
     } else {
-        replaceTrack(localStream.user);
+        replaceTrack(stream);
     }
     $('#shareDesktopBtn').attr('title', '开启桌面共享').children('.icon-zhuomianshezhi').removeClass('icon-zhuomianshezhi').addClass('icon-yunzhuomian')
 }
@@ -225,7 +225,7 @@ function getDisplayMediaSuccess(stream) {
     localStream = {};
     localStream.display  = stream;
     localVideoSmall.srcObject = stream;
-    replaceTrack(localStream.display);
+    replaceTrack(stream);
     $('#shareDesktopBtn').attr('title', '停止演示').children('.icon-yunzhuomian').removeClass('icon-yunzhuomian').addClass('icon-zhuomianshezhi')
 }
 
