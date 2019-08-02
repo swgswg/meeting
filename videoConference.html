@@ -528,10 +528,10 @@
                 <div class="right-icons-container icon-margin-r" title="禁用摄像头" id="cameraCloseBtn">
                     <i class="iconfont icon-shexiangtou_shiti right-fonts"></i>
                 </div>
-                <div class="right-icons-container icon-margin-r" style="background:#09b708;" id="EnterBtn" title="连接会议">
-                    <i class="iconfont icon-jinru right-fonts"></i>
-                </div>
-                <div class="right-icons-container icon-margin-r Fdianhuared" id="disconnectBtn" title="断开">
+                <!--<div class="right-icons-container icon-margin-r" style="background:#09b708;" id="EnterBtn" title="连接会议">-->
+                    <!--<i class="iconfont icon-jinru right-fonts"></i>-->
+                <!--</div>-->
+                <div class="right-icons-container icon-margin-r dianhuared" id="disconnectBtn" title="断开">
                     <i class="iconfont icon-phonedianhua right-fonts"></i>
                 </div>
                 <div class="right-icons-container icon-margin-r" id="shareDesktopBtn" title="开启桌面共享">
@@ -896,23 +896,23 @@
             }
         });
         // 连接会议室
-        $('#disconnectBtn').hide();
-        $('#EnterBtn').on('click', function () {
-            $(this).hide();
-            $('#disconnectBtn').show();
-            ws.send({
-                action: 'webrtc',
-                event: 'joinRoom',
-                mine: {
-                    id: localUserId
-                },
-                room: {
-                    id: roomId,
-                    pwd: pwd,
-                },
-            });
-
-        });
+        // $('#disconnectBtn').hide();
+        // $('#EnterBtn').on('click', function () {
+        //     $(this).hide();
+        //     // $('#disconnectBtn').show();
+        //     ws.send({
+        //         action: 'webrtc',
+        //         event: 'joinRoom',
+        //         mine: {
+        //             id: localUserId
+        //         },
+        //         room: {
+        //             id: roomId,
+        //             pwd: pwd,
+        //         },
+        //     });
+        //
+        // });
 
         /* **************点击挂断************** */
         $('#disconnectBtn').click(() => {
@@ -937,7 +937,6 @@
                 localStream = {};
                 document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
-
             }
         });
 

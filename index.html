@@ -166,8 +166,7 @@
 
         // 定义房间号、用户名、用户id、密码
         // roomInfo: 房间号roomId  密码psw  userId 用户名userName
-        var roomInfo ={}
-
+        var roomInfo ={};
         if(localStorage.getItem('roomInfo')){
           var info = JSON.parse(localStorage.getItem('roomInfo'));
           roomInfo.userId = info.userId;
