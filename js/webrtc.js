@@ -201,22 +201,18 @@ function getUserMediaSuccess(stream) {
     localStream = {};
     localStream.user  = stream;
     localVideoSmall.srcObject = stream;
-    if(autoEnter){
-        ws.send({
-            action: 'webrtc',
-            event: 'joinRoom',
-            mine: {
-                id: localUserId
-            },
-            room: {
-                id: roomInfo.roomId,
-                pwd: roomInfo.psw,
-            },
-        });
-        autoEnter = false;
-    } else {
-        replaceTrack(stream);
-    }
+    ws.send({
+        action: 'webrtc',
+        event: 'joinRoom',
+        mine: {
+            id: localUserId
+        },
+        room: {
+            id: roomInfo.roomId,
+            pwd: roomInfo.psw,
+        },
+    });
+    autoEnter = false;
     $('#shareDesktopBtn').attr('title', '开启桌面共享').children('.icon-zhuomianshezhi').removeClass('icon-zhuomianshezhi').addClass('icon-yunzhuomian')
 }
 
@@ -768,8 +764,8 @@ function onChannelSend(userId, data) {
 function onChannelState(userId) {
     if(remoteChannel[userId]){
         const readyState = remoteChannel[userId].readyState;
-        console.log('remoteChannel state');
-        console.log(readyState);
+        // console.log('remoteChannel state');
+        // console.log(readyState);
         if (readyState === 'open') {
             // document.querySelector('#Send').disabled = false;
             // document.querySelector('#sendValue').focus();

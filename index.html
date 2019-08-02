@@ -57,7 +57,7 @@
   <!-- 模态对话框 -->
   <div id="setModal" class="uk-modal">
     <div class="uk-modal-dialog my-setModal-dialog">
-      <a class="uk-modal-close uk-close"></a>
+      <a class="uk-modal-close uk-close" id="closeSetModelBtn"></a>
       <div class="uk-modal-header my-setModal-header">设置</div>
       <div class="uk-overflow-container my-overflow-setCntainer">
         <form class="uk-form uk-form-stacked">
@@ -204,8 +204,13 @@
                 pwd: roomPsw,
               },
             });
+              if(roomName != ''){
+                  $('#roomNum').val(roomId)
+                  $('#userPsw').val(roomPsw)
+              }
                var container = document.getElementById('container')
                container.classList.remove("right-panel-active");
+
            
           }
           return false;
@@ -238,6 +243,15 @@
           return false;
         })
         // 进入会议室结束
+
+          // 点击设置按钮开启视频
+          $('#Setting').click(function(){
+              start();
+          })
+          // x按钮关闭视频
+          $('#closeSetModelBtn').click(function(){
+              stopTrack();
+          })
       });
     </script>
     <script>
@@ -262,9 +276,9 @@
 
 
       // 初始化fpxNumber
-      window.onload = function () {
+
         $('#fpxNumber')[0].innerText = $('#fpxRange')[0].value + 'fpx'
-      }
+
       // 滑动杆数值赋值p标签
       $('#fpxRange').on("input", function () {
         let val = this.value;
@@ -273,6 +287,7 @@
       let setModal = UIkit.modal("#setModal");
       // 取消按钮
       $('#setModalqxBtn').on('click', function () {
+          stopTrack();// 关闭摄像头
         setModal.hide()
       })
       // 确定按钮
@@ -300,6 +315,7 @@
         setOptions[$('#fpxRange')[0].id] = $('#fpxRange').val();
         localStorage.setItem('setOptions', JSON.stringify(setOptions))
         localStorage.getItem('userName')
+        stopTrack();// 关闭摄像头
         setModal.hide()
       })
     })()

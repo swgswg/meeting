@@ -83,17 +83,17 @@
                     var isAllMute = true;
                     $('#allMute').click(function () {
                         ws.send({
-                            action:'webrtc',
+                            action: 'webrtc',
                             event: 'muteAudio',
-                            mine:{
+                            mine: {
                                 id: localUserId
                             },
-                            roomId:{
-                                id:roomId
+                            roomId: {
+                                id: roomId
                             },
                             auth: isAllMute // true静音/false取消静音
                         });
-                        if(isAllMute){
+                        if (isAllMute) {
                             $('#allMute .menu-item-title').text('取消静音');
                             $('#allMute .iconfont').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng');
                         } else {
@@ -111,12 +111,12 @@
                         var r = confirm("是否确定要关闭该会议室!!!");
                         if (r == true) {
                             ws.send({
-                                action:'webrtc',
+                                action: 'webrtc',
                                 event: 'closeRoom',
-                                mine:{
+                                mine: {
                                     id: localUserId
                                 },
-                                room:{
+                                room: {
                                     id: roomId
                                 },
                             });
@@ -201,9 +201,11 @@
                     //             <em ${item.founder == 1 ? '' : 'class="dis-n"'}>（我）</em>
                     //             <span> ${item.founder == 0 ? item.userName : ''}</span>
                     //             <span> ${item.founder == 0 ? item.identity : ''}</span>
-                    //             <!-- 更多 -->
+                    //
+                    <!-- 更多 -->
                     //             <i ${item.founder == 1 || item.identity == '主持人' ? 'class="iconfont icon-gengduo fr more"' : 'class="dis-n"'}  title="设置更多" id="${btnId}" ></i>
-                    //             <!-- 麦克风 -->
+                    //
+                    <!-- 麦克风 -->
                     //             <i ${item.founder == 1 || item.identity == '主持人' ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.userName}" id="${muteId}"></i>
                     //             <div ${item.founder == 1 || item.identity == '主持人' ? 'class="setMore-dialog"' : 'class="dis-n"'} id="${dlgId}">
                     //               <div class="setMore-item" id="${gmId}">改名</div>
@@ -271,10 +273,10 @@
             <div class="meeting-chatList">
                 <ul id="chatList">
                     <!--<li>-->
-                        <!--<span>华北扛把子：</span>-->
-                        <!--<p>-->
-                            <!--哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈-->
-                        <!--</p>-->
+                    <!--<span>华北扛把子：</span>-->
+                    <!--<p>-->
+                    <!--哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈-->
+                    <!--</p>-->
                     <!--</li>-->
                 </ul>
             </div>
@@ -391,15 +393,16 @@
         <!-- 1:7结束 -->
 
         <script>
-            $(function(){
+            $(function () {
                 $('.videoList-4').hide();
                 $('.videoList-1-7').hide();
             })
+
             function bigVideo(videoId) {
                 unFlex4();
                 unVideo1I7();
-                if($('video.imageStyle').length > 0){
-                    if($('video.videoStyle').length > 0 ){
+                if ($('video.imageStyle').length > 0) {
+                    if ($('video.videoStyle').length > 0) {
                         $('video.videoStyle').hide();
                         $('body').append($('video.videoStyle'));
                         $('video.videoStyle').removeClass('videoStyle');
@@ -413,11 +416,12 @@
                     }
                 });
             }
+
             // 放置 大屏
             function oneVideo() {
-                if($('video.videoStyle').length == 0){
+                if ($('video.videoStyle').length == 0) {
                     $('.allVideo').each(function (i) {
-                        if(i == 0){
+                        if (i == 0) {
                             $(this).show();
                             $(this).addClass('videoStyle');
                             $('.meeting-r-center').append($(this));
@@ -425,11 +429,12 @@
                     });
                 }
             }
+
             // 放置 1:7
             function video1I7() {
                 unVideo1I7()
                 var bigId = $('.videoStyle').attr('data-id');
-                if($('.videoStyle').length > 0){
+                if ($('.videoStyle').length > 0) {
                     console.log('a')
                     $('.videoStyle').show();
                     $('.allVideo').each(function () {
@@ -439,14 +444,14 @@
                             $(this).show();
                         }
                     })
-                }else{
+                } else {
                     console.log('b')
                     $('.allVideo').each(function (i) {
-                        if(i == 0){
+                        if (i == 0) {
                             $(this).addClass('videoStyle');
                             $(this).show();
                             $('.meeting-r-center').append($(this));
-                        }else{
+                        } else {
                             $('#otherVideo').append($(this));
                             $(this).wrap('<li></li>')
                             $(this).show();
@@ -462,6 +467,7 @@
                 })
                 $('.videoList-1-7').show();
             }
+
             // 取消 1：7
             function unVideo1I7() {
                 var bigId = $('.videoStyle').attr('data-id');
@@ -470,7 +476,7 @@
                         $(this).removeClass('videoStyle');
                         $('body').append($(this));
                         $(this).hide();
-                    }else{
+                    } else {
                         $(this).unwrap();
                         $('body').append($(this));
                         $(this).hide();
@@ -482,7 +488,7 @@
             // 4分屏
             // flex4()
             function flex4() {
-                if($('video.videoStyle').length > 0 ){
+                if ($('video.videoStyle').length > 0) {
                     $('video.videoStyle').hide();
                     $('body').append($('video.videoStyle'))
                     $('video.videoStyle').removeClass('videoStyle');
@@ -529,7 +535,7 @@
                     <i class="iconfont icon-shexiangtou_shiti right-fonts"></i>
                 </div>
                 <!--<div class="right-icons-container icon-margin-r" style="background:#09b708;" id="EnterBtn" title="连接会议">-->
-                    <!--<i class="iconfont icon-jinru right-fonts"></i>-->
+                <!--<i class="iconfont icon-jinru right-fonts"></i>-->
                 <!--</div>-->
                 <div class="right-icons-container icon-margin-r dianhuared" id="disconnectBtn" title="断开">
                     <i class="iconfont icon-phonedianhua right-fonts"></i>
@@ -600,13 +606,13 @@
 
             function sendLayout(layout) {
                 ws.send({
-                    action:'webrtc',
-                    event:'roomLayout',
-                    mine:{
+                    action: 'webrtc',
+                    event: 'roomLayout',
+                    mine: {
                         id: localUserId
                     },
-                    room:{
-                        id:roomId,
+                    room: {
+                        id: roomId,
                     },
                     layout: layout
                 });
@@ -700,21 +706,23 @@
             };
 
             WS.prototype.joined = function (data) {
-                UIkit.notify("进入会议室成功", {
-                    status: 'success',
-                    timeout: 1000
-                });
+                // UIkit.notify("进入会议室成功", {
+                //     status: 'success',
+                //     timeout: 1000
+                // });
 
-                roomInfo = data.roomInfo;
+                for (let k in data.roomInfo) {
+                    roomInfo[k] = data.roomInfo[k]
+                }
                 roomInfo.userCount = data.userCount;
 
                 // 房间信息
                 $('#roomNum').text(roomInfo.roomId);
-                $('#userNum').text(`—— 共${roomInfo.userCount}人` );
+                $('#userNum').text(`—— 共${roomInfo.userCount}人`);
                 $('#roomName').text(roomInfo.name);
-                if(localUserId == roomInfo.owner){
+                if (localUserId == roomInfo.owner) {
                     $('#menuBtn').show();
-                }else{
+                } else {
                     $('#menuBtn').hide();
                 }
                 // 设置userInfo
@@ -768,7 +776,12 @@
 
             // 设置管理者
             WS.prototype.setAdmin = function (data) {
+                setRoomUser(setRoomUserF, data.admin.id)
+            };
 
+            // 取消管理者
+            WS.prototype.cancelAdmin = function (data) {
+                setRoomUser(setRoomUserF, data.admin.id)
             };
 
             // 布局
@@ -779,8 +792,8 @@
             // 最大视频的人
             WS.prototype.maxVideo = function (data) {
                 // 判断中间是否有视频
-                if(localUserId != data.maxVideoId){
-                    if($('video.videoStyle').length > 0){
+                if (localUserId != data.maxVideoId) {
+                    if ($('video.videoStyle').length > 0) {
                         $('video.videoStyle').each(function () {
                             $(this).removeClass('videoStyle');
                             $('body').append($(this))
@@ -798,13 +811,13 @@
                 }
             };
 
-            WS.prototype.removeUser = function(data){
+            WS.prototype.removeUser = function (data) {
                 let removeUserId = data.webrtc.id;
                 $(`#${removeUserId}`).remove();
                 let roomUserId = setRoomUserId(removeUserId);
                 $(`#${roomUserId}`).remove();
                 cleanOneUser(data.from.id);
-                if(removeUserId === localUserId){
+                if (removeUserId === localUserId) {
                     alert('您已被移出会议室!!!');
                     ws.close();
                     window.location.href = 'index.html';
@@ -877,19 +890,21 @@
         /* 图标区域 */
         /* **************点击静音麦克风************** */
         var isAudio = true; // false静音
-        if(localStream.user){
+        if (localStream.user) {
             isAudio = localStream.user.getAudioTracks()[0].enabled;
-        } else if(localStream.display){
+        } else if (localStream.display) {
             isAudio = localStream.display.getAudioTracks()[0].enabled;
         }
         muteHandle(isAudio);
-        function muteHandle(isAudio){
-            if(isAudio){
+
+        function muteHandle(isAudio) {
+            if (isAudio) {
                 $('#muteBtn').attr('title', '静音麦克风').children('.icon-maikefeng-jingyin').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng')
-            }else{
+            } else {
                 $('#muteBtn').attr('title', '取消静音').children('.icon-maikefeng').removeClass('icon-maikefeng').addClass('icon-maikefeng-jingyin')
             }
         }
+
         $('#muteBtn').click(() => {
             isAudio = !isAudio;
             muteHandle(isAudio);
@@ -900,26 +915,29 @@
 
         /* **************点击禁用摄像头************** */
         var isVideo = true;
-        if(localStream.user){
+        if (localStream.user) {
             isVideo = localStream.user.getVideoTracks()[0].enabled;
-        } else if(localStream.display){
+        } else if (localStream.display) {
             isVideo = localStream.display.getVideoTracks()[0].enabled;
         }
         videoHandle(isVideo);
-        function videoHandle(isVideo){
-            if(isVideo){
+
+        function videoHandle(isVideo) {
+            if (isVideo) {
                 $('#cameraCloseBtn').attr('title', '禁用摄像头').children('.icon-video-off').removeClass('icon-video-off').addClass('icon-shexiangtou_shiti')
-            }else{
+            } else {
                 $('#cameraCloseBtn').attr('title', '启用摄像头').children('.icon-shexiangtou_shiti').removeClass('icon-shexiangtou_shiti').addClass('icon-video-off')
             }
         }
-        function openClose(a, b){
-            if($(a).length > 0){
+
+        function openClose(a, b) {
+            if ($(a).length > 0) {
                 $(b).removeClass('redColor');
-            }else{
+            } else {
                 $(b).addClass('redColor');
             }
         }
+
         $('#cameraCloseBtn').click(() => {
             openClose('#cameraCloseBtn i.redColor', '#cameraCloseBtn i');
             isVideo = !isVideo;
@@ -967,7 +985,7 @@
                 document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, false, true, videoOptions);
 
-            }else{
+            } else {
                 document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
             }
@@ -992,7 +1010,7 @@
         });
 
 
-        function sendF(file, num){
+        function sendF(file, num) {
             if (file.size <= 0) {
                 return;
             }
@@ -1005,36 +1023,36 @@
             }, 'json');
             var buffers = [];
             var chunks = 0;
-            sendFiles(file, (buffer)=>{
+            sendFiles(file, (buffer) => {
                 buffers.push(buffer);
                 chunks += buffer.byteLength;
                 if (chunks === file.size) {
-                    let received = new Blob(buffers,{type: file.type});
+                    let received = new Blob(buffers, {type: file.type});
                     let href = URL.createObjectURL(received);
                     var ppp = $('.meeting-r-center video.videoStyle');
-                    if(ppp.length > 0){
+                    if (ppp.length > 0) {
                         console.log('aaa')
                         ppp.removeClass('videoStyle');
                         $('.onePeople-videoBox').append(ppp);
                     }
                     unFlex4();
                     unVideo1I7();
-                    if($('img.imageStyle').length>0){
+                    if ($('img.imageStyle').length > 0) {
                         $('img.imageStyle').remove()
                     }
-                    if(num == 1){
+                    if (num == 1) {
                         var str = `
                             < img src="${href}" class="imageStyle"></img>
                         `;
                         $('.meeting-r-center').append(str);
-                    }else if(num == 2){
+                    } else if (num == 2) {
                         var str = `
                             <object data="${href}" class="imageStyle"></object>
                         `;
                         $('.meeting-r-center').append(str);
                     }
                 }
-            }, ()=>{
+            }, () => {
                 buffers = [];
                 chunks = 0;
             });
@@ -1045,7 +1063,7 @@
         /* **************分屏开始************** */
         // 点击更多按钮显示隐藏fenpingContainer
         $('#moreBtn').click(() => {
-            if($('.meeting-r-center img').length > 0 || $('.meeting-r-center object').length > 0){
+            if ($('.meeting-r-center img').length > 0 || $('.meeting-r-center object').length > 0) {
                 return;
             }
             if ($('#fenpingContainer').css('visibility') === 'hidden' ? true : false) {
@@ -1109,18 +1127,22 @@
                 });
             }
         }
-        $('#quanpingBtn').click(function(){
+
+        $('#quanpingBtn').click(function () {
             if ($(this).attr('title') === '全屏') {
                 $(this).attr('title', '取消全屏').children('.icon-fangda').removeClass('icon-fangda').addClass('icon-suoxiao')
                 FullScreen();
-            }else{
+            } else {
                 exitFullScreen()
                 $(this).attr('title', '全屏').children('.icon-suoxiao').removeClass('icon-suoxiao').addClass('icon-fangda')
             }
         });
 
 
-        function setRoomUser(userInfo) {
+        var setRoomUserF;
+        function setRoomUser(userfInfo, adminId = 0) {
+            setRoomUserF = userfInfo;
+            $('#userList').empty();
             // 按钮数组
             var moreSetBtn = [];
             // 弹窗数组
@@ -1133,8 +1155,7 @@
             var ycArr = [];
             // 保存会议所有人的id
             var idArr = [];
-
-            userInfo.forEach(function (item, index) {
+            userfInfo.forEach(function (item, index) {
                 if (item || item.id !== localUserId) {
                     let roomUserId = setRoomUserId(item.id);
 
@@ -1162,27 +1183,62 @@
                     ycArr.push(ycId);
 
                     $('#userList').append(`
-                         <li id="${roomUserId}" data-id="${item.id}">
-                            <i class="iconfont icon-icontouxiang-copy avatar"></i>
-                            <span ${item.id === roomInfo.owner  ? '' : 'class="dis-n"'}>主持人</span>
-                            <span> ${item.id !== roomInfo.owner ? item.name : ''}</span>
-                            <span> ${item.id !== roomInfo.owner ? '访客' : '主持人'}</span>
-                            <em ${item.id === localUserId ? '' : 'class="dis-n"'}>（我）</em>
-                            <i ${localUserId=== roomInfo.owner ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多" id="${btnId}" ></i>
-                            <i ${localUserId === roomInfo.owner ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.userName}" id="${muteId}"></i>
-                            <div ${localUserId === roomInfo.owner ? 'class="setMore-dialog gengduoDialog"' : 'class="dis-n"'} id="${dlgId}">
-                                <div class="setMore-item gaimingBtn" id="${gmId}">改名</div>
-                                <div class="setMore-item yichuBtn" id="${ycId}">移除</div>
-                            </div>
+                        <li id="${roomUserId}" data-id="${item.id}">
+                        <i class="iconfont icon-icontouxiang-copy avatar"></i>
+                        <span ${item.id === roomInfo.owner ? '' : 'class="dis-n"'}>房主</span>
+                        <span> ${item.id !== roomInfo.owner ? item.name : ''}</span>
+                        <span> ${item.id !== roomInfo.owner ? '访客' : '主持人'}</span>
+                        <em ${item.id === localUserId ? '' : 'class="dis-n"'}>（我）</em>
+                        <i ${localUserId === roomInfo.owner ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多" id="${btnId}" ></i>
+                        <i ${localUserId === roomInfo.owner || localUserId === adminId ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.name}" id="${muteId}"></i>
+                        <div ${localUserId === roomInfo.owner ? 'class="setMore-dialog gengduoDialog"' : 'class="dis-n"'} id="${dlgId}">
+                        <div class="setMore-item gaimingBtn" id="${gmId}">改名</div>
+                        <div class="${localUserId === roomInfo.owner && item.id !== roomInfo.owner ? 'setMore-item yichuBtn' : 'setMore-item dis-n yichuBtn'} id="${ycId}">移除</div>
+                        <div class="${localUserId === roomInfo.owner && item.id !== roomInfo.owner ? 'setMore-item addAdminC' : 'setMore-item addAdminC dis-n'}" data-id="${item.id}">设为主持人</div>
+                        <div class="${localUserId === roomInfo.owner && item.id !== roomInfo.owner ? 'setMore-item cancelAdminC' : 'setMore-item cancelAdminC dis-n'}" data-id="${item.id}">取消主持人</div>
+                        </div>
                         </li>
                     `);
                 }
             });
         }
 
+        $('#userList').on('click', '.addAdminC', function () {
+            var adminId = $(this).attr('data-id')
+            ws.send({
+                action: 'webrtc',
+                event: 'setAdmin',
+                mine: {
+                    id: localUserId
+                },
+                room: {
+                    id: roomId,
+                },
+                admin: {
+                    id: adminId
+                }
+            });
+        });
+        $('#userList').on('click', '.cancelAdminC', function () {
+            var adminId = $(this).attr('data-id')
+            ws.send({
+                action: 'webrtc',
+                event: 'cancelAdmin',
+                mine: {
+                    id: localUserId
+                },
+                room: {
+                    id: roomId,
+                },
+                admin: {
+                    id: adminId
+                }
+            });
 
-        $('#userList').on('click','.avatar',function() {
-            if(localUserId !== roomInfo.owner){
+        });
+
+        $('#userList').on('click', '.avatar', function () {
+            if (localUserId !== roomInfo.owner) {
                 return;
             }
             let maxVideoId = $(this).parent().attr('data-id');
@@ -1190,16 +1246,16 @@
             // unVideo1I7();
             // 判断中间是否有图片
             var isImg = $('img.imageStyle');
-            if(isImg.length > 0){
+            if (isImg.length > 0) {
                 isImg.remove();
             }
             // 判断中间是否有pdf
-            if($('object').length > 0){
+            if ($('object').length > 0) {
                 $('object').remove();
             }
             // 判断中间是否有视频
-            if(localUserId != maxVideoId){
-                if($('video.videoStyle').length > 0){
+            if (localUserId != maxVideoId) {
+                if ($('video.videoStyle').length > 0) {
                     $('video.videoStyle').each(function () {
                         $(this).removeClass('videoStyle');
                         $('body').append($(this))
@@ -1208,19 +1264,19 @@
                 bigVideo(maxVideoId);
             }
             // 判断左上方的小屏
-            if($('.onePeople-videoBox video').length > 0){
+            if ($('.onePeople-videoBox video').length > 0) {
                 $('.onePeople-videoBox video').each(function () {
                     $('body').append($(this))
                 });
             }
             ws.send({
-                action:'webrtc',
-                event:'maxVideo',
-                mine:{
+                action: 'webrtc',
+                event: 'maxVideo',
+                mine: {
                     id: localUserId
                 },
-                room:{
-                    id:roomId,
+                room: {
+                    id: roomId,
                 },
                 maxVideoId: maxVideoId
             });
@@ -1228,30 +1284,30 @@
 
 
         // 设置更多按钮
-        $('#userList').on('click','.shezhigengduo',function(){
-            if($(this).nextAll('.gengduoDialog').css('display')==='none'){
+        $('#userList').on('click', '.shezhigengduo', function () {
+            if ($(this).nextAll('.gengduoDialog').css('display') === 'none') {
                 $(this).nextAll('.gengduoDialog').show();
-            }else{
+            } else {
                 $(this).nextAll('.gengduoDialog').hide();
             }
         })
 
 
         // 移除按钮
-        $('#userList').on('click','.yichuBtn',function(){
+        $('#userList').on('click', '.yichuBtn', function () {
             let removeUserId = $(this).parents('li').attr('data-id');
             var r = confirm("您确实想移除他吗？");
             if (r == true) {
                 ws.send({
-                    action:'webrtc',
+                    action: 'webrtc',
                     event: 'removeUser',
-                    mine:{
+                    mine: {
                         id: localUserId
                     },
-                    room:{
+                    room: {
                         id: roomId,
                     },
-                    webrtc:{
+                    webrtc: {
                         id: removeUserId
                     }
                 });
@@ -1261,25 +1317,25 @@
 
         var gmUserId = '';
         // 改名按钮
-        $('#userList').on('click','.gaimingBtn',function(){
+        $('#userList').on('click', '.gaimingBtn', function () {
             $(this).parent().hide();
             gmUserId = $(this).parents('li').attr('data-id');
             UIkit.modal("#gaimingModal").show();
         })
         // 改名确定按钮
-        $('#gaimingSubBtn').click(function(){
+        $('#gaimingSubBtn').click(function () {
             let val = $('#gmValue').val(); // 新名字
-            if(val && gmUserId){
+            if (val && gmUserId) {
                 ws.send({
-                    action:'webrtc',
-                    event:'editName',
-                    mine:{
+                    action: 'webrtc',
+                    event: 'editName',
+                    mine: {
                         id: localUserId
                     },
-                    room:{
+                    room: {
                         id: roomId
                     },
-                    webrtc:{
+                    webrtc: {
                         id: gmUserId,
                         name: val
                     },
@@ -1290,27 +1346,32 @@
         });
 
         // 改名取消按钮
-        $('#gaimingCancelBtn').click(function(){
+        $('#gaimingCancelBtn').click(function () {
             UIkit.modal("#gaimingModal").hide();
         })
 
         //静音按钮
         var isUserAudioFlag = true;
-        $('#userList').on('click','.voice',function(){
+        $('#userList').on('click', '.voice', function () {
             let userAudioId = $(this).parents('li').attr('data-id');
+            let userAudioId11 = $(this).parents('li').attr('id');
+            var aa = '#' + userAudioId11 + ' i.redColor';
+            var bb = '#' + userAudioId11 + ' #' + $(this).attr('id');
+            openClose(aa, bb);
             ws.send({
-                action:'webrtc',
+                action: 'webrtc',
                 event: 'userAudio',
-                mine:{
+                mine: {
                     id: localUserId
                 },
-                webrtc:{
+                webrtc: {
                     id: userAudioId  // 用户id
                 },
                 auth: isUserAudioFlag // true静音/false取消静音
             });
             isUserAudioFlag = !isUserAudioFlag;
         });
+
         function setRoomUserId(userId) {
             return 'roomUser_' + userId;
         }
@@ -1324,7 +1385,7 @@
 <script src="js/sonic.js"></script>
 
 <script>
-    function CanvasShow(){
+    function CanvasShow() {
         var loaders = [
             {
                 width: 300,
@@ -1334,14 +1395,14 @@
                 pointDistance: .025,
                 strokeColor: '#05E2FF',
                 fps: 20,
-                setup: function() {
+                setup: function () {
                     this._.lineWidth = 2;
                 },
-                step: function(point, index) {
+                step: function (point, index) {
                     var cx = this.padding + 50,
                         cy = this.padding + 50,
                         _ = this._,
-                        angle = (Math.PI/180) * (point.progress * 360);
+                        angle = (Math.PI / 180) * (point.progress * 360);
                     this._.globalAlpha = Math.max(.5, this.alpha);
                     _.beginPath();
                     _.moveTo(point.x, point.y);

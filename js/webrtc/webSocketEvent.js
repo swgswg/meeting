@@ -46,6 +46,8 @@ var WS = function (obj) {
                 break;
                 case 'setAdmin': this.setAdmin(data);
                 break;
+                case 'cancelAdmin': this.cancelAdmin(data);
+                break;
                 case 'roomLayout': this.roomLayout(data);
                 break;
                 case 'maxVideo': this.maxVideo(data);
