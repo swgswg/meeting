@@ -976,16 +976,15 @@
             openClose('#shareDesktopBtn i.redColor', '#shareDesktopBtn i');
 
             if ($(this).attr('title') === '开启桌面共享') {
-                console.log('开启桌面共享');
                 localStream = {};
                 document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, false, true, videoOptions);
-                replaceTrack(localDisplayStream);
+                replaceTrack(localStream.display);
             }else{
                 localStream = {};
                 document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
-                replaceTrack(localUserStream);
+                replaceTrack(localStream.user);
             }
         });
 
