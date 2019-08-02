@@ -572,6 +572,9 @@ span#roomName {
     cursor: pointer;
     opacity: 0.8;
 }
+.right-icons-container:hover{
+    text-shadow: 0 0 5px #ffffff;
+}
 
 .right-icons-container:hover {
     opacity: 0.7;
