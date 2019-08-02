@@ -199,6 +199,20 @@ function getUserMediaSuccess(stream) {
     localStream.user  = stream;
     // getMediaSuccess();
     localVideoSmall.srcObject = stream;
+    stopDisplayTrack();
+    ws.send({
+        action: 'webrtc',
+        event: 'joinRoom',
+        mine: {
+            id: localUserId
+        },
+        room: {
+            id: roomId,
+            pwd: pwd,
+        },
+    });
+    $('#shareDesktopBtn').attr('title', '开启桌面共享').children('.icon-zhuomianshezhi').removeClass('icon-zhuomianshezhi').addClass('icon-yunzhuomian')
+    
     return navigator.mediaDevices.enumerateDevices();
 }
 
@@ -208,6 +222,19 @@ function getDisplayMediaSuccess(stream) {
     localVideoSmall.srcObject = stream;
     // getMediaSuccess();
     // centerVideoBig.srcObject = stream;
+    stopUserTrack();
+    ws.send({
+        action: 'webrtc',
+        event: 'joinRoom',
+        mine: {
+            id: localUserId
+        },
+        room: {
+            id: roomId,
+            pwd: pwd,
+        },
+    });
+    $('#shareDesktopBtn').attr('title', '停止演示').children('.icon-yunzhuomian').removeClass('icon-yunzhuomian').addClass('icon-zhuomianshezhi')
 }
 
 
@@ -241,6 +268,7 @@ function getDisplayMediaError(e) {
     console.log('getDisplayMediaError');
     console.log(e);
     isDisplayMedia = !isDisplayMedia;
+    
 }
 
 

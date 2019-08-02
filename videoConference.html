@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="uikit-2.25.0/css/components/slider.css">
 
     <!-- 字体图标 -->
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1301614_jpqbozb1m6d.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1301614_4m1r6nqu4q9.css">
 
     <!-- jquery -->
     <script src="js/jquery.min.js"></script>
@@ -531,10 +531,10 @@
                 <div class="right-icons-container icon-margin-r" style="background:#09b708;" id="EnterBtn" title="连接会议">
                     <i class="iconfont icon-jinru right-fonts"></i>
                 </div>
-                <div class="right-icons-container icon-margin-r dianhuared" id="disconnectBtn" title="断开">
+                <div class="right-icons-container icon-margin-r Fdianhuared" id="disconnectBtn" title="断开">
                     <i class="iconfont icon-phonedianhua right-fonts"></i>
                 </div>
-                <div class="right-icons-container icon-margin-r" id="shareDesktopBtn" title="开始桌面共享">
+                <div class="right-icons-container icon-margin-r" id="shareDesktopBtn" title="开启桌面共享">
                     <i class="iconfont icon-yunzhuomian right-fonts"></i>
                 </div>
                 <div class="right-icons-container icon-margin-r"
@@ -927,23 +927,18 @@
         });
 
         /* **************点击开启桌面共享************** */
-        $('#shareDesktopBtn').click(() => {
-            console.log('开启桌面共享');
-            localStream = {};
-            document.getElementById('localVideoSmall').srcObject = null;
-            startWebRTC(localUserId, roomId, roomInfo, false, true, videoOptions);
-            stopUserTrack();
-            ws.send({
-                action: 'webrtc',
-                event: 'joinRoom',
-                mine: {
-                    id: localUserId
-                },
-                room: {
-                    id: roomId,
-                    pwd: pwd,
-                },
-            });
+        $('#shareDesktopBtn').click(function () {
+            if ($(this).attr('title') === '开启桌面共享') {
+                console.log('开启桌面共享');
+                localStream = {};
+                document.getElementById('localVideoSmall').srcObject = null;
+                startWebRTC(localUserId, roomId, roomInfo, false, true, videoOptions);
+            }else{
+                localStream = {};
+                document.getElementById('localVideoSmall').srcObject = null;
+                startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
+
+            }
         });
 
         /* **************分享文件************** */
@@ -1062,8 +1057,34 @@
             }
         }
 
-        $('#quanpingBtn').click(() => {
-            FullScreen();
+        function exitFullScreen() {
+            var el = document;
+            var cfs = el.cancelFullScreen || el.webkitCancelFullScreen || el.exitFullScreen;
+            if (typeof cfs != "undefined" && cfs) {
+                cfs.call(el);
+            } else if (typeof window.ActiveXObject != "undefined") {
+                var wscript = new ActiveXObject("WScript.Shell");
+                if (wscript != null) {
+                    wscript.SendKeys("{F11}");
+                }
+            } else if (el.msExitFullscreen) {
+                el.msExitFullscreen();
+            } else if (el.oRequestFullscreen) {
+                el.oCancelFullScreen();
+            } else {
+                swal({
+                    title: "浏览器不支持全屏调用！", text: "请更换浏览器或按F11键切换全屏！(3秒后自动关闭)", type: "error", timer: 3000
+                });
+            }
+        }
+        $('#quanpingBtn').click(function(){
+            if ($(this).attr('title') === '全屏') {
+                $(this).attr('title', '取消全屏').children('.icon-fangda').removeClass('icon-fangda').addClass('icon-suoxiao')
+                FullScreen();
+            }else{
+                exitFullScreen()
+                $(this).attr('title', '全屏').children('.icon-suoxiao').removeClass('icon-suoxiao').addClass('icon-fangda')
+            }
         });
 
 
