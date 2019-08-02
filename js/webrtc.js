@@ -788,6 +788,7 @@ function receiveContent(userName, userId, message) {
         </li>
     `;
     $('#chatList').append(str);
+    $(".meeting-chatList").scrollTop($(".meeting-chatList")[0].scrollHeight);
 }
 
 
