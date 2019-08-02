@@ -415,7 +415,6 @@
             }
             // 放置 大屏
             function oneVideo() {
-                console.log($('video.videoStyle'), 'aaaa')
                 if($('video.videoStyle').length == 0){
                     $('.allVideo').each(function (i) {
                         if(i == 0){
@@ -436,7 +435,7 @@
                     $('.allVideo').each(function () {
                         if ($(this).attr('data-id') != bigId) {
                             $('#otherVideo').append($(this));
-                            $(this).wrap('<li></li>')
+                            $(this).wrap('<li></li>');
                             $(this).show();
                         }
                     })
@@ -444,7 +443,7 @@
                     console.log('b')
                     $('.allVideo').each(function (i) {
                         if(i == 0){
-                            $(this).addClass('videoStyle')
+                            $(this).addClass('videoStyle');
                             $(this).show();
                             $('.meeting-r-center').append($(this));
                         }else{
@@ -492,7 +491,7 @@
                 $('.allVideo').each(function (i) {
                     if (i <= 3) {
                         $('.videoList-4 ul').append($(this));
-                        $(this).wrap('<li></li>')
+                        $(this).wrap('<li></li>');
                         $(this).show();
                     }
                 })
