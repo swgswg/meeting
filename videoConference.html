@@ -689,7 +689,7 @@
                 },
             });
         }, 1000);
-
+        $('#menuBtn').hide();
 
         // ws事件
         if (localUserId || userName || roomId || pwd) {
@@ -724,7 +724,11 @@
                 $('#roomNum').text(roomInfo.roomId);
                 $('#userNum').text(`—— 共${roomInfo.userCount}人` );
                 $('#roomName').text(roomInfo.name);
-
+                if(localUserId == roomInfo.owner){
+                    $('#menuBtn').show();
+                }else{
+                    $('#menuBtn').hide();
+                }
                 // 设置userInfo
                 if (data.userInfo || data.userInfo.length > 0) {
                     $('#userList').empty();
@@ -843,25 +847,25 @@
         var deviceWidth = document.documentElement.clientWidth;
         document.documentElement.style.fontSize = deviceWidth / 13.36 + 'px';
         $('#closeL').on('click', function () {
-            var left = 0
-            var timer = 0
+            var left = 0;
+            var timer = 0;
             timer = setInterval(function () {
                 if (left < 25) {
-                    left += 1
+                    left += 1;
                     $('.meeting-l').css({
                         left: '-' + left + '%'
-                    })
+                    });
                     $('.meeting-r').css({
                         left: (25 - left) + '%',
                         width: (75 + left) + '%'
-                    })
+                    });
                 } else {
                     clearInterval(timer);
                 }
             }, 20);
             $('#closeL').css('display', 'none');
             $('#openL').css('display', 'block')
-        })
+        });
         $('#openL').on('click', function () {
             var left = -25;
             var timer = 0;
@@ -881,7 +885,7 @@
             }, 20);
             $('#openL').css('display', 'none');
             $('#closeL').css('display', 'block');
-        })
+        });
         /* 图标区域 */
         /* **************点击静音麦克风************** */
         var isAudio = true; // false静音
@@ -890,19 +894,20 @@
         } else if(localStream.display){
             isAudio = localStream.display.getAudioTracks()[0].enabled;
         }
+        muteHandle(isAudio);
         function muteHandle(isAudio){
-            if(isAudio === true){
-                $('#muteBtn').attr('title', '取消静音').children('.icon-maikefeng').removeClass('icon-maikefeng').addClass('icon-maikefeng-jingyin')
-            }else{
+            if(isAudio){
                 $('#muteBtn').attr('title', '静音麦克风').children('.icon-maikefeng-jingyin').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng')
+            }else{
+                $('#muteBtn').attr('title', '取消静音').children('.icon-maikefeng').removeClass('icon-maikefeng').addClass('icon-maikefeng-jingyin')
             }
         }
         $('#muteBtn').click(() => {
             isAudio = !isAudio;
             muteHandle(isAudio);
+            openClose('#muteBtn i.redColor', '#muteBtn i');
             muteUserAudio(isAudio);
             muteDisplayAudio(isAudio);
-
         });
 
         /* **************点击禁用摄像头************** */
@@ -912,15 +917,23 @@
         } else if(localStream.display){
             isVideo = localStream.display.getVideoTracks()[0].enabled;
         }
+        videoHandle(isVideo);
         function videoHandle(isVideo){
-            if(isVideo === true){
-                $('#cameraCloseBtn').attr('title', '启用摄像头').children('.icon-shexiangtou_shiti').removeClass('icon-shexiangtou_shiti').addClass('icon-video-off')
-            }else{
+            if(isVideo){
                 $('#cameraCloseBtn').attr('title', '禁用摄像头').children('.icon-video-off').removeClass('icon-video-off').addClass('icon-shexiangtou_shiti')
+            }else{
+                $('#cameraCloseBtn').attr('title', '启用摄像头').children('.icon-shexiangtou_shiti').removeClass('icon-shexiangtou_shiti').addClass('icon-video-off')
             }
         }
-
+        function openClose(a, b){
+            if($(a).length > 0){
+                $(b).removeClass('redColor');
+            }else{
+                $(b).addClass('redColor');
+            }
+        }
         $('#cameraCloseBtn').click(() => {
+            openClose('#cameraCloseBtn i.redColor', '#cameraCloseBtn i');
             isVideo = !isVideo;
             videoHandle(isVideo);
             muteUserVideo(isVideo);
@@ -960,6 +973,8 @@
 
         /* **************点击开启桌面共享************** */
         $('#shareDesktopBtn').click(function () {
+            openClose('#shareDesktopBtn i.redColor', '#shareDesktopBtn i');
+
             if ($(this).attr('title') === '开启桌面共享') {
                 console.log('开启桌面共享');
                 localStream = {};

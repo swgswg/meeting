@@ -596,6 +596,9 @@ span#roomName {
 .dianhuared {
     background: #f14435;
 }
+.redColor{
+    color: #f14435 !important;
+}
 
 /* 分屏容器开始 */
 .fenping-container {
