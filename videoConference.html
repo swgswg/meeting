@@ -772,7 +772,16 @@
 
             // 最大视频的人
             WS.prototype.maxVideo = function (data) {
-                bigVideo(data.maxVideoId);
+                // 判断中间是否有视频
+                if(localUserId != data.maxVideoId){
+                    if($('video.videoStyle').length > 0){
+                        $('video.videoStyle').each(function () {
+                            $(this).removeClass('videoStyle');
+                            $('body').append($(this))
+                        });
+                    }
+                    bigVideo(data.maxVideoId);
+                }
             };
 
             // 修改名称
@@ -1123,27 +1132,34 @@
             if(localUserId !== roomInfo.owner){
                 return;
             }
-            unFlex4();
-            unVideo1I7();
+            let maxVideoId = $(this).parent().attr('data-id');
+            // unFlex4();
+            // unVideo1I7();
+            // 判断中间是否有图片
             var isImg = $('img.imageStyle')
             if(isImg.length > 0){
                 isImg.remove();
             }
+            // 判断中间是否有pdf
             if($('object').length > 0){
                 $('object').remove();
             }
-            if($('video.videoStyle').length > 0){
-                $('video.videoStyle').each(function () {
-                    $(this).removeClass('videoStyle');
-                    $('body').append($(this))
-                });
+            // 判断中间是否有视频
+            if(localUserId != maxVideoId){
+                if($('video.videoStyle').length > 0){
+                    $('video.videoStyle').each(function () {
+                        $(this).removeClass('videoStyle');
+                        $('body').append($(this))
+                    });
+                }
+                bigVideo(maxVideoId);
             }
+            // 判断左上方的小屏
             if($('.onePeople-videoBox video').length > 0){
                 $('.onePeople-videoBox video').each(function () {
                     $('body').append($(this))
                 });
             }
-            let maxVideoId = $(this).parent().attr('data-id');
             ws.send({
                 action:'webrtc',
                 event:'maxVideo',
@@ -1155,7 +1171,7 @@
                 },
                 maxVideoId: maxVideoId
             });
-            bigVideo(maxVideoId);
+            console.log(localUserId == maxVideoId)
         });
 
 

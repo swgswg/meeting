@@ -257,7 +257,7 @@ function gotDevices(deviceInfos) {}
 function createRemoteVideoElement(userId) {
     if(!document.getElementById(userId)) {
         if(userId === roomInfo.owner && localUserId !== roomInfo.owner){
-            if($('video .imageStyle').length <= 0){
+            if($('image.imageStyle').length == 0 && $('object.imageStyle').length == 0 && $('video.videoStyle').length == 0){
                 $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
             }else{
                 $('body').append(`
@@ -265,9 +265,13 @@ function createRemoteVideoElement(userId) {
                 `);
             }
         }else{
-            $('body').append(`
-                <video class="allVideo" id="${userId}" data-id="${userId}" playsinline autoplay style="display: none;"></video>
-            `);
+            if($('image.imageStyle').length == 0 && $('object.imageStyle').length == 0 && $('video.videoStyle').length == 0){
+                $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
+            }else{
+                $('body').append(`
+                    <video class="allVideo" id="${userId}" data-id="${userId}" playsinline autoplay style="display: none;"></video>
+                `);
+            }
         }
     }
 }
