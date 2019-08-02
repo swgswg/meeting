@@ -209,10 +209,11 @@ span#roomName {
     position: absolute;
     top: 0.4rem;
     right: 0.15rem;
-    width: 0.6rem;
-    height: 0.75rem;
+    /* width: 0.6rem;
+    height: 0.75rem; */
+    padding: 0 5px;
     background: #ffffff;
-    z-index: 2;
+    z-index: 10;
     box-shadow: 0 0 0.02rem #ccc;
     border-radius: 0.02rem;
     display: none;
@@ -236,16 +237,15 @@ span#roomName {
 .meeting-list i.more {
     cursor: pointer;
 }
-
 .gmdialog{
-    width: 3.5rem;
+    width: 3.5rem !important;
     height: 1.9rem;
-    background: #f5f5f5;
+    background: #f5f5f5 !important;
     border-radius: 0.05rem;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%)!important;
-    margin: 0;
+    margin: 0 !important;
 }
 .gmInp{
     box-sizing: border-box;
