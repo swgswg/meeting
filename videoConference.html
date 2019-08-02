@@ -964,12 +964,10 @@
             openClose('#shareDesktopBtn i.redColor', '#shareDesktopBtn i');
 
             if ($(this).attr('title') === '开启桌面共享') {
-                localStream = {};
                 document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, false, true, videoOptions);
 
             }else{
-                localStream = {};
                 document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
             }

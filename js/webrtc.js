@@ -164,14 +164,11 @@ function setVideoConstraints(options = {}) {
  * @param options
  */
 function getUserMedia(options = {}) {
-    // const audioSource = audioInputSelect.value;
-    // const videoSource = videoSelect.value;
     let constraints  = setVideoConstraints(options);
     if(navigator.mediaDevices.getUserMedia){
         navigator.mediaDevices
             .getUserMedia(constraints)
             .then(getUserMediaSuccess)
-            .then(gotDevices)
             .catch(getUserMediaError);
         
     } else {
@@ -201,8 +198,8 @@ function getDisplayMedia() {
 
 var autoEnter = true;
 function getUserMediaSuccess(stream) {
+    localStream = {};
     localStream.user  = stream;
-    // getMediaSuccess();
     localVideoSmall.srcObject = stream;
     if(autoEnter){
         ws.send({
@@ -221,33 +218,17 @@ function getUserMediaSuccess(stream) {
         replaceTrack(localStream.user);
     }
     $('#shareDesktopBtn').attr('title', '开启桌面共享').children('.icon-zhuomianshezhi').removeClass('icon-zhuomianshezhi').addClass('icon-yunzhuomian')
-    return navigator.mediaDevices.enumerateDevices();
 }
 
 
 function getDisplayMediaSuccess(stream) {
+    localStream = {};
     localStream.display  = stream;
     localVideoSmall.srcObject = stream;
     replaceTrack(localStream.display);
-    // getMediaSuccess();
-    // centerVideoBig.srcObject = stream;
     $('#shareDesktopBtn').attr('title', '停止演示').children('.icon-yunzhuomian').removeClass('icon-yunzhuomian').addClass('icon-zhuomianshezhi')
 }
 
-
-/**
- * WebRTC 开启成功
- * 绑定自己的音视频到video标签
- * @param stream
- * @returns {Promise<MediaDeviceInfo[]>}
- */
-function getMediaSuccess(){
-    if(isDisplayMedia){
-        // document.getElementById('displayMediaButton').textContent = '共享视频';
-    } else {
-        // document.getElementById('displayMediaButton').textContent = '共享屏幕';
-    }
-}
 
 
 /**
@@ -267,10 +248,6 @@ function getDisplayMediaError(e) {
     isDisplayMedia = !isDisplayMedia;
     
 }
-
-
-// 切换摄像头 麦克风
-function gotDevices(deviceInfos) {}
 
 
 
