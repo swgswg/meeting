@@ -199,10 +199,27 @@ function getDisplayMedia() {
 }
 
 
+var autoEnter = true;
 function getUserMediaSuccess(stream) {
     localStream.user  = stream;
     // getMediaSuccess();
     localVideoSmall.srcObject = stream;
+    if(autoEnter){
+        ws.send({
+            action: 'webrtc',
+            event: 'joinRoom',
+            mine: {
+                id: localUserId
+            },
+            room: {
+                id: roomInfo.roomId,
+                pwd: roomInfo.psw,
+            },
+        });
+        autoEnter = false;
+    } else {
+        replaceTrack(localStream.user);
+    }
     $('#shareDesktopBtn').attr('title', '开启桌面共享').children('.icon-zhuomianshezhi').removeClass('icon-zhuomianshezhi').addClass('icon-yunzhuomian')
     return navigator.mediaDevices.enumerateDevices();
 }
@@ -211,20 +228,9 @@ function getUserMediaSuccess(stream) {
 function getDisplayMediaSuccess(stream) {
     localStream.display  = stream;
     localVideoSmall.srcObject = stream;
+    replaceTrack(localStream.display);
     // getMediaSuccess();
     // centerVideoBig.srcObject = stream;
-    
-    // ws.send({
-    //     action: 'webrtc',
-    //     event: 'joinRoom',
-    //     mine: {
-    //         id: localUserId
-    //     },
-    //     room: {
-    //         id: roomId,
-    //         pwd: pwd,
-    //     },
-    // });
     $('#shareDesktopBtn').attr('title', '停止演示').children('.icon-yunzhuomian').removeClass('icon-yunzhuomian').addClass('icon-zhuomianshezhi')
 }
 

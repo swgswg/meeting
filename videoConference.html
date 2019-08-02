@@ -676,19 +676,7 @@
         // 开启视频
         let videoOptions = JSON.parse(localStorage.getItem('setOptions')) || {};
         startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
-        setTimeout(function () {
-            ws.send({
-                action: 'webrtc',
-                event: 'joinRoom',
-                mine: {
-                    id: localUserId
-                },
-                room: {
-                    id: roomId,
-                    pwd: pwd,
-                },
-            });
-        }, 1000);
+
         $('#menuBtn').hide();
 
         // ws事件
@@ -979,12 +967,11 @@
                 localStream = {};
                 document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, false, true, videoOptions);
-                replaceTrack(localStream.display);
+
             }else{
                 localStream = {};
                 document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
-                replaceTrack(localStream.user);
             }
         });
 
@@ -992,7 +979,7 @@
         let shareModal = UIkit.modal("#shareDocModal");
         // 取消按钮
         $('#shareCancelBtn').click(() => {
-            shareModal.hide()
+            shareModal.hide();
         })
         // 点击上传图片
         $('#imgInp').change(function () {
