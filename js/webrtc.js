@@ -9,8 +9,10 @@ var isDisplayMedia = false;
 
 // 显示自己的video标签
 var localVideoSmall = document.getElementById('localVideoSmall');
-var width = localVideoSmall.offsetWidth;
-var height = localVideoSmall.offsetHeight;
+// var width = localVideoSmall.offsetWidth;
+// var height = localVideoSmall.offsetHeight;
+var width = 380;
+var height = 190;
 
 
 // 本地视频资源
@@ -107,9 +109,11 @@ function startWebRTC(_userId, _roomId, _roomInfo, useUserStream = false, useDisp
 function getMediaStream(useUserStream = false, useDisplayStream = false, options = {}) {
     if(navigator.mediaDevices){
         if(useUserStream){
+            stopDisplayTrack();
             getUserMedia(options);
         }
         if(useDisplayStream){
+            stopUserTrack();
             getDisplayMedia();
         }
     }else {
@@ -199,20 +203,7 @@ function getUserMediaSuccess(stream) {
     localStream.user  = stream;
     // getMediaSuccess();
     localVideoSmall.srcObject = stream;
-    stopDisplayTrack();
-    ws.send({
-        action: 'webrtc',
-        event: 'joinRoom',
-        mine: {
-            id: localUserId
-        },
-        room: {
-            id: roomId,
-            pwd: pwd,
-        },
-    });
     $('#shareDesktopBtn').attr('title', '开启桌面共享').children('.icon-zhuomianshezhi').removeClass('icon-zhuomianshezhi').addClass('icon-yunzhuomian')
-    
     return navigator.mediaDevices.enumerateDevices();
 }
 
@@ -222,18 +213,18 @@ function getDisplayMediaSuccess(stream) {
     localVideoSmall.srcObject = stream;
     // getMediaSuccess();
     // centerVideoBig.srcObject = stream;
-    stopUserTrack();
-    ws.send({
-        action: 'webrtc',
-        event: 'joinRoom',
-        mine: {
-            id: localUserId
-        },
-        room: {
-            id: roomId,
-            pwd: pwd,
-        },
-    });
+    
+    // ws.send({
+    //     action: 'webrtc',
+    //     event: 'joinRoom',
+    //     mine: {
+    //         id: localUserId
+    //     },
+    //     room: {
+    //         id: roomId,
+    //         pwd: pwd,
+    //     },
+    // });
     $('#shareDesktopBtn').attr('title', '停止演示').children('.icon-yunzhuomian').removeClass('icon-yunzhuomian').addClass('icon-zhuomianshezhi')
 }
 
@@ -285,7 +276,7 @@ function gotDevices(deviceInfos) {}
 function createRemoteVideoElement(userId) {
     if(!document.getElementById(userId)) {
         if(userId === roomInfo.owner && localUserId !== roomInfo.owner){
-            if($('image.imageStyle').length == 0 && $('object.imageStyle').length == 0 && $('video.videoStyle').length == 0){
+            if($('image.imageStyle').length == 0 && $('object.imageStyle').length == 0 && $('video.videoStyle').length == 0 && $('#in').length > 0){
                 $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
             }else{
                 $('body').append(`
@@ -293,7 +284,7 @@ function createRemoteVideoElement(userId) {
                 `);
             }
         }else{
-            if($('image.imageStyle').length == 0 && $('object.imageStyle').length == 0 && $('video.videoStyle').length == 0){
+            if($('image.imageStyle').length == 0 && $('object.imageStyle').length == 0 && $('video.videoStyle').length == 0 && $('#in').length > 0){
                 $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
             }else{
                 $('body').append(`
@@ -568,7 +559,6 @@ function muteDisplayAudio(enabled) {
  * @returns {boolean}
  */
 function muteAudio(stream, enabled = false) {
-    
     let audioTracks = stream.getAudioTracks();
     if (audioTracks.length === 0) {
         return false;
@@ -637,6 +627,50 @@ function stopTrack(stream) {
     if(stream){
         stream.getTracks().forEach( (track) => {
             track.stop();
+        });
+    }
+}
+
+
+/**
+ * 获取远程媒体
+ */
+function getReceivers() {
+    for (let k in remotePeer){
+        // let remoteStreams = remotePeer[k].getRemoteStreams();
+        let stream = new MediaStream();
+        remotePeer[k].getReceivers().forEach(function(receiver) {
+            stream.addTrack(receiver.track);
+        });
+        // document.getElementById(`${k}_new`).srcObject = stream;
+    }
+}
+
+
+/**
+ * // 获取本地媒体
+ */
+function getSenders() {
+    for (let k in remotePeer){
+        let stream = new MediaStream();
+        remotePeer[k].getSenders().forEach(function(sender) {
+            stream.addTrack(sender.track);
+        });
+        // document.getElementById(`${k}_new`).srcObject = stream;
+    }
+    
+}
+
+
+/**
+ * 替换媒体源
+ */
+function replaceTrack(stream) {
+    for (let k in remotePeer) {
+        remotePeer[k].getSenders().forEach(function(sender) {
+            if (sender.track.kind === 'video' ) {
+                sender.replaceTrack(stream.getTracks()[0]);
+            }
         });
     }
 }
@@ -868,6 +902,8 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
                 readSlice(offset);
             }, 100);
         } else {
+            $('#in').remove();
+            $('.meeting-r-center').removeClass('bb');
             readEnd(file);
         }
     });
@@ -876,4 +912,25 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
         fileReader.readAsArrayBuffer(slice);
     };
     readSlice(0);
+    pdtStart();
+    
+}
+function pdtStart(){
+    var ppp = $('.meeting-r-center video.videoStyle');
+    if(ppp.length > 0){
+        console.log('aaa')
+        ppp.removeClass('videoStyle');
+        $('.onePeople-videoBox').append(ppp);
+    }
+    unFlex4();
+    unVideo1I7();
+    if($('img.imageStyle').length>0){
+        $('img.imageStyle').remove()
+    }
+    var str = `
+<div id="in"></div>
+`;
+    $('.meeting-r-center').append(str);
+    $('.meeting-r-center').addClass('bb');
+    CanvasShow();
 }

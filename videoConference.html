@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="uikit-2.25.0/css/components/slider.css">
 
     <!-- 字体图标 -->
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1301614_4m1r6nqu4q9.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1301614_dt4m8ehyqlc.css">
 
     <!-- jquery -->
     <script src="js/jquery.min.js"></script>
@@ -676,6 +676,20 @@
         // 开启视频
         let videoOptions = JSON.parse(localStorage.getItem('setOptions')) || {};
         startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
+        setTimeout(function () {
+            ws.send({
+                action: 'webrtc',
+                event: 'joinRoom',
+                mine: {
+                    id: localUserId
+                },
+                room: {
+                    id: roomId,
+                    pwd: pwd,
+                },
+            });
+        }, 1000);
+
 
         // ws事件
         if (localUserId || userName || roomId || pwd) {
@@ -821,6 +835,7 @@
                 cleanOneUser(data.from.id);
             };
 
+            // 开启ws
             ws = new WS();
         }
 
@@ -869,31 +884,48 @@
         })
         /* 图标区域 */
         /* **************点击静音麦克风************** */
-        var isAudio = true;
-        $('#muteBtn').click(() => {
-            if(isAudio){
-                muteUserAudio(false);
-                muteDisplayAudio(false);
-                isAudio = false;
-            } else {
-                muteUserAudio(true);
-                muteDisplayAudio(true);
-                isAudio = true;
+        var isAudio = true; // false静音
+        if(localStream.user){
+            isAudio = localStream.user.getAudioTracks()[0].enabled;
+        } else if(localStream.display){
+            isAudio = localStream.display.getAudioTracks()[0].enabled;
+        }
+        function muteHandle(isAudio){
+            if(isAudio === true){
+                $('#muteBtn').attr('title', '取消静音').children('.icon-maikefeng').removeClass('icon-maikefeng').addClass('icon-maikefeng-jingyin')
+            }else{
+                $('#muteBtn').attr('title', '静音麦克风').children('.icon-maikefeng-jingyin').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng')
             }
+        }
+        $('#muteBtn').click(() => {
+            isAudio = !isAudio;
+            muteHandle(isAudio);
+            muteUserAudio(isAudio);
+            muteDisplayAudio(isAudio);
+
         });
 
         /* **************点击禁用摄像头************** */
         var isVideo = true;
-        $('#cameraCloseBtn').click(() => {
-            if(isVideo){
-                muteUserVideo(false);
-                muteDisplayVideo(false);
-                isVideo = false;
-            } else {
-                muteUserVideo(true);
-                muteDisplayVideo(true);
-                isVideo = true;
+        if(localStream.user){
+            isVideo = localStream.user.getVideoTracks()[0].enabled;
+        } else if(localStream.display){
+            isVideo = localStream.display.getVideoTracks()[0].enabled;
+        }
+        function videoHandle(isVideo){
+            if(isVideo === true){
+                $('#cameraCloseBtn').attr('title', '启用摄像头').children('.icon-shexiangtou_shiti').removeClass('icon-shexiangtou_shiti').addClass('icon-video-off')
+            }else{
+                $('#cameraCloseBtn').attr('title', '禁用摄像头').children('.icon-video-off').removeClass('icon-video-off').addClass('icon-shexiangtou_shiti')
             }
+        }
+
+        $('#cameraCloseBtn').click(() => {
+            isVideo = !isVideo;
+            videoHandle(isVideo);
+            muteUserVideo(isVideo);
+            muteDisplayVideo(isVideo);
+
         });
         // 连接会议室
         // $('#disconnectBtn').hide();
@@ -933,10 +965,12 @@
                 localStream = {};
                 document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, false, true, videoOptions);
+                replaceTrack(localDisplayStream);
             }else{
                 localStream = {};
                 document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
+                replaceTrack(localUserStream);
             }
         });
 
@@ -1289,7 +1323,65 @@
 <script src="js/webrtc/webSocketEvent.js"></script>
 <script src="js/webrtc.js"></script>
 <script src="js/webrtc/ga.js"></script>
+<script src="js/sonic.js"></script>
 
+<script>
+    function CanvasShow(){
+        var loaders = [
+            {
+                width: 300,
+                height: 300,
+                stepsPerFrame: 1,
+                trailLength: 1,
+                pointDistance: .025,
+                strokeColor: '#05E2FF',
+                fps: 20,
+                setup: function() {
+                    this._.lineWidth = 2;
+                },
+                step: function(point, index) {
+                    var cx = this.padding + 50,
+                        cy = this.padding + 50,
+                        _ = this._,
+                        angle = (Math.PI/180) * (point.progress * 360);
+                    this._.globalAlpha = Math.max(.5, this.alpha);
+                    _.beginPath();
+                    _.moveTo(point.x, point.y);
+                    _.lineTo(
+                        (Math.cos(angle) * 35) + cx,
+                        (Math.sin(angle) * 35) + cy
+                    );
+                    _.closePath();
+                    _.stroke();
+                    _.beginPath();
+                    _.moveTo(
+                        (Math.cos(-angle) * 32) + cx,
+                        (Math.sin(-angle) * 32) + cy
+                    );
+                    _.lineTo(
+                        (Math.cos(-angle) * 27) + cx,
+                        (Math.sin(-angle) * 27) + cy
+                    );
+                    _.closePath();
+                    _.stroke();
+                },
+                path: [
+                    ['arc', 50, 50, 40, 0, 360]
+                ]
+            },
+        ];
+        var d, a, container = document.getElementById('in');
+        for (var i = -1, l = loaders.length; ++i < l;) {
+            d = document.createElement('div');
+            d.className = 'l';
+            console.log(i);
+            a = new Sonic(loaders[i]);
+            d.appendChild(a.canvas);
+            container.appendChild(d);
+            a.play();
+        }
+    }
+</script>
 </body>
 
 </html>
