@@ -168,9 +168,12 @@
         // roomInfo: 房间号roomId  密码psw  userId 用户名userName
         var roomInfo ={}
 
-        roomInfo.userId = 'webrtc_' + getRandChars(6);    //用户id
-        // 开启ws
-        // ws.open();
+        if(localStorage.getItem('roomInfo')){
+          var info = JSON.parse(localStorage.getItem('roomInfo'));
+          roomInfo.userId = info.userId;
+        }else{
+          roomInfo.userId = 'webrtc_' + getRandChars(6); //用户id
+        }
 
         // 创建会议室开始
         // var RoomId = userId = 'webrtc_' + getRandChars(6);
