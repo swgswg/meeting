@@ -88,7 +88,7 @@
                             mine: {
                                 id: localUserId
                             },
-                            roomId: {
+                            room: {
                                 id: roomId
                             },
                             auth: isAllMute // true静音/false取消静音
@@ -125,134 +125,6 @@
                             }, 1000);
                         }
                     });
-
-                    // var userList = [
-                    //     {
-                    //         userName: '中华小当家',
-                    //         identity: '主持人', //主持人、访客
-                    //         founder: 1, //会议室创始人 1创始人   0非创始人
-                    //     },
-                    //     {
-                    //         userName: '华北扛把子',
-                    //         identity: '访客', //主持人、访客
-                    //         founder: 0, //会议室创始人 1创始人   0非创始人
-                    //     },
-                    //     {
-                    //         userName: '神厨小福贵',
-                    //         identity: '主持人', //主持人、访客
-                    //         founder: 0, //会议室创始人 1创始人   0非创始人
-                    //     },
-                    //     {
-                    //         userName: '李现女朋友',
-                    //         identity: '访客', //主持人、访客
-                    //         founder: 0, //会议室创始人 1创始人   0非创始人
-                    //     },
-                    //     {
-                    //         userName: '隔壁老樊',
-                    //         identity: '访客', //主持人、访客
-                    //         founder: 0, //会议室创始人 1创始人   0非创始人
-                    //     },
-                    //     {
-                    //         userName: '大吉大利，晚上吃鸡',
-                    //         identity: '访客', //主持人、访客
-                    //         founder: 0, //会议室创始人 1创始人   0非创始人
-                    //     }
-                    // ]
-                    // var str = '';
-                    // // 按钮数组
-                    // let moreSetBtn = [];
-                    // // 弹窗数组
-                    // let moreSetDialog = [];
-                    // // 静音数组
-                    // let muteArr = [];
-                    // // 改名数组
-                    // let gmArr = [];
-                    // // 移除数组
-                    // let ycArr = [];
-                    // // 保存会议所有人的id
-                    // let idArr = [];
-                    // userList.forEach((item, index) => {
-                    //     // 把所有人的id保存到idArr中
-                    //     idArr.push(item.id);
-                    //     // 循环绑定按钮id
-                    //     let btnId = `btn${index}`;
-                    //     // 循环绑定弹窗id
-                    //     let dlgId = `dlg${index}`;
-                    //     // 循环绑定静音id
-                    //     let muteId = `jingyin${index}`
-                    //     // 循环绑定改名id
-                    //     let gmId = `gm${index}`
-                    //     // 循环绑定移除id
-                    //     let ycId = `yc${index}`;
-                    //     // 保存所有按钮id，给每个更多按钮设置点击事件，绑定元素id
-                    //     moreSetBtn.push(btnId);
-                    //     // 保存所有弹窗id，给每个更多按钮设置对应的弹框
-                    //     moreSetDialog.push(dlgId);
-                    //     // 保存所有静音id
-                    //     muteArr.push(muteId);
-                    //     // 保存所有改名id
-                    //     gmArr.push(gmId)
-                    //     // 保存所有移除id
-                    //     ycArr.push(ycId)
-                    //     str += `
-                    //         <li>
-                    //             <i class="iconfont icon-icontouxiang-copy avatar"></i>
-                    //             <span ${item.founder == 1 ? '' : 'class="dis-n"'}>主持人</span>
-                    //             <em ${item.founder == 1 ? '' : 'class="dis-n"'}>（我）</em>
-                    //             <span> ${item.founder == 0 ? item.userName : ''}</span>
-                    //             <span> ${item.founder == 0 ? item.identity : ''}</span>
-                    //
-                    <!-- 更多 -->
-                    //             <i ${item.founder == 1 || item.identity == '主持人' ? 'class="iconfont icon-gengduo fr more"' : 'class="dis-n"'}  title="设置更多" id="${btnId}" ></i>
-                    //
-                    <!-- 麦克风 -->
-                    //             <i ${item.founder == 1 || item.identity == '主持人' ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.userName}" id="${muteId}"></i>
-                    //             <div ${item.founder == 1 || item.identity == '主持人' ? 'class="setMore-dialog"' : 'class="dis-n"'} id="${dlgId}">
-                    //               <div class="setMore-item" id="${gmId}">改名</div>
-                    //               <div class="setMore-item" id="${ycId}">移除</div>
-                    //             </div>
-                    //
-                    //         </li>
-                    //     `
-                    // })
-                    // $('#userList').append(str)
-                    // // 循环绑定更多设置按钮点击事件
-                    // moreSetBtn.forEach((item, index) => {
-                    //     $(`#${item}`).click(function() {
-                    //         if ($(`#${moreSetDialog[index]}`).css('display') === 'none') {
-                    //             $(`#${moreSetDialog[index]}`).show();
-                    //         } else {
-                    //             $(`#${moreSetDialog[index]}`).hide()
-                    //         }
-                    //     })
-                    // });
-                    //
-                    //
-                    // // 循环绑定按钮改名点击事件
-                    // gmArr.forEach((item, index) => {
-                    //     $(`#${item}`).click(function () {
-                    //         // 返回改名人的id
-                    //         console.log(idArr[index])
-                    //         return idArr[index];
-                    //     })
-                    // })
-                    // // 循环绑定按钮移除点击事件
-                    // ycArr.forEach((item, index) => {
-                    //     $(`#${item}`).click(function () {
-                    //         // 返回改名人的id
-                    //         console.log(idArr[index])
-                    //         return idArr[index];
-                    //     })
-                    // })
-                    // // 循环绑定按钮静音点击事件
-                    // muteArr.forEach((item, index) => {
-                    //     $(`#${item}`).click(function () {
-                    //         // 返回改名人的id
-                    //         console.log(idArr[index])
-                    //         return idArr[index];
-                    //     })
-                    // })
-
                 })
             </script>
         </div>
@@ -287,7 +159,6 @@
             <!-- 会议聊天--会话结束 -->
             <script>
                 $(function () {
-
                     // 回车发送
                     $(document).keydown(function (e) {
                         if (e.keyCode == 13) {
@@ -304,7 +175,7 @@
                         UIkit.notify("发送内容不能为空！", {
                             status: 'danger',
                             timeout: 1000
-                        })
+                        });
                         return;
                     }
                     sendChannelData({
