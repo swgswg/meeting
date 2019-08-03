@@ -529,7 +529,7 @@
             </div>
         </div>
         <!-- 修改昵称弹窗结束 -->
-        <!-- 音视频统计弹窗开始 -->
+        <!-- 音视频统计弹窗 start -->
         <div class="uk-animation-scale-up BigTable">
             <div>
                 <table>
@@ -561,30 +561,7 @@
                 </table>
             </div>
         </div>
-        <!-- 音视频统计弹窗开始 -->
-        <script>
-            $(function(){
-                $('.BigTable').hide();
-            });
-            function openClose(a, b) {
-                if ($(a).length > 0) {
-                    $(b).removeClass('redColor');
-                } else {
-                    $(b).addClass('redColor');
-                }
-            }
-            $('#tongjiBtn').on('click', function(){
-                openClose('#tongjiBtn i.redColor', '#tongjiBtn i');
-                streamState();
-                if($('.BigTable').css('display') == 'none'){
-                    $('.BigTable').show();
-                }else if ($('.BigTable').css('display') == 'block'){
-                    $('.BigTable').hide();
-
-                }
-            })
-
-        </script>
+        <!-- 音视频统计弹窗 end -->
     </div>
 </div>
 
@@ -632,11 +609,6 @@
             };
 
             WS.prototype.joined = function (data) {
-                // UIkit.notify("进入会议室成功", {
-                //     status: 'success',
-                //     timeout: 1000
-                // });
-
                 for (let k in data.roomInfo) {
                     roomInfo[k] = data.roomInfo[k]
                 }
@@ -886,24 +858,6 @@
             muteDisplayVideo(isVideo);
 
         });
-        // 连接会议室
-        // $('#disconnectBtn').hide();
-        // $('#EnterBtn').on('click', function () {
-        //     $(this).hide();
-        //     // $('#disconnectBtn').show();
-        //     ws.send({
-        //         action: 'webrtc',
-        //         event: 'joinRoom',
-        //         mine: {
-        //             id: localUserId
-        //         },
-        //         room: {
-        //             id: roomId,
-        //             pwd: pwd,
-        //         },
-        //     });
-        //
-        // });
 
         /* **************点击挂断************** */
         $('#disconnectBtn').click(() => {
@@ -1060,6 +1014,20 @@
             $('#8screen').find("img").eq(0).attr('src', './images/8screen.png');
             $('#8screen').find("img").eq(0).attr('src', './images/8click.png');
         })
+
+
+        /* **************音视频统计开始************** */
+        $('.BigTable').hide();
+        $('#tongjiBtn').on('click', function(){
+            openClose('#tongjiBtn i.redColor', '#tongjiBtn i');
+            streamState();
+            if($('.BigTable').css('display') == 'none'){
+                $('.BigTable').show();
+            }else if ($('.BigTable').css('display') == 'block'){
+                $('.BigTable').hide();
+            }
+        });
+        /* **************音视频统计结束 end************** */
 
         /* **************点击全屏按钮开始************** */
         function FullScreen() {
