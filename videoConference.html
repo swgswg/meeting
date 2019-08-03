@@ -688,9 +688,14 @@
                 $(`#${roomUserId}`).remove();
                 cleanOneUser(data.from.id);
                 if (removeUserId === localUserId) {
-                    alert('您已被移出会议室!!!');
-                    ws.close();
-                    window.location.href = 'index.html';
+                    UIkit.notify("您已被移出会议室!!!", {
+                        status: 'success',
+                        timeout: 1000
+                    });
+                    setTimeout(function () {
+                        ws.close();
+                        window.location.href = 'index.html';
+                    }, 500);
                 }
             };
 
