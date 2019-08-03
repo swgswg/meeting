@@ -28,8 +28,8 @@
       <file leaf-file-name="videoConference.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videoConference.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="653" column="42" lean-forward="true" selection-start-line="653" selection-start-column="42" selection-end-line="653" selection-end-column="42" />
+            <state relative-caret-position="700">
+              <caret line="1072" column="126" selection-start-line="1072" selection-start-column="126" selection-end-line="1072" selection-end-column="126" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
               </folding>
@@ -178,12 +178,12 @@
       <updated>1564625835053</updated>
       <workItem from="1564625836499" duration="54779000" />
       <workItem from="1564721863848" duration="20696000" />
-      <workItem from="1564799286966" duration="2254000" />
+      <workItem from="1564799286966" duration="2401000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77729000" />
+    <option name="totallyTimeSpent" value="77876000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -369,8 +369,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/videoConference.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="653" column="42" lean-forward="true" selection-start-line="653" selection-start-column="42" selection-end-line="653" selection-end-column="42" />
+        <state relative-caret-position="700">
+          <caret line="1072" column="126" selection-start-line="1072" selection-start-column="126" selection-end-line="1072" selection-end-column="126" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
           </folding>

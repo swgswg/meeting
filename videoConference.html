@@ -1069,8 +1069,8 @@
                         <div ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="setMore-dialog gengduoDialog"' : 'class="dis-n"'} id="${dlgId}">
                         <div class="setMore-item gaimingBtn" id="${gmId}">改名</div>
                         <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) ? 'setMore-item yichuBtn' : 'setMore-item dis-n yichuBtn'} id="${ycId}">移除</div>
-                        <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) ? 'setMore-item addAdminC' : 'setMore-item addAdminC dis-n'}" data-id="${item.id}">设为主持人</div>
-                        <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) ? 'setMore-item cancelAdminC' : 'setMore-item cancelAdminC dis-n'}" data-id="${item.id}">取消主持人</div>
+                        <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) && (item.id !== adminId) ? 'setMore-item addAdminC' : 'setMore-item addAdminC dis-n'}" data-id="${item.id}">设为主持人</div>
+                        <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) && (item.id === adminId) ? 'setMore-item cancelAdminC' : 'setMore-item cancelAdminC dis-n'}" data-id="${item.id}">取消主持人</div>
                         </div>
                         </li>
                     `);
