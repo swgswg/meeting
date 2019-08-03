@@ -223,7 +223,19 @@ function getDisplayMediaSuccess(stream) {
     localVideoSmall.srcObject = stream;
     replaceTrack(stream);
     $('#shareDesktopBtn').attr('title', '停止演示').children('.icon-yunzhuomian').removeClass('icon-yunzhuomian').addClass('icon-zhuomianshezhi')
+    ws.send({
+        action: 'webrtc',
+        event: 'maxVideo',
+        mine: {
+            id: localUserId
+        },
+        room: {
+            id: roomId,
+        },
+        maxVideoId: localUserId
+    });
 }
+
 
 
 
