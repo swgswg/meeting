@@ -915,14 +915,17 @@
                     if ($('img.imageStyle').length > 0) {
                         $('img.imageStyle').remove()
                     }
+                    if ($('object.videoStyle').length > 0) {
+                        $('object.videoStyle').remove()
+                    }
                     if (num == 1) {
                         var str = `
-                            < img src="${href}" class="imageStyle"></img>
+                            <img src="${href}" class="imageStyle" />
                         `;
                         $('.meeting-r-center').append(str);
                     } else if (num == 2) {
                         var str = `
-                            <object data="${href}" class="imageStyle"></object>
+                            <object data="${href}" class="videoStyle"></object>
                         `;
                         $('.meeting-r-center').append(str);
                     }
@@ -1015,6 +1018,7 @@
 
 
         var setRoomUserF;
+
         function setRoomUser(userInfo, adminId = 0) {
             setRoomUserF = userInfo;
             $('#userList').empty();
@@ -1031,7 +1035,7 @@
             // 保存会议所有人的id
             var idArr = [];
             userInfo.forEach(function (item, index) {
-                if (item || (item.id !== localUserId) ) {
+                if (item || (item.id !== localUserId)) {
                     let roomUserId = setRoomUserId(item.id);
 
                     // 把所有人的id保存到idArr中
@@ -1308,7 +1312,6 @@
         for (var i = -1, l = loaders.length; ++i < l;) {
             d = document.createElement('div');
             d.className = 'l';
-            console.log(i);
             a = new Sonic(loaders[i]);
             d.appendChild(a.canvas);
             container.appendChild(d);

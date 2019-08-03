@@ -825,7 +825,6 @@ function onChannelMessage(event) {
             receiveContent(message.data.userName, message.data.userId, message.data.content);
         }
     } catch (e) {
-        console.log(e);
         // 文件数据
         receiveChannelFile( event.data );
     }
@@ -849,9 +848,15 @@ function receiveChannelFile(fileBuffer) {
             bbb.removeClass('videoStyle');
             $('.onePeople-videoBox').append(bbb);
         }
+        if ($('img.imageStyle').length > 0) {
+            $('img.imageStyle').remove()
+        }
+        if ($('object.videoStyle').length > 0) {
+            $('object.videoStyle').remove()
+        }
         if(['pdf'].includes(ext)){
             let str = `
-                <object data="${href}" class="imageStyle"></object>
+                <object data="${href}" class="videoStyle"></object>
             `;
             $('.meeting-r-center').append(str);
             
@@ -897,7 +902,6 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
 function pdfStart(){
     var ppp = $('.meeting-r-center video.videoStyle');
     if(ppp.length > 0){
-        console.log('aaa');
         ppp.removeClass('videoStyle');
         $('.onePeople-videoBox').append(ppp);
     }
