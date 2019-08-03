@@ -697,7 +697,7 @@
             WS.prototype.editName = function (data) {
                 if (data.webrtc.id) {
                     let roomUserId = setRoomUserId(data.webrtc.id);
-                    $(`#${roomUserId} span`).text(data.webrtc.name);
+                    $(`#${roomUserId} span.itemName`).text(data.webrtc.name);
                 }
             };
 
@@ -1145,7 +1145,7 @@
                         <li id="${roomUserId}" data-id="${item.id}">
                         <i class="iconfont icon-icontouxiang-copy avatar"></i>
                         <span ${(item.id === roomInfo.owner) ? '' : 'class="dis-n"'}>创始人</span>
-                        <span> ${(item.id !== roomInfo.owner) ? item.name : ''}</span>
+                        <span class="itemName"> ${(item.id !== roomInfo.owner) ? item.name : ''}</span>
                         <span> ${(item.id === roomInfo.owner) || (localUserId === adminId) || (item.id === adminId) ? '主持人' : '访客'}</span>
                         <em ${(item.id === localUserId) ? '' : 'class="dis-n"'}>（我）</em>
                         <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多" id="${btnId}" ></i>
@@ -1307,7 +1307,7 @@
         // 改名取消按钮
         $('#gaimingCancelBtn').click(function () {
             UIkit.modal("#gaimingModal").hide();
-        })
+        });
 
         //静音按钮
         var isUserAudioFlag = true;

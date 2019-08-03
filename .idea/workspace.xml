@@ -28,17 +28,13 @@
       <file leaf-file-name="videoConference.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videoConference.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="588">
-              <caret line="1046" column="79" selection-start-line="1046" selection-start-column="79" selection-end-line="1046" selection-end-column="79" />
+            <state relative-caret-position="363">
+              <caret line="699" column="51" selection-start-line="699" selection-start-column="51" selection-end-line="699" selection-end-column="51" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
                 <element signature="e#38191#41599#0" />
-                <element signature="e#47573#47970#0" />
-                <element signature="e#48037#48438#0" />
-                <element signature="e#48500#49910#0" />
                 <element signature="e#49998#50239#0" />
                 <element signature="e#50319#50918#0" />
-                <element signature="e#51251#51836#0" />
                 <element signature="e#52078#52766#0" />
               </folding>
             </state>
@@ -49,13 +45,11 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>localStream</find>
       <find>.right-icons-container</find>
       <find>setModalqxBtn</find>
       <find>setAdmin</find>
       <find>closeR</find>
       <find>gmdialog</find>
-      <find>editName</find>
       <find>muteAudi</find>
       <find>muteAudio</find>
       <find>您</find>
@@ -79,6 +73,8 @@
       <find>streamState()</find>
       <find>tbody</find>
       <find>console.log</find>
+      <find>edit</find>
+      <find>editName</find>
     </findStrings>
     <replaceStrings>
       <replace>localVideoSmall</replace>
@@ -186,12 +182,12 @@
       <updated>1564625835053</updated>
       <workItem from="1564625836499" duration="54779000" />
       <workItem from="1564721863848" duration="20696000" />
-      <workItem from="1564799286966" duration="24268000" />
+      <workItem from="1564799286966" duration="24611000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99743000" />
+    <option name="totallyTimeSpent" value="100086000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -261,12 +257,8 @@
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="e#38191#41599#0" />
-            <element signature="e#47573#47970#0" />
-            <element signature="e#48037#48438#0" />
-            <element signature="e#48500#49910#0" />
             <element signature="e#49998#50239#0" />
             <element signature="e#50319#50918#0" />
-            <element signature="e#51251#51836#0" />
             <element signature="e#52078#52766#0" />
           </folding>
         </state>
@@ -300,12 +292,8 @@
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="e#38191#41599#0" />
-            <element signature="e#47573#47970#0" />
-            <element signature="e#48037#48438#0" />
-            <element signature="e#48500#49910#0" />
             <element signature="e#49998#50239#0" />
             <element signature="e#50319#50918#0" />
-            <element signature="e#51251#51836#0" />
             <element signature="e#52078#52766#0" />
           </folding>
         </state>
@@ -399,17 +387,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/videoConference.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="1046" column="79" selection-start-line="1046" selection-start-column="79" selection-end-line="1046" selection-end-column="79" />
+        <state relative-caret-position="363">
+          <caret line="699" column="51" selection-start-line="699" selection-start-column="51" selection-end-line="699" selection-end-column="51" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="e#38191#41599#0" />
-            <element signature="e#47573#47970#0" />
-            <element signature="e#48037#48438#0" />
-            <element signature="e#48500#49910#0" />
             <element signature="e#49998#50239#0" />
             <element signature="e#50319#50918#0" />
-            <element signature="e#51251#51836#0" />
             <element signature="e#52078#52766#0" />
           </folding>
         </state>
