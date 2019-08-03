@@ -353,8 +353,10 @@ function onTrack(userId) {
  * @param e
  */
 function getRemoteStream(userId, e){
-    document.getElementById(userId).srcObject = null;
-    document.getElementById(userId).srcObject = e.streams[0];
+    if(document.getElementById(userId)){
+        document.getElementById(userId).srcObject = null;
+        document.getElementById(userId).srcObject = e.streams[0];
+    }
 }
 
 

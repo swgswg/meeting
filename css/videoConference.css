@@ -589,7 +589,7 @@ span#roomName {
 }
 
 .right-fonts {
-    font-size: 0.3rem;
+    font-size: 0.25rem !important;
     color: #ffffff !important;
 }
 
