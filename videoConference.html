@@ -1060,9 +1060,9 @@
                     $('#userList').append(`
                         <li id="${roomUserId}" data-id="${item.id}">
                         <i class="iconfont icon-icontouxiang-copy avatar"></i>
-                        <span ${item.id === roomInfo.owner ? '' : 'class="dis-n"'}>房主</span>
+                        <span ${item.id === roomInfo.owner ? '' : 'class="dis-n"'}>创始人</span>
                         <span> ${item.id !== roomInfo.owner ? item.name : ''}</span>
-                        <span> ${item.id !== roomInfo.owner ? '访客' : '主持人'}</span>
+                        <span> ${item.id === roomInfo.owner || localUserId === adminId ? '主持人' : '访客'}</span>
                         <em ${item.id === localUserId ? '' : 'class="dis-n"'}>（我）</em>
                         <i ${localUserId === roomInfo.owner ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多" id="${btnId}" ></i>
                         <i ${localUserId === roomInfo.owner || localUserId === adminId ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.name}" id="${muteId}"></i>
