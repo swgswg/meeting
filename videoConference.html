@@ -498,12 +498,12 @@
                 <div class="uk-modal-header">选择分享内容</div>
                 <div class="share-container">
                     <div class="share-item" id="shareImgBtn">
-                        <input type="file" id="imgInp" class="share-input">
+                        <input type="file" id="imgInp" accept="image/*" class="share-input">
                         <img src="./images/shareImg.png" class="share-img" alt="">
                         <p class="share-title">图片</p>
                     </div>
                     <div class="share-item">
-                        <input type="file" id="pdfInp" class="share-input">
+                        <input type="file" id="pdfInp" accept=".pdf" class="share-input">
                         <img src="./images/sharePDF.png" class="share-img" alt="">
                         <p class="share-title">PDF</p>
                     </div>
@@ -884,13 +884,34 @@
         // 点击上传图片
         $('#imgInp').change(function () {
             let file = $(this)[0].files[0];
-            sendF(file, 1);
+            if(file){
+                let ext = getFileExt(file.name);
+                if( ['png', 'jpeg', 'jpg', 'gif'].includes(ext) ){
+                    sendF(file, 1);
+                } else {
+                    UIkit.notify("上传图片格式为[png/jpeg/jpg/gif]!", {
+                        status: 'error',
+                        timeout: 1000
+                    });
+                }
+            }
+
         });
 
         // 点击上传pdf
         $('#pdfInp').change(function () {
             let file = $(this)[0].files[0];
-            sendF(file, 2);
+            if(file){
+                let ext = getFileExt(file.name);
+                if( ['pdf'].includes(ext) ){
+                    sendF(file, 2);
+                } else {
+                    UIkit.notify("上传pdf文件!", {
+                        status: 'error',
+                        timeout: 1000
+                    });
+                }
+            }
         });
 
 
@@ -942,6 +963,8 @@
             }, () => {
                 buffers = [];
                 chunks = 0;
+                $('#imgInp').val('');
+                $('#pdfInp').val('');
             });
             // 关闭模态框
             shareModal.hide()
