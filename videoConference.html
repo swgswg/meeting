@@ -1066,7 +1066,7 @@
                         <em ${item.id === localUserId ? '' : 'class="dis-n"'}>（我）</em>
                         <i ${localUserId === roomInfo.owner ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多" id="${btnId}" ></i>
                         <i ${localUserId === roomInfo.owner || localUserId === adminId ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.name}" id="${muteId}"></i>
-                        <div ${localUserId === roomInfo.owner ? 'class="setMore-dialog gengduoDialog"' : 'class="dis-n"'} id="${dlgId}">
+                        <div ${localUserId === roomInfo.owner || localUserId === adminId ? 'class="setMore-dialog gengduoDialog"' : 'class="dis-n"'} id="${dlgId}">
                         <div class="setMore-item gaimingBtn" id="${gmId}">改名</div>
                         <div class="${localUserId === roomInfo.owner && item.id !== roomInfo.owner ? 'setMore-item yichuBtn' : 'setMore-item dis-n yichuBtn'} id="${ycId}">移除</div>
                         <div class="${localUserId === roomInfo.owner && item.id !== roomInfo.owner ? 'setMore-item addAdminC' : 'setMore-item addAdminC dis-n'}" data-id="${item.id}">设为主持人</div>
