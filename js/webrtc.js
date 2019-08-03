@@ -810,6 +810,7 @@ function onChannelMessage(event) {
     try {
         let message = JSON.parse(event.data);
         if(message.data.hasFile){
+            pdfStart();
             fileInfo = {};
             fileInfo = {
                 userId: message.userId,
@@ -842,7 +843,6 @@ function receiveChannelFile(fileBuffer) {
     if (fileInfo.chunkSize >= fileInfo.fileSize) {
         let received = new Blob(fileInfo.buffer, {type: fileInfo.fileType});
         let href = URL.createObjectURL(received);
-        console.log(href);
         let ext = getFileExt(fileInfo.fileName);
         let bbb = $('.meeting-r-center video.videoStyle');
         if(bbb.length > 0){
@@ -862,6 +862,7 @@ function receiveChannelFile(fileBuffer) {
             $('.meeting-r-center').append(str);
         }
         fileInfo = {};
+        pdfEnd();
     }
 }
 
@@ -881,8 +882,7 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
                 readSlice(offset);
             }, 100);
         } else {
-            $('#in').remove();
-            $('.meeting-r-center').removeClass('bb');
+            pdfEnd();
             readEnd(file);
         }
     });
@@ -891,25 +891,31 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
         fileReader.readAsArrayBuffer(slice);
     };
     readSlice(0);
-    pdtStart();
+    pdfStart();
     
 }
-function pdtStart(){
+function pdfStart(){
     var ppp = $('.meeting-r-center video.videoStyle');
     if(ppp.length > 0){
-        console.log('aaa')
+        console.log('aaa');
         ppp.removeClass('videoStyle');
         $('.onePeople-videoBox').append(ppp);
     }
     unFlex4();
     unVideo1I7();
     if($('img.imageStyle').length>0){
-        $('img.imageStyle').remove()
+        $('img.imageStyle').remove();
     }
     var str = `
-<div id="in"></div>
-`;
+        <div id="in"></div>
+    `;
     $('.meeting-r-center').append(str);
     $('.meeting-r-center').addClass('bb');
     CanvasShow();
+}
+
+
+function pdfEnd() {
+    $('#in').remove();
+    $('.meeting-r-center').removeClass('bb');
 }
