@@ -102,7 +102,6 @@
 
                         }
                         isAllMute = !isAllMute;
-
                     });
 
 
@@ -635,14 +634,14 @@
 
             // 全体静音
             WS.prototype.muteAudio = function (data) {
-                muteUserAudio(data.auth);
-                muteDisplayAudio(data.auth);
+                muteUserAudio(!data.auth);
+                muteDisplayAudio(!data.auth);
             };
 
             // 用户静音
             WS.prototype.userAudio = function (data) {
-                muteUserAudio(data.auth);
-                muteDisplayAudio(data.auth);
+                muteUserAudio(!data.auth);
+                muteDisplayAudio(!data.auth);
             };
 
             // 设置管理者
