@@ -778,15 +778,10 @@ function onChannelSend(userId, data) {
 function onChannelState(userId) {
     if(remoteChannel[userId]){
         const readyState = remoteChannel[userId].readyState;
-        // console.log('remoteChannel state');
-        // console.log(readyState);
         if (readyState === 'open') {
-            // document.querySelector('#Send').disabled = false;
-            // document.querySelector('#sendValue').focus();
-            // document.querySelector('#sendButton').disabled = false;
+        
         } else {
             document.querySelector('#Send').disabled = true;
-            // document.querySelector('#sendButton').disabled = true;
         }
     }
 }
@@ -943,24 +938,99 @@ function pdfEnd() {
 
 // 获取音视频流信息
 var streamInfo = [];
+var prevLocalInfo = {};
+var prevRemoteInfo = {};
 function streamState() {
+    streamInfo = [];
     for (let k in remotePeer) {
         remotePeer[k].getSenders().forEach(function (sender) {
-            sender.getStats().then( (res)=>{
-                res.forEach( (report)=>{
-                    console.log('本地', report.type);
-                    console.log(report);
-                } );
-            } );
+            if(sender.track.kind === 'video'){
+                let nowLocalInfo = {source: '本地', userId: k};
+                sender.getStats().then( (res)=>{
+                    if(!prevLocalInfo[k] ){
+                        prevLocalInfo[k] = {};
+                    }
+                    
+                    res.forEach( (report)=>{
+                        if( report.type === 'codec' ){
+                            nowLocalInfo.mediaType = report.mimeType;
+                            
+                        } else if( report.type === 'track' ){
+                            nowLocalInfo.width = report.frameWidth;
+                            nowLocalInfo.height = report.frameHeight;
+                            
+                            if( !prevLocalInfo[k].framesSent ){
+                                prevLocalInfo[k].framesSent = report.framesSent;
+                                nowLocalInfo.framesSent = 30;
+                                
+                            } else {
+                                nowLocalInfo.framesSent = report.framesSent - prevLocalInfo[k].framesSent;
+                                prevLocalInfo[k].framesSent = report.framesSent;
+                            }
+                            
+                        } else if(report.type === 'outbound-rtp'){
+                            nowLocalInfo.packetsLost = 0;
+                            
+                        } else if(report.type === 'transport'){
+                            if( !prevLocalInfo[k].bytesSent ){
+                                prevLocalInfo[k].bytesSent = report.bytesSent;
+                                prevLocalInfo[k].timestamp = report.timestamp;
+                                nowLocalInfo.bitrate = 0;
+                                
+                            } else {
+                                nowLocalInfo.bitrate = 8 * (report.bytesSent - prevLocalInfo[k].bytesSent) / (report.timestamp - prevLocalInfo[k].timestamp);
+                                prevLocalInfo[k].bytesSent = report.bytesSent;
+                            }
+                        }
+                    });
+                });
+                streamInfo.push(nowLocalInfo);
+            }
         });
         
+        
         remotePeer[k].getReceivers().forEach(function (receiver) {
-            receiver.getStats().then( (res)=>{
-                res.forEach( (report)=>{
-                    console.log('远程', report.type);
-                    console.log(report);
-                } );
-            } );
+            if(receiver.track.kind === 'video'){
+                let nowRemoteInfo = {'source': '远程', userId: k};
+                receiver.getStats().then( (res)=>{
+                    if(!prevRemoteInfo[k] ){
+                        prevRemoteInfo[k] = {};
+                    }
+                    res.forEach( (report)=>{
+                        if(report.type === 'codec' ){
+                            nowRemoteInfo.mediaType = report.mimeType;
+    
+                        }else if( (report.type === 'track') && (report.kind === 'video') ){
+                            nowRemoteInfo.width = report.frameWidth;
+                            nowRemoteInfo.height = report.frameHeight;
+                            
+                             if( !prevRemoteInfo[k].framesReceived ){
+                                prevRemoteInfo[k].framesSent = report.framesReceived;
+                                nowRemoteInfo.framesSent = 30;
+                            } else {
+                                nowRemoteInfo.framesSent = report.framesReceived - prevRemoteInfo[k].framesSent;
+                                prevRemoteInfo[k].framesSent = report.framesReceived;
+                            }
+                
+                        } else if(report.type === 'inbound-rtp'){
+                            nowRemoteInfo.packetsLost = report.packetsLost / report.packetsReceived;
+                            
+                        } else if(report.type === 'transport'){
+                             if( !prevRemoteInfo[k].bytesSent ){
+                                prevRemoteInfo[k].bytesSent = report.bytesSent;
+                                prevRemoteInfo[k].timestamp = report.timestamp;
+                                nowRemoteInfo.bitrate = 0;
+                                
+                            } else {
+                                nowRemoteInfo.bitrate = 8 * (report.bytesSent - prevRemoteInfo[k].bytesSent) / (report.timestamp - prevRemoteInfo[k].timestamp);
+                                prevRemoteInfo[k].bytesSent = report.bytesSent;
+                            }
+                        }
+                    });
+                });
+                streamInfo.push(nowRemoteInfo);
+            }
         });
+        
     }
 }

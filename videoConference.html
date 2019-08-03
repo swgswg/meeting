@@ -305,7 +305,6 @@
                 unVideo1I7()
                 var bigId = $('.videoStyle').attr('data-id');
                 if ($('.videoStyle').length > 0) {
-                    console.log('a')
                     $('.videoStyle').show();
                     $('.allVideo').each(function () {
                         if ($(this).attr('data-id') != bigId) {
@@ -315,7 +314,6 @@
                         }
                     })
                 } else {
-                    console.log('b')
                     $('.allVideo').each(function (i) {
                         if (i == 0) {
                             $(this).addClass('videoStyle');
@@ -533,30 +531,16 @@
         <div class="uk-animation-scale-up BigTable">
             <div>
                 <table>
-                    <tbody><tr>
-                        <th>名称</th>
-                        <th>通道</th>
-                        <th>编码器</th>
-                        <th>分辨率</th>
-                        <th>帧率</th>
-                        <th>码率</th>
-                        <th>丢包率</th>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <table>
-                    <tbody>
-                    <tr>
-                        <td>本端</td>
-                        <td>音频发送</td>
-                        <td>opus</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>22kbps</td>
-                        <td>0%</td>
-                    </tr>
+                    <tbody id="tongjiList">
+                    <!--<tr>-->
+                        <!--<th>名称</th>-->
+                        <!--<th>通道</th>-->
+                        <!--<th>编码器</th>-->
+                        <!--<th>分辨率</th>-->
+                        <!--<th>帧率</th>-->
+                        <!--<th>码率</th>-->
+                        <!--<th>丢包率</th>-->
+                    <!--</tr>-->
                     </tbody>
                 </table>
             </div>
@@ -576,7 +560,6 @@
 
     $(function () {
         roomInfo = JSON.parse(localStorage.getItem('roomInfo')) || {};
-        console.log(roomInfo);
         localUserId = roomInfo.userId || null;
         userName = roomInfo.userName || null;
         roomId = roomInfo.roomId || null;
@@ -946,7 +929,6 @@
                     let href = URL.createObjectURL(received);
                     var ppp = $('.meeting-r-center video.videoStyle');
                     if (ppp.length > 0) {
-                        console.log('aaa')
                         ppp.removeClass('videoStyle');
                         $('.onePeople-videoBox').append(ppp);
                     }
@@ -1008,7 +990,6 @@
         })
         // 点击1+7大屏切换图片
         $('#8screen').click(() => {
-            console.log('111')
             $('#1screen').find("img").eq(0).attr('src', './images/1screen.png');
             $('#4screen').find("img").eq(0).attr('src', './images/4screen.png');
             $('#8screen').find("img").eq(0).attr('src', './images/8screen.png');
@@ -1018,15 +999,59 @@
 
         /* **************音视频统计开始************** */
         $('.BigTable').hide();
+        var clearSet = null;
         $('#tongjiBtn').on('click', function(){
             openClose('#tongjiBtn i.redColor', '#tongjiBtn i');
-            streamState();
+
             if($('.BigTable').css('display') == 'none'){
                 $('.BigTable').show();
+                prevLocalInfo = {};
+                prevRemoteInfo = {};
+                clearSet = setInterval(function () {
+                    streamState();
+                    setTimeout(function () {
+                        setRoomTJ(streamInfo);
+                    }, 500);
+                }, 1000);
             }else if ($('.BigTable').css('display') == 'block'){
                 $('.BigTable').hide();
+                clearInterval(clearSet);
             }
         });
+
+        function setRoomTJ(dataList) {
+            $('#tongjiList').empty().append(`
+                    <tr>
+                        <th>名称</th>
+                        <th>通道</th>
+                        <th>编码器</th>
+                        <th>分辨率</th>
+                        <th>帧率</th>
+                        <th>码率</th>
+                        <th>丢包率</th>
+                    </tr>
+                `);
+            let dataListLen = dataList.length;
+            let setRoomUserFLen = setRoomUserF.length;
+            for (let i = 0; i < dataListLen; ++i){
+                for (let j = 0; j < setRoomUserFLen; ++j){
+                    if(setRoomUserF[j].id === dataList[i].userId){
+                        $('#tongjiList').append(`
+                            <tr>
+                                <td>${dataList[i].source === '远程' ?  setRoomUserF[j].name : dataList[i].source}</td>
+                                <td>${dataList[i].source === '本地' ? '视频发送' : '视频接收'}</td>
+                                <td>${dataList[i].mediaType}</td>
+                                <td>${dataList[i].width}x${dataList[i].height}</td>
+                                <td>${parseInt(dataList[i].framesSent)}</td>
+                                <td>${parseInt(dataList[i].bitrate)}kbps</td>
+                                <td>${(dataList[i].packetsLost * 100).toFixed(2)}%</td>
+                            </tr>
+                        `);
+                        break;
+                    }
+                }
+            }
+        }
         /* **************音视频统计结束 end************** */
 
         /* **************点击全屏按钮开始************** */
@@ -1074,7 +1099,6 @@
 
 
         var setRoomUserF;
-
         function setRoomUser(userInfo, adminId = 0) {
             setRoomUserF = userInfo;
             $('#userList').empty();
