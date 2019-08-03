@@ -11,8 +11,8 @@ var isDisplayMedia = false;
 var localVideoSmall = document.getElementById('localVideoSmall');
 // var width = localVideoSmall.offsetWidth;
 // var height = localVideoSmall.offsetHeight;
-var width = 380;
-var height = 190;
+var width = 500;
+var height = 375;
 
 
 // 本地视频资源
@@ -913,6 +913,7 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
     pdfStart();
     
 }
+
 function pdfStart(){
     var ppp = $('.meeting-r-center video.videoStyle');
     if(ppp.length > 0){
@@ -936,4 +937,30 @@ function pdfStart(){
 function pdfEnd() {
     $('#in').remove();
     $('.meeting-r-center').removeClass('bb');
+}
+
+
+
+// 获取音视频流信息
+var streamInfo = [];
+function streamState() {
+    for (let k in remotePeer) {
+        remotePeer[k].getSenders().forEach(function (sender) {
+            sender.getStats().then( (res)=>{
+                res.forEach( (report)=>{
+                    console.log('本地', report.type);
+                    console.log(report);
+                } );
+            } );
+        });
+        
+        remotePeer[k].getReceivers().forEach(function (receiver) {
+            receiver.getStats().then( (res)=>{
+                res.forEach( (report)=>{
+                    console.log('远程', report.type);
+                    console.log(report);
+                } );
+            } );
+        });
+    }
 }

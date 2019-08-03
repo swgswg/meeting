@@ -424,8 +424,8 @@
             <!-- 中间图标结束 -->
             <!-- 右侧图标开始 -->
             <div class="right-icons right-icons-r fr">
-                <!-- 连接状态 -->
-                <div class="right-icons-container xinxi-icon" title="连接状态">
+                <!-- 音视频统计 -->
+                <div class="right-icons-container xinxi-icon" title="音视频统计" id="tongjiBtn">
                     <i class="iconfont icon-xinxi right-fonts"></i>
                 </div>
                 <!-- 全屏 -->
@@ -529,6 +529,62 @@
             </div>
         </div>
         <!-- 修改昵称弹窗结束 -->
+        <!-- 音视频统计弹窗开始 -->
+        <div class="uk-animation-scale-up BigTable">
+            <div>
+                <table>
+                    <tbody><tr>
+                        <th>名称</th>
+                        <th>通道</th>
+                        <th>编码器</th>
+                        <th>分辨率</th>
+                        <th>帧率</th>
+                        <th>码率</th>
+                        <th>丢包率</th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>本端</td>
+                        <td>音频发送</td>
+                        <td>opus</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>22kbps</td>
+                        <td>0%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 音视频统计弹窗开始 -->
+        <script>
+            $(function(){
+                $('.BigTable').hide();
+            });
+            function openClose(a, b) {
+                if ($(a).length > 0) {
+                    $(b).removeClass('redColor');
+                } else {
+                    $(b).addClass('redColor');
+                }
+            }
+            $('#tongjiBtn').on('click', function(){
+                openClose('#tongjiBtn i.redColor', '#tongjiBtn i');
+                streamState();
+                if($('.BigTable').css('display') == 'none'){
+                    $('.BigTable').show();
+                }else if ($('.BigTable').css('display') == 'block'){
+                    $('.BigTable').hide();
+
+                }
+            })
+
+        </script>
     </div>
 </div>
 
