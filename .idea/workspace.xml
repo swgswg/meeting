@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4e629ec7-201e-4971-996b-0b99566e94b8" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/css/videoConference.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/videoConference.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/webrtc.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/webrtc.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/videoConference.html" beforeDir="false" afterPath="$PROJECT_DIR$/videoConference.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -22,8 +19,8 @@
       <file leaf-file-name="webrtc.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/webrtc.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="246" column="15" selection-start-line="246" selection-start-column="4" selection-end-line="246" selection-end-column="15" />
+            <state relative-caret-position="629">
+              <caret line="1015" column="100" lean-forward="true" selection-start-line="1015" selection-start-column="100" selection-end-line="1015" selection-end-column="100" />
             </state>
           </provider>
         </entry>
@@ -31,8 +28,8 @@
       <file leaf-file-name="videoConference.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videoConference.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="1012" selection-start-line="1012" selection-end-line="1012" />
+            <state relative-caret-position="588">
+              <caret line="1046" column="79" selection-start-line="1046" selection-start-column="79" selection-end-line="1046" selection-end-column="79" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
                 <element signature="e#38191#41599#0" />
@@ -189,12 +186,12 @@
       <updated>1564625835053</updated>
       <workItem from="1564625836499" duration="54779000" />
       <workItem from="1564721863848" duration="20696000" />
-      <workItem from="1564799286966" duration="24200000" />
+      <workItem from="1564799286966" duration="24268000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99675000" />
+    <option name="totallyTimeSpent" value="99743000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -395,15 +392,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/webrtc.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="246" column="15" selection-start-line="246" selection-start-column="4" selection-end-line="246" selection-end-column="15" />
+        <state relative-caret-position="629">
+          <caret line="1015" column="100" lean-forward="true" selection-start-line="1015" selection-start-column="100" selection-end-line="1015" selection-end-column="100" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/videoConference.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="1012" selection-start-line="1012" selection-end-line="1012" />
+        <state relative-caret-position="588">
+          <caret line="1046" column="79" selection-start-line="1046" selection-start-column="79" selection-end-line="1046" selection-end-column="79" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
             <element signature="e#38191#41599#0" />
