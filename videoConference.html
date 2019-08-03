@@ -661,17 +661,26 @@
 
             // 最大视频的人
             WS.prototype.maxVideo = function (data) {
-                // 判断中间是否有视频
+            // 判断中间是否有视频
                 if (localUserId != data.maxVideoId) {
                     if ($('video.videoStyle').length > 0) {
                         $('video.videoStyle').each(function () {
                             $(this).removeClass('videoStyle');
                             $('body').append($(this))
                         });
+                    } else if ($('img.imageStyle').length > 0) {
+                        $('img.imageStyle').each(function () {
+                            $(this).remove();
+                        });
+                    } else if ($('object.videoStyle').length > 0) {
+                        $('object.videoStyle').each(function () {
+                            $(this).remove();
+                        });
                     }
                     bigVideo(data.maxVideoId);
                 }
             };
+
 
             // 修改名称
             WS.prototype.editName = function (data) {
