@@ -1220,7 +1220,8 @@
                 if ($('video.videoStyle').length > 0) {
                     $('video.videoStyle').each(function () {
                         $(this).removeClass('videoStyle');
-                        $('body').append($(this))
+                        $('body').append($(this));
+                        $(this).hide();
                     });
                 }
                 bigVideo(maxVideoId);
