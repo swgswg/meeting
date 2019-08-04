@@ -521,11 +521,25 @@ function setLocalAnswer(userId, answerDesc) {
 
 function cleanOneUser(userId) {
     if(remotePeer[userId]){
-        // remotePeer[userId].close();
+        remotePeer[userId].ontrack = null;
+        remotePeer[userId].onremovetrack = null;
+        remotePeer[userId].onremovestream = null;
+        remotePeer[userId].onicecandidate = null;
+        remotePeer[userId].oniceconnectionstatechange = null;
+        remotePeer[userId].onsignalingstatechange = null;
+        remotePeer[userId].onicegatheringstatechange = null;
+        remotePeer[userId].onnegotiationneeded = null;
+        remotePeer[userId].close();
         remotePeer[userId] = null;
         remoteChannel[userId] = null;
         if(document.getElementById(userId)){
-            document.getElementById(userId).srcObject = null;
+            let remoteVideo = document.getElementById(userId);
+            if (remoteVideo.srcObject) {
+                remoteVideo.srcObject.getTracks().forEach(track => track.stop());
+            }
+            remoteVideo.removeAttribute("src");
+            remoteVideo.removeAttribute("srcObject");
+            $(`#${data.from.id}`).remove();
         }
     }
 }

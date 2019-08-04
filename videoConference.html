@@ -593,7 +593,7 @@
 
             WS.prototype.joined = function (data) {
                 for (let k in data.roomInfo) {
-                    roomInfo[k] = data.roomInfo[k]
+                    roomInfo[k] = data.roomInfo[k];
                 }
                 roomInfo.userCount = data.userCount;
 
@@ -672,12 +672,12 @@
 
             // 最大视频的人
             WS.prototype.maxVideo = function (data) {
-            // 判断中间是否有视频
+                // 判断中间是否有视频
                 if (localUserId != data.maxVideoId) {
                     if ($('video.videoStyle').length > 0) {
                         $('video.videoStyle').each(function () {
                             $(this).removeClass('videoStyle');
-                            $('body').append($(this))
+                            $('body').append($(this));
                         });
                     } else if ($('img.imageStyle').length > 0) {
                         $('img.imageStyle').each(function () {
@@ -729,7 +729,6 @@
             WS.prototype.out = function (data) {
                 unFlex4();
                 unVideo1I7();
-                $(`#${data.from.id}`).remove();
                 let roomUserId = setRoomUserId(data.from.id);
                 $(`#${roomUserId}`).remove();
                 cleanOneUser(data.from.id);
@@ -909,7 +908,8 @@
 
 
         function sendF(file, num) {
-            if (file.size <= 0) {
+            // 上传大于10M
+            if (file.size <= 0 || file.size > 1024*1024*10) {
                 return;
             }
             sendChannelData({
