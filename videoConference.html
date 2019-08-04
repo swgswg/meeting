@@ -909,8 +909,11 @@
 
         function sendF(file, num) {
             // 上传大于10M
-            if (file.size <= 0 || file.size > 1024*1024*10) {
+            if ( file.size <= 0 ) {
                 return;
+            }
+            if(file.size > 1024 * 1024 * 10){
+                alert('长传文件不能超过10M!!!');
             }
             sendChannelData({
                 hasFile: true,
