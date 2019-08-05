@@ -653,7 +653,13 @@
                     } else if(5 < len <= 8){
                         screen17();
                     }
-                    setRoomUser(data.userInfo);
+                    let adminId = 0;
+                    data.userInfo.some(function (item) {
+                        if(item.isAmin && item.isAdmin == 1){
+                            adminId = item.id;
+                        }
+                    });
+                    setRoomUser(data.userInfo, adminId);
                 }
                 // 创建 peerConnect
                 cleanOneUser(data.from.id);
