@@ -624,7 +624,15 @@
                 // 设置userInfo
                 if (data.userInfo && data.userInfo.length > 0) {
                     $('#userList').empty();
-                    $('#userNum').text(`—— 共${data.userInfo.length}人`);
+                    let len = data.userInfo.length;
+                    $('#userNum').text(`—— 共${len}人`);
+                    if(0 < len <=2 ){
+                        screen1();
+                    } else if(2 < len <= 5) {
+                        screen4();
+                    } else if(5 < len <= 8){
+                        screen17();
+                    }
                     setRoomUser(data.userInfo);
                 }
                 // 创建 peerConnect
@@ -649,7 +657,8 @@
                 addIceCandidate(data.from.id, data.data);
             };
 
-            function muteDisable (data){ // 访客不可点击自己静音
+            function muteDisable (data){
+                // 访客不可点击自己静音
                 if(data.auth){
                     $('#muteBtn').addClass('disAble');
                     isAudio = false;
@@ -835,7 +844,7 @@
                 $('#muteBtn').attr('title', '取消静音').children('.icon-maikefeng').addClass('redColor').removeClass('icon-maikefeng').addClass('icon-maikefeng-jingyin');
             }
         }
-        
+
         $('#muteBtn').click(() => {
             isAudio = !isAudio;
             muteHandle(isAudio);
@@ -1100,40 +1109,6 @@
         /* **************音视频统计结束 end************** */
 
         /* **************点击全屏按钮开始************** */
-        // function FullScreen() {
-        //     var ele = document.documentElement;
-        //     if (ele.requestFullscreen) {
-        //         ele.requestFullscreen();
-        //     } else if (ele.mozRequestFullScreen) {
-        //         ele.mozRequestFullScreen();
-        //     } else if (ele.webkitRequestFullScreen) {
-        //         ele.webkitRequestFullScreen();
-        //     }
-        // }
-
-        // function exitFullScreen() {
-        //     var el = document;
-        //     var cfs = el.cancelFullScreen || el.webkitCancelFullScreen || el.exitFullScreen;
-        //     if (typeof cfs != "undefined" && cfs) {
-        //         cfs.call(el);
-        //     } else if (typeof window.ActiveXObject != "undefined") {
-        //         var wscript = new ActiveXObject("WScript.Shell");
-        //         if (wscript != null) {
-        //             wscript.SendKeys("{F11}");
-        //         }
-        //     } else if (el.msExitFullscreen) {
-        //         el.msExitFullscreen();
-        //     } else if (el.oRequestFullscreen) {
-        //         el.oCancelFullScreen();
-        //     } else {
-        //         swal({
-        //             title: "浏览器不支持全屏调用！", text: "请更换浏览器或按F11键切换全屏！(3秒后自动关闭)", type: "error", timer: 3000
-        //         });
-        //     }
-        // }
-
-
-
         // 全屏
         function fullScreen() {
             let res = isFullScreen();
@@ -1204,7 +1179,7 @@
                             <i class="iconfont icon-icontouxiang-copy avatar"></i>
                             <span ${(item.id === roomInfo.owner) ? '' : 'class="dis-n"'}>创始人</span>
                             <span class="itemName"> ${(item.id !== roomInfo.owner) ? item.name : ''}</span>
-                            <span> ${(item.id === roomInfo.owner) || (localUserId === adminId) || (item.id === adminId) ? '主持人' : '访客'}</span>
+                            <span> ${(item.id === roomInfo.owner) || (localUserId === adminId && item.id === adminId) || (item.id === adminId) ? '主持人' : '访客'}</span>
                             <em ${(item.id === localUserId) ? '' : 'class="dis-n"'}>（我）</em>
                             <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多"></i>
                             <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.name}"></i>
