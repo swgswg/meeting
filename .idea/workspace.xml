@@ -32,8 +32,8 @@
       <file leaf-file-name="videoConference.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videoConference.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="1181" column="116" selection-start-line="1181" selection-start-column="116" selection-end-line="1181" selection-end-column="116" />
+            <state relative-caret-position="504">
+              <caret line="1360" column="22" lean-forward="true" selection-start-line="1360" selection-start-column="22" selection-end-line="1360" selection-end-column="22" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
               </folding>
@@ -45,7 +45,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>356</find>
       <find>maxVideo</find>
       <find>连接状态</find>
       <find>canv</find>
@@ -75,6 +74,7 @@
       <find>muteDisable</find>
       <find>muteHandle</find>
       <find>setRoomUser</find>
+      <find>userAudio</find>
     </findStrings>
     <replaceStrings>
       <replace>localVideoSmall</replace>
@@ -189,12 +189,12 @@
       <workItem from="1564721863848" duration="20696000" />
       <workItem from="1564799286966" duration="25200000" />
       <workItem from="1564923799631" duration="3111000" />
-      <workItem from="1564966190130" duration="20549000" />
+      <workItem from="1564966190130" duration="20733000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="124335000" />
+    <option name="totallyTimeSpent" value="124519000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -441,8 +441,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/videoConference.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="1181" column="116" selection-start-line="1181" selection-start-column="116" selection-end-line="1181" selection-end-column="116" />
+        <state relative-caret-position="504">
+          <caret line="1360" column="22" lean-forward="true" selection-start-line="1360" selection-start-column="22" selection-end-line="1360" selection-end-column="22" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
           </folding>

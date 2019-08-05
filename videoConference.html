@@ -1152,8 +1152,6 @@
         }
 
 
-
-
         $('#quanpingBtn').click(function () {
             if ($(this).attr('title') === '全屏') {
                 $(this).attr('title', '取消全屏').children('.icon-fangda').removeClass('icon-fangda').addClass('icon-suoxiao')
@@ -1359,6 +1357,9 @@
                 event: 'userAudio',
                 mine: {
                     id: localUserId
+                },
+                room:{
+                    id: roomId
                 },
                 webrtc: {
                     id: userAudioId  // 用户id
