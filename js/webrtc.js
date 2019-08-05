@@ -539,7 +539,7 @@ function cleanOneUser(userId) {
             }
             remoteVideo.removeAttribute("src");
             remoteVideo.removeAttribute("srcObject");
-            $(`#${data.from.id}`).remove();
+            $(`#${userId}`).remove();
         }
     }
 }
@@ -642,11 +642,17 @@ function stopTrack(stream) {
 /**
  * 获取远程媒体
  */
-function getReceivers() {
-    for (let k in remotePeer){
-        // let remoteStreams = remotePeer[k].getRemoteStreams();
+function getReceivers(pc) {
+    
+    // getRemoteStreams接口也可以获取远程媒体源, 但是此接口即将废弃, 不建议使用
+    // let remoteStreams = pc.getRemoteStreams();
+    // document.getElementById(`${k}_new`).srcObject = remoteStreams;
+    
+    
+    // 推荐使用getReceivers接口
+    if(pc && pc.getReceivers){
         let stream = new MediaStream();
-        remotePeer[k].getReceivers().forEach(function(receiver) {
+        pc.getReceivers().forEach(function(receiver) {
             stream.addTrack(receiver.track);
         });
         // document.getElementById(`${k}_new`).srcObject = stream;
@@ -657,15 +663,14 @@ function getReceivers() {
 /**
  * // 获取本地媒体
  */
-function getSenders() {
-    for (let k in remotePeer){
+function getSenders(pc) {
+    if(pc && pc.getSenders){
         let stream = new MediaStream();
-        remotePeer[k].getSenders().forEach(function(sender) {
+        pc.getSenders().forEach(function(sender) {
             stream.addTrack(sender.track);
         });
         // document.getElementById(`${k}_new`).srcObject = stream;
     }
-    
 }
 
 
