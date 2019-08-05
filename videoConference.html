@@ -660,20 +660,36 @@
                     muteHandle(isAudio);
                 }
             }
+
             // 全体静音
             WS.prototype.muteAudio = function (data) {
                 muteUserAudio(!data.auth);
                 muteDisplayAudio(!data.auth);
-                muteDisable(data);
-                openClose('#muteBtn i.redColor', '#muteBtn i');
+                if(data.auth){
+                    $('#muteBtn').addClass('disAble');
+                    isAudio = false;
+                    muteHandle(isAudio);
+                }else{
+                    $('#muteBtn').removeClass('disAble');
+                    isAudio = true;
+                    muteHandle(isAudio);
+                }
+                console.log(data);
             };
 
             // 用户静音
             WS.prototype.userAudio = function (data) {
                 muteUserAudio(!data.auth);
                 muteDisplayAudio(!data.auth);
-                muteDisable(data);
-                openClose('#muteBtn i.redColor', '#muteBtn i');
+                if(data.auth){
+                    $('#muteBtn').addClass('disAble');
+                    isAudio = false;
+                    muteHandle(isAudio);
+                }else{
+                    $('#muteBtn').removeClass('disAble');
+                    isAudio = true;
+                    muteHandle(isAudio);
+                }
             };
 
             // 设置管理者
@@ -814,12 +830,12 @@
 
         function muteHandle(isAudio) {
             if (isAudio) {
-                $('#muteBtn').attr('title', '静音麦克风').children('.icon-maikefeng-jingyin').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng').addClass('redColor');
+                $('#muteBtn').attr('title', '静音麦克风').children('.icon-maikefeng-jingyin').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng').removeClass('redColor');
             } else {
-                $('#muteBtn').attr('title', '取消静音').children('.icon-maikefeng').removeClass('icon-maikefeng').removeClass('redColor').addClass('icon-maikefeng-jingyin');
+                $('#muteBtn').attr('title', '取消静音').children('.icon-maikefeng').addClass('redColor').removeClass('icon-maikefeng').addClass('icon-maikefeng-jingyin');
             }
         }
-
+        
         $('#muteBtn').click(() => {
             isAudio = !isAudio;
             muteHandle(isAudio);
