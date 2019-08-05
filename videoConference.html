@@ -1243,19 +1243,19 @@
                 $('#videoDialogPopup').css('z-index', '9999').fadeIn();
 
                 getReceivers(remotePeer[removeUserId], (stream)=>{
-                    $('#dialogVideo').attr('srcObject', stream);
+                    document.getElementById('dialogVideo').srcObject = stream;
                 });
 
             } else {
                 $('#videoDialogPopup').css('z-index', '-100').fadeOut();
-                $('#dialogVideo').attr('srcObject', null);
+                document.getElementById('dialogVideo').srcObject = null;
             }
         });
 
         // 弹出视频关闭按钮
         $('#cancelVioDlgBtn').click(function () {
             $('#videoDialogPopup').css('z-index', '-100');
-            $('#dialogVideo').attr('srcObject', null);
+            document.getElementById('dialogVideo').srcObject = null;
         })
 
         $('#userList').on('click', '.addAdminC', function () {
