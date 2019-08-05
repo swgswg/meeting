@@ -326,12 +326,15 @@
                         }
                     })
                 }
-                var Height = window.screen.availHeight * 0.2;
+                var Height = window.screen.availHeight * 0.8 * 0.9 * 0.19;
                 var Width = window.screen.availWidth * 0.75 * 0.9 * 0.20;
                 var str = '';
                 $('#videoBanner li').css({
                     height: Height + 'px',
                     width: Width + 'px',
+                })
+                $('.videoStyle').css({
+                    height: '80%'
                 })
                 $('.videoList-1-7').show();
             }
@@ -367,6 +370,8 @@
                         $('.videoList-4 ul').append($(this));
                         $(this).wrap('<li></li>');
                         $(this).show();
+                    }else{
+                        $(this).hide();
                     }
                 })
             }
@@ -1352,9 +1357,9 @@
         });
 
         //静音按钮
-        var isUserAudioFlag = true;
+        // var isUserAudioFlag = true;
         $('#userList').on('click', '.voice', function () {
-            if (isUserAudioFlag) {
+            if (isAudio) {
                 $(this).removeClass('icon-maikefeng-tianchong').addClass('icon-maikefeng-jingyin')
             } else {
                 $(this).removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng-tianchong')
@@ -1373,9 +1378,9 @@
                 webrtc: {
                     id: userAudioId  // 用户id
                 },
-                auth: isUserAudioFlag // true静音/false取消静音
+                auth: isAudio // true静音/false取消静音
             });
-            isUserAudioFlag = !isUserAudioFlag;
+            isAudio = !isAudio;
         });
 
         function setRoomUserId(userId) {
