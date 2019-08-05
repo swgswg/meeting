@@ -929,28 +929,38 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
 }
 
 function pdfStart(){
-    var ppp = $('.meeting-r-center video.videoStyle');
-    if(ppp.length > 0){
-        ppp.removeClass('videoStyle');
-        $('.onePeople-videoBox').append(ppp);
-    }
     unFlex4();
     unVideo1I7();
-    if($('img.imageStyle').length>0){
-        $('img.imageStyle').remove();
+    if ($('video.videoStyle').length > 0) {
+        $('video.videoStyle').each(function () {
+            $(this).removeClass('videoStyle');
+            $('body').append($(this));
+            $(this).hide();
+        });
     }
+// 判断中间是否有图片
+    var isImg = $('img.imageStyle');
+    if (isImg.length > 0) {
+        isImg.remove();
+    }
+// 判断中间是否有pdf
+    if ($('object').length > 0) {
+        $('object').remove();
+    }
+    $('#fenpingContainer').hide();
     var str = `
-        <div id="in"></div>
-    `;
+< img src="../images/wait.gif" id="waiting" />
+`;
+    $('.meeting-r-center').css({
+        background: '#211a4a'});
     $('.meeting-r-center').append(str);
-    $('.meeting-r-center').addClass('bb');
-    CanvasShow();
 }
 
 
 function pdfEnd() {
-    $('#in').remove();
-    $('.meeting-r-center').removeClass('bb');
+    $('.meeting-r-center').css({
+        background: '#787976'});
+    $('#waiting').remove();//#787976
 }
 
 

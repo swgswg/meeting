@@ -695,31 +695,9 @@ span#roomName {
 /* 分享图片pdf结束 */
 /* 下边菜单结束 */
 /* 视频会议右侧结束 */
-/* canvas */
-#in {
-    overflow: hidden;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+#waiting{
+    height: 100%;
 }
-div.l {
-        float: left;
-        margin: 20px 20px 0 0;
-        height: 150px;
-        width: 150px;
-        position: relative;
-}
-.sonic {
-}
-.bb{
-    background: #1a1a1a;
-}
-canvas { display: block; }
 
 .BigTable{
     width: 70%;
