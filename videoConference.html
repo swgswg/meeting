@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="uikit-2.25.0/css/components/slider.css">
 
     <!-- 字体图标 -->
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1301614_dt4m8ehyqlc.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1301614_vhjiwhlzpl.css">
 
     <!-- jquery -->
     <script src="js/jquery.min.js"></script>
@@ -1101,7 +1101,7 @@
                 $(this).attr('title', '取消全屏').children('.icon-fangda').removeClass('icon-fangda').addClass('icon-suoxiao')
                 FullScreen();
             } else {
-                exitFullScreen()
+                exitFullScreen();
                 $(this).attr('title', '全屏').children('.icon-suoxiao').removeClass('icon-suoxiao').addClass('icon-fangda')
             }
         });
@@ -1323,6 +1323,11 @@
         //静音按钮
         var isUserAudioFlag = true;
         $('#userList').on('click', '.voice', function () {
+            if (isUserAudioFlag) {
+                $(this).removeClass('icon-maikefeng-tianchong').addClass('icon-maikefeng-jingyin')
+            } else {
+                $(this).removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng-tianchong')
+            }
             let userAudioId = $(this).parents('li').attr('data-id');
             let userAudioId11 = $(this).parents('li').attr('id');
             var aa = '#' + userAudioId11 + ' i.redColor';
