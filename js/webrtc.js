@@ -267,7 +267,7 @@ function getDisplayMediaError(e) {
 function createRemoteVideoElement(userId) {
     if(!document.getElementById(userId)) {
         if(userId === roomInfo.owner && localUserId !== roomInfo.owner){
-            if($('img.imageStyle').length == 0 && $('object.videoStyle').length == 0 && $('video.videoStyle').length == 0 && $('#in').length == 0){
+            if($('img.imageStyle').length == 0 && $('object.videoStyle').length == 0 && $('video.videoStyle').length == 0 && $('#waiting').length == 0) {
                 $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
             }else{
                 $('body').append(`
@@ -951,15 +951,13 @@ function pdfStart(){
     var str = `
         <img src="../images/wait.gif" id="waiting" />
     `;
-    $('.meeting-r-center').css({
-        background: '#211a4a'});
+    $('.meeting-r-center').css({background: '#211a4a'});
     $('.meeting-r-center').append(str);
 }
 
 
 function pdfEnd() {
-    $('.meeting-r-center').css({
-        background: '#787976'});
+    $('.meeting-r-center').css({background: '#787976'});
     $('#waiting').remove();//#787976
 }
 
