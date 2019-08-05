@@ -278,7 +278,7 @@ function createRemoteVideoElement(userId) {
                 `);
             }
         }else{
-            if($('img.imageStyle').length == 0 && $('object.videoStyle').length == 0 && $('video.videoStyle').length == 0 && $('#in').length == 0){
+            if($('img.imageStyle').length == 0 && $('object.videoStyle').length == 0 && $('video.videoStyle').length == 0 && $('#waiting').length == 0){
                 $('.meeting-r-center').append(`<video class="allVideo videoStyle" id="${userId}" data-id="${userId}" playsinline autoplay></video>`);
             }else{
                 $('body').append(`
