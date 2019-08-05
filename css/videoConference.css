@@ -737,7 +737,7 @@ td{
     border-top: 1px solid #ccc;
 }
 
-video{
+#localVideoSmall{
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);	/* Safari 和 Chrome */
     -moz-transform: rotateY(180deg);
