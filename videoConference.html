@@ -104,7 +104,7 @@
                         $('.voice').each(function (){
                             var uuId = $(this).parent().attr('data-id');
                             if(uuId != roomInfo.owner){
-                                if (isAllMute) {
+                                if (!isAllMute) {
                                     $(this).removeClass('icon-maikefeng-tianchong').addClass('icon-maikefeng-jingyin').addClass('redColor');
                                 } else {
                                     $(this).removeClass('icon-maikefeng-jingyin').removeClass('redColor').addClass('icon-maikefeng-tianchong');
@@ -561,7 +561,7 @@
         </div>
         <!-- 音视频统计弹窗 end -->
         <!-- 视频弹出层start -->
-        <div class="uk-animation-scale-up videoDialog" id="videoDialogPopup">
+        <div class="videoDialog" id="videoDialogPopup">
             <div class="videoDialog-header">
                 <i class="iconfont icon-guanbi video-exit-icon" id="cancelVioDlgBtn"></i>
             </div>
@@ -1249,7 +1249,7 @@
         // 点击弹出视频按钮
         $('#userList').on('click', '.videoPopup', function () {
             let removeUserId = $(this).parents('li').attr('data-id');
-            if ($('#videoDialogPopup').css('z-index') < 0) {
+            if ($('#videoDialogPopup').css('display') === 'none') {
 
                 $(this).addClass('redColor');
                 openVideoDialog(removeUserId);
@@ -1266,17 +1266,15 @@
         });
 
         function openVideoDialog(removeUserId) {
-            $('#videoDialogPopup').css('z-index', '9999').fadeIn();
-
+            $('#videoDialogPopup').show("slow");
             getReceivers(remotePeer[removeUserId], (stream)=>{
                 document.getElementById('dialogVideo').srcObject = stream;
             });
-
         }
 
         function closeVideoDialog(){
-            $('#videoDialogPopup').css('z-index', '-100').fadeOut();
             document.getElementById('dialogVideo').srcObject = null;
+            $('#videoDialogPopup').hide("slow");
         }
 
 
