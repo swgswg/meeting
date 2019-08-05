@@ -814,16 +814,15 @@
 
         function muteHandle(isAudio) {
             if (isAudio) {
-                $('#muteBtn').attr('title', '静音麦克风').children('.icon-maikefeng-jingyin').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng')
+                $('#muteBtn').attr('title', '静音麦克风').children('.icon-maikefeng-jingyin').removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng').addClass('redColor');
             } else {
-                $('#muteBtn').attr('title', '取消静音').children('.icon-maikefeng').removeClass('icon-maikefeng').addClass('icon-maikefeng-jingyin')
+                $('#muteBtn').attr('title', '取消静音').children('.icon-maikefeng').removeClass('icon-maikefeng').removeClass('redColor').addClass('icon-maikefeng-jingyin');
             }
         }
 
         $('#muteBtn').click(() => {
             isAudio = !isAudio;
             muteHandle(isAudio);
-            openClose('#muteBtn i.redColor', '#muteBtn i');
             muteUserAudio(isAudio);
             muteDisplayAudio(isAudio);
         });

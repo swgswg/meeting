@@ -32,20 +32,11 @@
       <file leaf-file-name="videoConference.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videoConference.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="1366" selection-start-line="1366" selection-end-line="1366" />
+            <state relative-caret-position="532">
+              <caret line="826" column="38" lean-forward="true" selection-start-line="826" selection-start-column="38" selection-end-line="826" selection-end-column="38" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="videoConference.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/videoConference.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="732" column="26" lean-forward="true" selection-start-line="732" selection-start-column="26" selection-end-line="732" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -54,7 +45,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sendF</find>
       <find>right-font</find>
       <find>356</find>
       <find>maxVideo</find>
@@ -84,6 +74,7 @@
       <find>4</find>
       <find>全体静音</find>
       <find>muteDisable</find>
+      <find>muteHandle</find>
     </findStrings>
     <replaceStrings>
       <replace>localVideoSmall</replace>
@@ -198,12 +189,12 @@
       <workItem from="1564721863848" duration="20696000" />
       <workItem from="1564799286966" duration="25200000" />
       <workItem from="1564923799631" duration="3111000" />
-      <workItem from="1564966190130" duration="15542000" />
+      <workItem from="1564966190130" duration="16786000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="119328000" />
+    <option name="totallyTimeSpent" value="120572000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -431,13 +422,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/util.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1259">
-          <caret line="202" lean-forward="true" selection-start-line="202" selection-end-line="202" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/common.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -448,10 +432,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/util.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1087">
+          <caret line="202" lean-forward="true" selection-start-line="202" selection-end-line="202" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/videoConference.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="1366" selection-start-line="1366" selection-end-line="1366" />
+        <state relative-caret-position="532">
+          <caret line="826" column="38" lean-forward="true" selection-start-line="826" selection-start-column="38" selection-end-line="826" selection-end-column="38" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
           </folding>
