@@ -1177,60 +1177,24 @@
         function setRoomUser(userInfo, adminId = 0) {
             setRoomUserF = userInfo;
             $('#userList').empty();
-            // 按钮数组
-            var moreSetBtn = [];
-            // 弹窗数组
-            var moreSetDialog = [];
-            // 静音数组
-            var muteArr = [];
-            // 改名数组
-            var gmArr = [];
-            // 移除数组
-            var ycArr = [];
-            // 保存会议所有人的id
-            var idArr = [];
-            userInfo.forEach(function (item, index) {
+            userInfo.forEach(function (item) {
                 if (item || (item.id !== localUserId)) {
                     let roomUserId = setRoomUserId(item.id);
-
-                    // 把所有人的id保存到idArr中
-                    idArr.push(item.id);
-                    // 循环绑定按钮id
-                    let btnId = `btn${index}`;
-                    // 循环绑定弹窗id
-                    let dlgId = `dlg${index}`;
-                    // 循环绑定静音id
-                    let muteId = `jingyin${index}`;
-                    // 循环绑定改名id
-                    let gmId = `gm${index}`;
-                    // 循环绑定移除id
-                    let ycId = `yc${index}`;
-                    // 保存所有按钮id，给每个更多按钮设置点击事件，绑定元素id
-                    moreSetBtn.push(btnId);
-                    // 保存所有弹窗id，给每个更多按钮设置对应的弹框
-                    moreSetDialog.push(dlgId);
-                    // 保存所有静音id
-                    muteArr.push(muteId);
-                    // 保存所有改名id
-                    gmArr.push(gmId);
-                    // 保存所有移除id
-                    ycArr.push(ycId);
-
                     $('#userList').append(`
                         <li id="${roomUserId}" data-id="${item.id}">
-                        <i class="iconfont icon-icontouxiang-copy avatar"></i>
-                        <span ${(item.id === roomInfo.owner) ? '' : 'class="dis-n"'}>创始人</span>
-                        <span class="itemName"> ${(item.id !== roomInfo.owner) ? item.name : ''}</span>
-                        <span> ${(item.id === roomInfo.owner) || (localUserId === adminId) || (item.id === adminId) ? '主持人' : '访客'}</span>
-                        <em ${(item.id === localUserId) ? '' : 'class="dis-n"'}>（我）</em>
-                        <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多" id="${btnId}" ></i>
-                        <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.name}" id="${muteId}"></i>
-                        <div ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="setMore-dialog gengduoDialog"' : 'class="dis-n"'} id="${dlgId}">
-                        <div class="setMore-item gaimingBtn" id="${gmId}">改名</div>
-                        <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) ? 'setMore-item yichuBtn' : 'setMore-item dis-n yichuBtn'} id="${ycId}">移除</div>
-                        <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) && (item.id !== adminId) ? 'setMore-item addAdminC' : 'setMore-item addAdminC dis-n'}" data-id="${item.id}">设为主持人</div>
-                        <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) && (item.id === adminId) ? 'setMore-item cancelAdminC' : 'setMore-item cancelAdminC dis-n'}" data-id="${item.id}">取消主持人</div>
-                        </div>
+                            <i class="iconfont icon-icontouxiang-copy avatar"></i>
+                            <span ${(item.id === roomInfo.owner) ? '' : 'class="dis-n"'}>创始人</span>
+                            <span class="itemName"> ${(item.id !== roomInfo.owner) ? item.name : ''}</span>
+                            <span> ${(item.id === roomInfo.owner) || (localUserId === adminId) || (item.id === adminId) ? '主持人' : '访客'}</span>
+                            <em ${(item.id === localUserId) ? '' : 'class="dis-n"'}>（我）</em>
+                            <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多"></i>
+                            <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.name}"></i>
+                            <div ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="setMore-dialog gengduoDialog"' : 'class="dis-n"'}>
+                            <div class="setMore-item gaimingBtn">改名</div>
+                            <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) ? 'setMore-item yichuBtn' : 'setMore-item dis-n yichuBtn'}>移除</div>
+                            <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) && (item.id !== adminId) ? 'setMore-item addAdminC' : 'setMore-item addAdminC dis-n'}" data-id="${item.id}">设为主持人</div>
+                            <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) && (item.id === adminId) ? 'setMore-item cancelAdminC' : 'setMore-item cancelAdminC dis-n'}" data-id="${item.id}">取消主持人</div>
+                            </div>
                         </li>
                     `);
                 }
@@ -1322,6 +1286,7 @@
         // 设置更多按钮
         $('#userList').on('click', '.shezhigengduo', function () {
             if ($(this).nextAll('.gengduoDialog').css('display') === 'none') {
+                $('#userList').find('.gengduoDialog').hide()
                 $(this).nextAll('.gengduoDialog').show();
             } else {
                 $(this).nextAll('.gengduoDialog').hide();
