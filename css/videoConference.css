@@ -736,3 +736,9 @@ td{
     border-left: 1px solid #ccc;
     border-top: 1px solid #ccc;
 }
+
+video{
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);	/* Safari 和 Chrome */
+    -moz-transform: rotateY(180deg);
+}
