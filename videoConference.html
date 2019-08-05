@@ -564,6 +564,7 @@
         userName = roomInfo.userName || null;
         roomId = roomInfo.roomId || null;
         pwd = roomInfo.psw || null;
+        setUpFullScreen();
 
         // 开启视频
         let videoOptions = JSON.parse(localStorage.getItem('setOptions')) || {};
@@ -1064,44 +1065,93 @@
         /* **************音视频统计结束 end************** */
 
         /* **************点击全屏按钮开始************** */
-        function FullScreen() {
-            var ele = document.documentElement;
-            if (ele.requestFullscreen) {
-                ele.requestFullscreen();
-            } else if (ele.mozRequestFullScreen) {
-                ele.mozRequestFullScreen();
-            } else if (ele.webkitRequestFullScreen) {
-                ele.webkitRequestFullScreen();
+        // function FullScreen() {
+        //     var ele = document.documentElement;
+        //     if (ele.requestFullscreen) {
+        //         ele.requestFullscreen();
+        //     } else if (ele.mozRequestFullScreen) {
+        //         ele.mozRequestFullScreen();
+        //     } else if (ele.webkitRequestFullScreen) {
+        //         ele.webkitRequestFullScreen();
+        //     }
+        // }
+
+        // function exitFullScreen() {
+        //     var el = document;
+        //     var cfs = el.cancelFullScreen || el.webkitCancelFullScreen || el.exitFullScreen;
+        //     if (typeof cfs != "undefined" && cfs) {
+        //         cfs.call(el);
+        //     } else if (typeof window.ActiveXObject != "undefined") {
+        //         var wscript = new ActiveXObject("WScript.Shell");
+        //         if (wscript != null) {
+        //             wscript.SendKeys("{F11}");
+        //         }
+        //     } else if (el.msExitFullscreen) {
+        //         el.msExitFullscreen();
+        //     } else if (el.oRequestFullscreen) {
+        //         el.oCancelFullScreen();
+        //     } else {
+        //         swal({
+        //             title: "浏览器不支持全屏调用！", text: "请更换浏览器或按F11键切换全屏！(3秒后自动关闭)", type: "error", timer: 3000
+        //         });
+        //     }
+        // }
+
+
+
+        // 全屏
+        function fullScreen() {
+            let res = isFullScreen();
+            if (res) {
+                document.cancelFullScreen();
+            } else {
+                document.body.requestFullScreen();
             }
+            return res;
         }
 
-        function exitFullScreen() {
-            var el = document;
-            var cfs = el.cancelFullScreen || el.webkitCancelFullScreen || el.exitFullScreen;
-            if (typeof cfs != "undefined" && cfs) {
-                cfs.call(el);
-            } else if (typeof window.ActiveXObject != "undefined") {
-                var wscript = new ActiveXObject("WScript.Shell");
-                if (wscript != null) {
-                    wscript.SendKeys("{F11}");
-                }
-            } else if (el.msExitFullscreen) {
-                el.msExitFullscreen();
-            } else if (el.oRequestFullscreen) {
-                el.oCancelFullScreen();
-            } else {
-                swal({
-                    title: "浏览器不支持全屏调用！", text: "请更换浏览器或按F11键切换全屏！(3秒后自动关闭)", type: "error", timer: 3000
-                });
+
+        function isFullScreen() {
+            if (isChromeApp()) {
+                return chrome.app.window.current().isFullscreen();
             }
+            return !!(document.webkitIsFullScreen || document.mozFullScreen || document.isFullScreen);
         }
+
+        function isChromeApp() {
+            return typeof chrome !== "undefined" && typeof chrome.storage !== "undefined" && typeof chrome.storage.local !== "undefined";
+        }
+
+
+        function setUpFullScreen() {
+            if (isChromeApp()) {
+                document.cancelFullScreen = function() {
+                    chrome.app.window.current().restore();
+                };
+            } else {
+                document.cancelFullScreen = document.webkitCancelFullScreen || document.mozCancelFullScreen || document.cancelFullScreen;
+            }
+            if (isChromeApp()) {
+                document.body.requestFullScreen = function() {
+                    chrome.app.window.current().fullscreen();
+                };
+            } else {
+                document.body.requestFullScreen = document.body.webkitRequestFullScreen || document.body.mozRequestFullScreen || document.body.requestFullScreen;
+            }
+            document.onfullscreenchange = document.onfullscreenchange || document.onwebkitfullscreenchange;
+        }
+
+
+
 
         $('#quanpingBtn').click(function () {
             if ($(this).attr('title') === '全屏') {
                 $(this).attr('title', '取消全屏').children('.icon-fangda').removeClass('icon-fangda').addClass('icon-suoxiao')
-                FullScreen();
+                // FullScreen();
+                fullScreen();
             } else {
-                exitFullScreen();
+                // exitFullScreen();
+                fullScreen();
                 $(this).attr('title', '全屏').children('.icon-suoxiao').removeClass('icon-suoxiao').addClass('icon-fangda')
             }
         });
