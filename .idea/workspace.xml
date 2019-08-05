@@ -19,8 +19,8 @@
       <file leaf-file-name="webrtc.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/webrtc.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="373">
-              <caret line="933" column="6" lean-forward="true" selection-start-line="933" selection-start-column="6" selection-end-line="933" selection-end-column="6" />
+            <state relative-caret-position="433">
+              <caret line="137" column="31" lean-forward="true" selection-start-line="137" selection-start-column="31" selection-end-line="137" selection-end-column="31" />
               <folding>
                 <element signature="e#23018#28480#0" />
                 <element signature="e#23174#25741#0" />
@@ -45,7 +45,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>muteAudio</find>
       <find>您</find>
       <find>setRoomUser</find>
       <find>1311</find>
@@ -75,6 +74,7 @@
       <find>avatar</find>
       <find>av</find>
       <find>pdf</find>
+      <find>sendFi</find>
     </findStrings>
     <replaceStrings>
       <replace>localVideoSmall</replace>
@@ -189,12 +189,12 @@
       <workItem from="1564721863848" duration="20696000" />
       <workItem from="1564799286966" duration="25200000" />
       <workItem from="1564923799631" duration="3111000" />
-      <workItem from="1564966190130" duration="3929000" />
+      <workItem from="1564966190130" duration="5772000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107715000" />
+    <option name="totallyTimeSpent" value="109558000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -437,8 +437,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/webrtc.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="933" column="6" lean-forward="true" selection-start-line="933" selection-start-column="6" selection-end-line="933" selection-end-column="6" />
+        <state relative-caret-position="433">
+          <caret line="137" column="31" lean-forward="true" selection-start-line="137" selection-start-column="31" selection-end-line="137" selection-end-column="31" />
           <folding>
             <element signature="e#23018#28480#0" />
             <element signature="e#23174#25741#0" />

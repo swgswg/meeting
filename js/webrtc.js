@@ -131,7 +131,7 @@ function setVideoConstraints(options = {}) {
         // 音量调整（范围 0-1.0， 0为静音，1为最大声）
         volume: 1,
         // 回音消除 （true/false）
-        echoCancellation: true,
+        // echoCancellation: true,
         // 自动增益 （在原有录音的基础上是否增加音量， true/false）
         autoGainControl: true,
         // 是否开启降噪功能 （true/false）
@@ -177,6 +177,9 @@ function getUserMedia(options = {}) {
 }
 
 
+/**
+ * 获取共享桌面
+ */
 function getDisplayMedia() {
     let constraints = {
         video: true,
@@ -519,6 +522,10 @@ function setLocalAnswer(userId, answerDesc) {
 }
 
 
+/**
+ * 用户退出 清除信息
+ * @param userId
+ */
 function cleanOneUser(userId) {
     if(remotePeer[userId]){
         remotePeer[userId].ontrack = null;
@@ -648,7 +655,6 @@ function getReceivers(pc) {
     // let remoteStreams = pc.getRemoteStreams();
     // document.getElementById(`${k}_new`).srcObject = remoteStreams;
     
-    
     // 推荐使用getReceivers接口
     if(pc && pc.getReceivers){
         let stream = new MediaStream();
@@ -661,7 +667,7 @@ function getReceivers(pc) {
 
 
 /**
- * // 获取本地媒体
+ * 获取本地媒体
  */
 function getSenders(pc) {
     if(pc && pc.getSenders){
@@ -676,6 +682,7 @@ function getSenders(pc) {
 
 /**
  * 替换媒体源
+ * 如: 把视频源替换成共享桌面源
  */
 function replaceTrack(stream) {
     for (let k in remotePeer) {
@@ -690,7 +697,7 @@ function replaceTrack(stream) {
 
 
 /**
- * 创建 dataChannel 传输通道
+ * 创建 dataChannel 传输通道(类似websocket)
  * @param userId
  */
 function createDataChannel(userId) {
@@ -713,7 +720,7 @@ function createDataChannel(userId) {
 
 
 /**
- * 监听dataChannel事件
+ * 监听dataChannel事件(类似websocket)
  * @param userId
  */
 function onDataChannel(userId) {
@@ -765,6 +772,11 @@ function sendChannelData(data, dataType = 'json', receiveId = '') {
 }
 
 
+/**
+ * 通过json格式发送数据
+ * @param data 发送的数据(json格式)
+ * @param receiveId  接收人id(不传发给所有人)
+ */
 function sendDataByJson(data, receiveId) {
     let jsonData = JSON.stringify({
         userId: localUserId,
@@ -774,11 +786,21 @@ function sendDataByJson(data, receiveId) {
 }
 
 
+/**
+ * 通过字符串格式发送数据
+ * @param data
+ * @param receiveId
+ */
 function sendDataByString(data, receiveId) {
     onChannelSend(receiveId, data);
 }
 
 
+/**
+ * dataChannel发送数据(类似ws)
+ * @param userId
+ * @param data
+ */
 function onChannelSend(userId, data) {
     try {
         if(remoteChannel[userId].readyState || remoteChannel[userId].readyState === 'open'){
@@ -819,21 +841,16 @@ function onChannelError(userId, error) {
 }
 
 
-function receiveContent(userName, userId, message) {
-    let str = `
-        <li>
-            <span>${userName}：</span>
-            <p data-id="${userId}">
-                ${message}
-            </p >
-        </li>
-    `;
-    $('#chatList').append(str);
-    $(".meeting-chatList").scrollTop($(".meeting-chatList")[0].scrollHeight);
-}
 
 
+
+// 接收文件信息
 var fileInfo = {};
+
+/**
+ * dataChannel 接收信息
+ * @param event
+ */
 function onChannelMessage(event) {
     try {
         let message = JSON.parse(event.data);
@@ -858,6 +875,18 @@ function onChannelMessage(event) {
     }
 }
 
+function receiveContent(userName, userId, message) {
+    let str = `
+        <li>
+            <span>${userName}：</span>
+            <p data-id="${userId}">
+                ${message}
+            </p >
+        </li>
+    `;
+    $('#chatList').append(str);
+    $(".meeting-chatList").scrollTop($(".meeting-chatList")[0].scrollHeight);
+}
 
 
 /**
@@ -868,39 +897,64 @@ function receiveChannelFile(fileBuffer) {
     fileInfo.buffer.push(fileBuffer);
     fileInfo.chunkSize += fileBuffer.byteLength;
     if (fileInfo.chunkSize >= fileInfo.fileSize) {
-        let received = new Blob(fileInfo.buffer, {type: fileInfo.fileType});
-        let href = URL.createObjectURL(received);
-        let ext = getFileExt(fileInfo.fileName);
-        let bbb = $('.meeting-r-center video.videoStyle');
-        if(bbb.length > 0){
-            bbb.removeClass('videoStyle');
-            $('.onePeople-videoBox').append(bbb);
-        }
-        if ($('img.imageStyle').length > 0) {
-            $('img.imageStyle').remove()
-        }
-        if ($('object.videoStyle').length > 0) {
-            $('object.videoStyle').remove()
-        }
-        if(['pdf'].includes(ext)){
-            let str = `
-                <object data="${href}" class="videoStyle"></object>
-            `;
-            $('.meeting-r-center').append(str);
-            
-        } else if(['png', 'jpeg', 'jpg', 'gif'].includes(ext)){
-            let str = `
-                <img src="${href}" class="imageStyle" />
-            `;
-            $('.meeting-r-center').append(str);
-        }
-        fileInfo = {};
-        pdfEnd();
+        arrayBufferToBlob();
     }
 }
 
 
+/**
+ * 把arrayBuffer数据格式转为blob
+ */
+function arrayBufferToBlob() {
+    let received = new Blob(fileInfo.buffer, {type: fileInfo.fileType});
+    let href = URL.createObjectURL(received);
+   
+    let bbb = $('.meeting-r-center video.videoStyle');
+    if(bbb.length > 0){
+        bbb.removeClass('videoStyle');
+        $('.onePeople-videoBox').append(bbb);
+    }
+    if ($('img.imageStyle').length > 0) {
+        $('img.imageStyle').remove()
+    }
+    if ($('object.videoStyle').length > 0) {
+        $('object.videoStyle').remove()
+    }
+    
+    let ext = getFileExt(fileInfo.fileName);
+    if(['pdf'].includes(ext)){
+        createPdf(href);
+        
+    } else if(['png', 'jpeg', 'jpg', 'gif'].includes(ext)){
+        createImage(href);
+    }
+    fileInfo = {};
+    pdfEnd();
+}
 
+
+function createPdf(href) {
+    let str = `
+                <object data="${href}" class="videoStyle"></object>
+            `;
+    $('.meeting-r-center').append(str);
+}
+
+function createImage(href) {
+    let str = `
+                <img src="${href}" class="imageStyle" />
+            `;
+    $('.meeting-r-center').append(str);
+}
+
+
+/**
+ * 发送文件
+ * @param file 文件流
+ * @param offsetChange 每次发送块执行的回调方法
+ * @param readEnd      发送完成执行的回调方法
+ * @param chunkSize    每次发送块的大小/b
+ */
 function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize = 10240) {
     let fileReader = new FileReader();
     let offset = 0;
@@ -928,6 +982,8 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
     
 }
 
+
+// pdf开发发送
 function pdfStart(){
     if($('#waiting').length > 0){
         pdfEnd();
@@ -959,6 +1015,7 @@ function pdfStart(){
 }
 
 
+// pdf发送结束
 function pdfEnd() {
     $('.meeting-r-center').css({background: '#787976'});
     $('#waiting').remove();//#787976
