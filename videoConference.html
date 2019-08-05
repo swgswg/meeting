@@ -1223,7 +1223,7 @@
                         <i class="iconfont icon-icontouxiang-copy avatar"></i>
                         <span ${(item.id === roomInfo.owner) ? '' : 'class="dis-n"'}>创始人</span>
                         <span class="itemName"> ${(item.id !== roomInfo.owner) ? item.name : ''}</span>
-                        <span> ${(item.id === roomInfo.owner) || (localUserId === adminId && item.id === adminId) || (item.id === adminId) || (item.isAdmin) ? '主持人' : '访客'}</span>
+                        <span> ${(item.id === roomInfo.owner) || (localUserId === adminId && item.id === adminId) || (item.id === adminId) || item.isAdmin ? '主持人' : '访客'}</span>
                         <em ${(item.id === localUserId) ? '' : 'class="dis-n"'}>（我）</em>
                         <i ${(item.id !== localUserId) ? 'class="iconfont icon-ai224 fr more videoPopup"' : 'class="dis-n"'} title="弹出视频"></i>
                         <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多"></i>
@@ -1293,7 +1293,7 @@
             });
         });
         $('#userList').on('click', '.cancelAdminC', function () {
-            var adminId = $(this).attr('data-id')
+            var adminId = $(this).attr('data-id');
             ws.send({
                 action: 'webrtc',
                 event: 'cancelAdmin',
