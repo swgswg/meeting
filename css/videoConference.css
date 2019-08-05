@@ -127,6 +127,7 @@ span#roomName {
     vertical-align: middle;
     text-align: center;
     margin-left: 5%;
+    cursor: pointer;
 }
 
 .meeting-list i.voice {

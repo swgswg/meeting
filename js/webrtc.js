@@ -949,8 +949,8 @@ function pdfStart(){
     }
     $('#fenpingContainer').hide();
     var str = `
-< img src="../images/wait.gif" id="waiting" />
-`;
+        <img src="../images/wait.gif" id="waiting" />
+    `;
     $('.meeting-r-center').css({
         background: '#211a4a'});
     $('.meeting-r-center').append(str);
