@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="uikit-2.25.0/css/components/slider.css">
 
     <!-- 字体图标 -->
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1301614_vhjiwhlzpl.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1301614_dzaj4pp6z3k.css">
 
     <!-- jquery -->
     <script src="js/jquery.min.js"></script>
@@ -560,6 +560,16 @@
             </div>
         </div>
         <!-- 音视频统计弹窗 end -->
+        <!-- 视频弹出层start -->
+        <div class="uk-animation-scale-up videoDialog" id="videoDialogPopup">
+            <div class="videoDialog-header">
+                <i class="iconfont icon-guanbi video-exit-icon" id="cancelVioDlgBtn"></i>
+            </div>
+            <div class="videoDialog-container">
+                <video src="" id="dialogVideo" class="dialogVideo"></video>
+            </div>
+        </div>
+        <!-- 视频弹出层end -->
     </div>
 </div>
 
@@ -1211,6 +1221,7 @@
                             <span class="itemName"> ${(item.id !== roomInfo.owner) ? item.name : ''}</span>
                             <span> ${(item.id === roomInfo.owner) || (localUserId === adminId && item.id === adminId) || (item.id === adminId) ? '主持人' : '访客'}</span>
                             <em ${(item.id === localUserId) ? '' : 'class="dis-n"'}>（我）</em>
+                            <i class="iconfont icon-ai224 fr more videoPopup" title="弹出视频"></i>
                             <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多"></i>
                             <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.name}"></i>
                             <div ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="setMore-dialog gengduoDialog"' : 'class="dis-n"'}>
@@ -1224,6 +1235,24 @@
                 }
             });
         }
+
+        // 点击弹出视频按钮
+        $('#userList').on('click', '.videoPopup', function () {
+            let removeUserId = $(this).parents('li').attr('data-id')
+            if ($('#videoDialogPopup').css('z-index') < 0) {
+                $('#videoDialogPopup').css('z-index', '9999').fadeIn();
+                // $('#dialogVideo').attr('src','')
+            } else {
+                $('#videoDialogPopup').css('z-index', '-100').fadeOut();
+                $('#dialogVideo').attr('src', '')
+            }
+        })
+
+        // 弹出视频关闭按钮
+        $('#cancelVioDlgBtn').click(function () {
+            $('#videoDialogPopup').css('z-index', '-100');
+            $('#dialogVideo').attr('src', '')
+        })
 
         $('#userList').on('click', '.addAdminC', function () {
             var adminId = $(this).attr('data-id');
