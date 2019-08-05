@@ -649,17 +649,22 @@
                 addIceCandidate(data.from.id, data.data);
             };
 
+            function muteDisable (data){ // 访客不可点击自己静音
+                if(data.auth){
+                    $('#muteBtn').addClass('disAble');
+                    isAudio = false;
+                    muteHandle(isAudio);
+                }else{
+                    $('#muteBtn').removeClass('disAble');
+                    isAudio = true;
+                    muteHandle(isAudio);
+                }
+            }
             // 全体静音
             WS.prototype.muteAudio = function (data) {
                 muteUserAudio(!data.auth);
                 muteDisplayAudio(!data.auth);
-                if(data.auth){
-                    isAudio = false;
-                    muteHandle(isAudio);
-                }else{
-                    isAudio = true;
-                    muteHandle(isAudio);
-                }
+                muteDisable(data);
                 openClose('#muteBtn i.redColor', '#muteBtn i');
             };
 
@@ -667,13 +672,7 @@
             WS.prototype.userAudio = function (data) {
                 muteUserAudio(!data.auth);
                 muteDisplayAudio(!data.auth);
-                if(data.auth){
-                    isAudio = false;
-                    muteHandle(isAudio);
-                }else{
-                    isAudio = true;
-                    muteHandle(isAudio);
-                }
+                muteDisable(data);
                 openClose('#muteBtn i.redColor', '#muteBtn i');
             };
 

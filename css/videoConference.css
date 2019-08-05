@@ -745,3 +745,8 @@ td{
     -webkit-transform: rotateY(180deg);	/* Safari 和 Chrome */
     -moz-transform: rotateY(180deg);
 }
+
+/* 禁用 */
+.disAble{
+    pointer-events: none;
+}
