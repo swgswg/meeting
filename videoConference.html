@@ -648,12 +648,28 @@
             WS.prototype.muteAudio = function (data) {
                 muteUserAudio(!data.auth);
                 muteDisplayAudio(!data.auth);
+                if(data.auth){
+                    isAudio = false;
+                    muteHandle(isAudio);
+                }else{
+                    isAudio = true;
+                    muteHandle(isAudio);
+                }
+                openClose('#muteBtn i.redColor', '#muteBtn i');
             };
 
             // 用户静音
             WS.prototype.userAudio = function (data) {
                 muteUserAudio(!data.auth);
                 muteDisplayAudio(!data.auth);
+                if(data.auth){
+                    isAudio = false;
+                    muteHandle(isAudio);
+                }else{
+                    isAudio = true;
+                    muteHandle(isAudio);
+                }
+                openClose('#muteBtn i.redColor', '#muteBtn i');
             };
 
             // 设置管理者
