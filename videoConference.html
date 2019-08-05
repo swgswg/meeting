@@ -1359,15 +1359,11 @@
         // var isUserAudioFlag = true;
         $('#userList').on('click', '.voice', function () {
             if (isAudio) {
-                $(this).removeClass('icon-maikefeng-tianchong').addClass('icon-maikefeng-jingyin')
+                $(this).removeClass('icon-maikefeng-tianchong').addClass('icon-maikefeng-jingyin').addClass('redColor');
             } else {
-                $(this).removeClass('icon-maikefeng-jingyin').addClass('icon-maikefeng-tianchong')
+                $(this).removeClass('icon-maikefeng-jingyin').removeClass('redColor').addClass('icon-maikefeng-tianchong');
             }
             let userAudioId = $(this).parents('li').attr('data-id');
-            let userAudioId11 = $(this).parents('li').attr('id');
-            var aa = '#' + userAudioId11 + ' i.redColor';
-            var bb = '#' + userAudioId11 + ' #' + $(this).attr('id');
-            openClose(aa, bb);
             ws.send({
                 action: 'webrtc',
                 event: 'userAudio',
