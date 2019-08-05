@@ -219,7 +219,7 @@
         <!-- 右上自己小分屏 -->
         <div class="myself">
             <div class="myself-videoBox">
-                <video id="localVideoSmall" src="" playsinline autoplay></video>
+                <video id="localVideoSmall" src="" playsinline autoplay muted></video>
             </div>
             <div class="myself-show">
                 <i class="icon-zuixiaohua- iconfont v-hide" onclick="myhide()"></i>
@@ -321,14 +321,14 @@
                             $('.meeting-r-center').append($(this));
                         } else {
                             $('#otherVideo').append($(this));
-                            $(this).wrap('<li></li>')
+                            $(this).wrap('<li></li>');
                             $(this).show();
                         }
                     })
                 }
                 var Height = window.screen.availHeight * 0.2;
                 var Width = window.screen.availWidth * 0.75 * 0.9 * 0.20;
-                var str = ''
+                var str = '';
                 $('#videoBanner li').css({
                     height: Height + 'px',
                     width: Width + 'px',
