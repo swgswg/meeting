@@ -929,6 +929,9 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
 }
 
 function pdfStart(){
+    if($('#waiting').length > 0){
+        pdfEnd();
+    };
     unFlex4();
     unVideo1I7();
     if ($('video.videoStyle').length > 0) {
