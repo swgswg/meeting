@@ -1221,7 +1221,7 @@
                             <span class="itemName"> ${(item.id !== roomInfo.owner) ? item.name : ''}</span>
                             <span> ${(item.id === roomInfo.owner) || (localUserId === adminId && item.id === adminId) || (item.id === adminId) ? '主持人' : '访客'}</span>
                             <em ${(item.id === localUserId) ? '' : 'class="dis-n"'}>（我）</em>
-                            <i class="iconfont icon-ai224 fr more videoPopup" title="弹出视频"></i>
+                            <i ${(item.id !== localUserId) ? 'class="iconfont icon-ai224 fr more videoPopup"' : 'class="dis-n"'} title="弹出视频"></i>
                             <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多"></i>
                             <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.name}"></i>
                             <div ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="setMore-dialog gengduoDialog"' : 'class="dis-n"'}>
@@ -1240,23 +1240,37 @@
         $('#userList').on('click', '.videoPopup', function () {
             let removeUserId = $(this).parents('li').attr('data-id');
             if ($('#videoDialogPopup').css('z-index') < 0) {
-                $('#videoDialogPopup').css('z-index', '9999').fadeIn();
 
-                getReceivers(remotePeer[removeUserId], (stream)=>{
-                    document.getElementById('dialogVideo').srcObject = stream;
-                });
-
+                $(this).addClass('redColor');
+                openVideoDialog(removeUserId);
             } else {
-                $('#videoDialogPopup').css('z-index', '-100').fadeOut();
-                document.getElementById('dialogVideo').srcObject = null;
+                $(this).removeClass('redColor');
+                closeVideoDialog();
             }
         });
 
         // 弹出视频关闭按钮
         $('#cancelVioDlgBtn').click(function () {
-            $('#videoDialogPopup').css('z-index', '-100');
+            $('.videoPopup').removeClass('redColor')
+            closeVideoDialog();
+        });
+
+        function openVideoDialog(removeUserId) {
+            $('#videoDialogPopup').css('z-index', '9999').fadeIn();
+
+            getReceivers(remotePeer[removeUserId], (stream)=>{
+                document.getElementById('dialogVideo').srcObject = stream;
+            });
+
+        }
+
+        function closeVideoDialog(){
+            $('#videoDialogPopup').css('z-index', '-100').fadeOut();
             document.getElementById('dialogVideo').srcObject = null;
-        })
+        }
+
+
+
 
         $('#userList').on('click', '.addAdminC', function () {
             var adminId = $(this).attr('data-id');
