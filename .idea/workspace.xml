@@ -32,8 +32,8 @@
       <file leaf-file-name="videoConference.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videoConference.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="1193" column="175" lean-forward="true" selection-start-line="1193" selection-start-column="175" selection-end-line="1193" selection-end-column="175" />
+            <state relative-caret-position="625">
+              <caret line="1196" column="34" lean-forward="true" selection-start-line="1196" selection-start-column="34" selection-end-line="1196" selection-end-column="34" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
               </folding>
@@ -189,12 +189,12 @@
       <workItem from="1564721863848" duration="20696000" />
       <workItem from="1564799286966" duration="25200000" />
       <workItem from="1564923799631" duration="3111000" />
-      <workItem from="1564966190130" duration="11668000" />
+      <workItem from="1564966190130" duration="12335000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115454000" />
+    <option name="totallyTimeSpent" value="116121000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -438,8 +438,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/videoConference.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="1193" column="175" lean-forward="true" selection-start-line="1193" selection-start-column="175" selection-end-line="1193" selection-end-column="175" />
+        <state relative-caret-position="625">
+          <caret line="1196" column="34" lean-forward="true" selection-start-line="1196" selection-start-column="34" selection-end-line="1196" selection-end-column="34" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
           </folding>

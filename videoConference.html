@@ -1190,10 +1190,10 @@
                             <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-gengduo fr more shezhigengduo"' : 'class="dis-n"'} title="设置更多"></i>
                             <i ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="iconfont icon-maikefeng-tianchong fr voice"' : 'class="dis-n"'} title="静音${item.name}"></i>
                             <div ${(localUserId === roomInfo.owner) || (localUserId === adminId) ? 'class="setMore-dialog gengduoDialog"' : 'class="dis-n"'}>
-                            <div class="setMore-item gaimingBtn">改名</div>
-                            <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) ? 'setMore-item yichuBtn' : 'setMore-item dis-n yichuBtn'}">移除</div>
-                            <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) && (item.id !== adminId) ? 'setMore-item addAdminC' : 'setMore-item addAdminC dis-n'}" data-id="${item.id}">设为主持人</div>
-                            <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) && (item.id === adminId) ? 'setMore-item cancelAdminC' : 'setMore-item cancelAdminC dis-n'}" data-id="${item.id}">取消主持人</div>
+                                <div class="setMore-item gaimingBtn">改名</div>
+                                <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) ? 'setMore-item yichuBtn' : 'setMore-item dis-n yichuBtn'}">移除</div>
+                                <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) && (item.id !== adminId) ? 'setMore-item addAdminC' : 'setMore-item addAdminC dis-n'}" data-id="${item.id}">设为主持人</div>
+                                <div class="${(localUserId === roomInfo.owner) && (item.id !== roomInfo.owner) && (item.id === adminId) ? 'setMore-item cancelAdminC' : 'setMore-item cancelAdminC dis-n'}" data-id="${item.id}">取消主持人</div>
                             </div>
                         </li>
                     `);
@@ -1202,7 +1202,7 @@
         }
 
         $('#userList').on('click', '.addAdminC', function () {
-            var adminId = $(this).attr('data-id')
+            var adminId = $(this).attr('data-id');
             ws.send({
                 action: 'webrtc',
                 event: 'setAdmin',
