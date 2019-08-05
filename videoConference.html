@@ -1238,20 +1238,24 @@
 
         // 点击弹出视频按钮
         $('#userList').on('click', '.videoPopup', function () {
-            let removeUserId = $(this).parents('li').attr('data-id')
+            let removeUserId = $(this).parents('li').attr('data-id');
             if ($('#videoDialogPopup').css('z-index') < 0) {
                 $('#videoDialogPopup').css('z-index', '9999').fadeIn();
-                // $('#dialogVideo').attr('src','')
+
+                getReceivers(remotePeer[removeUserId], (stream)=>{
+                    $('#dialogVideo').attr('srcObject', stream);
+                });
+
             } else {
                 $('#videoDialogPopup').css('z-index', '-100').fadeOut();
-                $('#dialogVideo').attr('src', '')
+                $('#dialogVideo').attr('srcObject', null);
             }
-        })
+        });
 
         // 弹出视频关闭按钮
         $('#cancelVioDlgBtn').click(function () {
             $('#videoDialogPopup').css('z-index', '-100');
-            $('#dialogVideo').attr('src', '')
+            $('#dialogVideo').attr('srcObject', null);
         })
 
         $('#userList').on('click', '.addAdminC', function () {

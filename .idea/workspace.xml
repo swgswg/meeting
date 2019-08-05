@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4e629ec7-201e-4971-996b-0b99566e94b8" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/css/videoConference.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/videoConference.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/webrtc.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/webrtc.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/videoConference.html" beforeDir="false" afterPath="$PROJECT_DIR$/videoConference.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,8 +20,8 @@
       <file leaf-file-name="webrtc.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/webrtc.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="644" column="5" lean-forward="true" selection-start-line="644" selection-start-column="5" selection-end-line="644" selection-end-column="5" />
+            <state relative-caret-position="265">
+              <caret line="651" column="24" selection-start-line="651" selection-start-column="22" selection-end-line="651" selection-end-column="24" />
               <folding>
                 <element signature="e#23018#28480#0" />
                 <element signature="e#23174#25741#0" />
@@ -33,8 +33,8 @@
       <file leaf-file-name="videoConference.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videoConference.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="18" column="79" selection-start-line="18" selection-start-column="79" selection-end-line="18" selection-end-column="79" />
+            <state relative-caret-position="476">
+              <caret line="1246" column="19" lean-forward="true" selection-start-line="1246" selection-start-column="19" selection-end-line="1246" selection-end-column="19" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
               </folding>
@@ -96,8 +96,8 @@
         <option value="$PROJECT_DIR$/js/login/devices/main.js" />
         <option value="$PROJECT_DIR$/js/webrtc/webSocketEvent.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/webrtc.js" />
         <option value="$PROJECT_DIR$/css/videoConference.css" />
+        <option value="$PROJECT_DIR$/js/webrtc.js" />
         <option value="$PROJECT_DIR$/videoConference.html" />
       </list>
     </option>
@@ -190,12 +190,12 @@
       <workItem from="1564721863848" duration="20696000" />
       <workItem from="1564799286966" duration="25200000" />
       <workItem from="1564923799631" duration="3111000" />
-      <workItem from="1564966190130" duration="22402000" />
+      <workItem from="1564966190130" duration="22618000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="126188000" />
+    <option name="totallyTimeSpent" value="126404000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -422,17 +422,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/webrtc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="644" column="5" lean-forward="true" selection-start-line="644" selection-start-column="5" selection-end-line="644" selection-end-column="5" />
-          <folding>
-            <element signature="e#23018#28480#0" />
-            <element signature="e#23174#25741#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/videoConference.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="811">
@@ -440,10 +429,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/webrtc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="651" column="24" selection-start-line="651" selection-start-column="22" selection-end-line="651" selection-end-column="24" />
+          <folding>
+            <element signature="e#23018#28480#0" />
+            <element signature="e#23174#25741#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/videoConference.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="18" column="79" selection-start-line="18" selection-start-column="79" selection-end-line="18" selection-end-column="79" />
+        <state relative-caret-position="476">
+          <caret line="1246" column="19" lean-forward="true" selection-start-line="1246" selection-start-column="19" selection-end-line="1246" selection-end-column="19" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
           </folding>

@@ -649,7 +649,7 @@ function stopTrack(stream) {
 /**
  * 获取远程媒体
  */
-function getReceivers(pc) {
+function getReceivers(pc, cb) {
     
     // getRemoteStreams接口也可以获取远程媒体源, 但是此接口即将废弃, 不建议使用
     // let remoteStreams = pc.getRemoteStreams();
@@ -662,6 +662,7 @@ function getReceivers(pc) {
             stream.addTrack(receiver.track);
         });
         // document.getElementById(`${k}_new`).srcObject = stream;
+        cb(stream);
     }
 }
 
