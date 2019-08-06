@@ -931,7 +931,6 @@ function arrayBufferToBlob() {
         createImage(href);
     }
     fileInfo = {};
-    pdfEnd();
 }
 
 
@@ -1003,7 +1002,6 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
                 readSlice(offset);
             }, 100);
         } else {
-            pdfEnd();
             readEnd(file);
         }
     });
