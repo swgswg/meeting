@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4e629ec7-201e-4971-996b-0b99566e94b8" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/js/webrtc.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/webrtc.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/videoConference.html" beforeDir="false" afterPath="$PROJECT_DIR$/videoConference.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,8 +19,8 @@
       <file leaf-file-name="webrtc.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/webrtc.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="983" column="40" lean-forward="true" selection-start-line="983" selection-start-column="40" selection-end-line="983" selection-end-column="40" />
+            <state relative-caret-position="405">
+              <caret line="948" column="29" selection-start-line="948" selection-start-column="21" selection-end-line="948" selection-end-column="29" />
               <folding>
                 <element signature="e#24114#29576#0" />
               </folding>
@@ -32,8 +31,8 @@
       <file leaf-file-name="videoConference.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videoConference.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="1134" column="53" lean-forward="true" selection-start-line="1134" selection-start-column="53" selection-end-line="1134" selection-end-column="53" />
+            <state relative-caret-position="573">
+              <caret line="1476" column="57" lean-forward="true" selection-start-line="1476" selection-start-column="57" selection-end-line="1476" selection-end-column="57" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
               </folding>
@@ -73,8 +72,8 @@
       <find>Send()</find>
       <find>pro</find>
       <find>chatList</find>
-      <find>create</find>
       <find>&lt; img</find>
+      <find>create</find>
     </findStrings>
     <replaceStrings>
       <replace>localVideoSmall</replace>
@@ -190,12 +189,12 @@
       <workItem from="1564799286966" duration="25200000" />
       <workItem from="1564923799631" duration="3111000" />
       <workItem from="1564966190130" duration="33084000" />
-      <workItem from="1565052875844" duration="11721000" />
+      <workItem from="1565052875844" duration="11994000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="148591000" />
+    <option name="totallyTimeSpent" value="148864000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -454,8 +453,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/webrtc.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="983" column="40" lean-forward="true" selection-start-line="983" selection-start-column="40" selection-end-line="983" selection-end-column="40" />
+        <state relative-caret-position="405">
+          <caret line="948" column="29" selection-start-line="948" selection-start-column="21" selection-end-line="948" selection-end-column="29" />
           <folding>
             <element signature="e#24114#29576#0" />
           </folding>
@@ -464,8 +463,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/videoConference.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="1134" column="53" lean-forward="true" selection-start-line="1134" selection-start-column="53" selection-end-line="1134" selection-end-column="53" />
+        <state relative-caret-position="573">
+          <caret line="1476" column="57" lean-forward="true" selection-start-line="1476" selection-start-column="57" selection-end-line="1476" selection-end-column="57" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
           </folding>

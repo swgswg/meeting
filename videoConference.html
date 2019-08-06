@@ -1474,8 +1474,9 @@
 
         // 点击进度条显示文件
         $('#chatList').on('click', 'p', function () {
-             let id = $(this).find('process').attr('id');
-             let href = fileInfo[id].href;
+            let id = $(this).find('progress').attr('id');
+            console.log(fileInfo[id]);
+            let href = fileInfo[id].href;
             showFile(id, href);
         });
 
