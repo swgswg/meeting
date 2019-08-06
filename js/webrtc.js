@@ -923,14 +923,13 @@ function arrayBufferToBlob() {
         $('.videoDialog div.videoDialog-container').empty()
     }
     
-    let ext = getFileExt(fileInfo.fileName);
+    let ext = getFileExt(fileInfo[fileUserId].fileName);
     if(['pdf'].includes(ext)){
         createPdf(href);
         
     } else if(['png', 'jpeg', 'jpg', 'gif'].includes(ext)){
         createImage(href);
     }
-    fileInfo = {};
 }
 
 
