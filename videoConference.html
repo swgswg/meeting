@@ -1017,10 +1017,11 @@
             if (file.size > 1024 * 1024 * 10) {
                 alert('长传文件不能超过10M!!!');
             }
+            localSendFileId = localUserId + getNowTimestamp();
             sendChannelData({
                 hasFile: true,
                 fileUserName: userName,
-                fileId: localUserId + getNowTimestamp(),
+                fileId: localSendFileId,
                 fileSize: file.size,
                 fileName: file.name,
                 fileType: file.type
@@ -1033,15 +1034,16 @@
                 if (chunks === file.size) {
                     let received = new Blob(buffers, { type: file.type });
                     let href = URL.createObjectURL(received);
+                    fileInfo[localSendFileId].href = href;
                     if (num == 1) {
                         var str = `
                             <img src="${href}" class="imageStyle" />
-                            `;
+                        `;
                         $('.videoDialog div.videoDialog-container').empty().append(str);
                     } else if (num == 2) {
                         var str = `
                             <object data="${href}" class="videoStyle"></object>
-                            `;
+                        `;
                         $('.videoDialog div.videoDialog-container').empty().append(str);
                     }
                     $('#videoDialogPopup').show("slow");
@@ -1332,7 +1334,6 @@
             if ($('object').length > 0) {
                 $('object').remove();
             }
-            pdfEnd();
             // 判断中间是否有视频
             if (localUserId != maxVideoId) {
                 if ($('video.videoStyle').length > 0) {
@@ -1403,7 +1404,7 @@
             $(this).parent().hide();
             gmUserId = $(this).parents('li').attr('data-id');
             UIkit.modal("#gaimingModal").show();
-        })
+        });
         // 改名确定按钮
         $('#gaimingSubBtn').click(function () {
             let val = $('#gmValue').val(); // 新名字

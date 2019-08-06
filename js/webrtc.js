@@ -1016,15 +1016,14 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
         fileReader.readAsArrayBuffer(slice);
     };
     readSlice(0);
-    localSendFileId = localUserId + getNowTimestamp();
+    
+    // localSendFileId = localUserId + getNowTimestamp();
     fileInfo[localSendFileId] = {
         userId: localUserId,
         fileId: localSendFileId,
         fileName: file.name,
         fileSize: file.size,
         fileType: file.type,
-        chunkSize:0,
-        buffer: []
     };
     createProcess(localUserId, localSendFileId);
 }
