@@ -89,8 +89,10 @@ var channelOptions = {
  * 开启 WebRTC 获取音视频资源
  * @param _roomId
  * @param _userId
+ * @param _roomInfo
  * @param useUserStream
  * @param useDisplayStream
+ * @param options
  */
 function startWebRTC(_userId, _roomId, _roomInfo, useUserStream = false, useDisplayStream = false, options = {}){
     localUserId = _userId;
@@ -113,7 +115,6 @@ function getMediaStream(useUserStream = false, useDisplayStream = false, options
             getUserMedia(options);
         }
         if(useDisplayStream){
-            stopUserTrack();
             getDisplayMedia();
         }
     }else {
@@ -201,7 +202,6 @@ function getDisplayMedia() {
 
 var autoEnter = true;
 function getUserMediaSuccess(stream) {
-    localStream = {};
     localStream.user  = stream;
     localVideoSmall.srcObject = stream;
     ws.send({
@@ -216,27 +216,28 @@ function getUserMediaSuccess(stream) {
         },
     });
     autoEnter = false;
-    $('#shareDesktopBtn').attr('title', '开启桌面共享').children('.icon-zhuomianshezhi').removeClass('icon-zhuomianshezhi').addClass('icon-yunzhuomian')
+    $('#shareDesktopBtn').attr('title', '开启桌面共享').children('.icon-zhuomianshezhi').removeClass('icon-zhuomianshezhi').addClass('icon-yunzhuomian');
 }
 
 
 function getDisplayMediaSuccess(stream) {
-    localStream = {};
-    localStream.display  = stream;
-    localVideoSmall.srcObject = stream;
-    replaceTrack(stream);
-    $('#shareDesktopBtn').attr('title', '停止演示').children('.icon-yunzhuomian').removeClass('icon-yunzhuomian').addClass('icon-zhuomianshezhi')
-    ws.send({
-        action: 'webrtc',
-        event: 'maxVideo',
-        mine: {
-            id: localUserId
-        },
-        room: {
-            id: roomId,
-        },
-        maxVideoId: localUserId
-    });
+    if(stream){
+        $('#shareDesktopBtn').attr('title', '停止演示').children('.icon-yunzhuomian').removeClass('icon-yunzhuomian').addClass('icon-zhuomianshezhi');
+        localStream.display  = stream;
+        localVideoSmall.srcObject = stream;
+        replaceTrack(stream);
+        ws.send({
+            action: 'webrtc',
+            event: 'maxVideo',
+            mine: {
+                id: localUserId
+            },
+            room: {
+                id: roomId,
+            },
+            maxVideoId: localUserId
+        });
+    }
 }
 
 
@@ -247,8 +248,8 @@ function getDisplayMediaSuccess(stream) {
  * @param e
  */
 function getUserMediaError(e){
-    console.log('getUserMediaError');
-    console.log(e);
+    // console.log('getUserMediaError');
+    // console.log(e);
     alert('请确定您的电脑是否有摄像头!!!');
 }
 

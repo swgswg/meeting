@@ -947,11 +947,9 @@
             openClose('#shareDesktopBtn i.redColor', '#shareDesktopBtn i');
 
             if ($(this).attr('title') === '开启桌面共享') {
-                document.getElementById('localVideoSmall').srcObject = null;
                 startWebRTC(localUserId, roomId, roomInfo, false, true, videoOptions);
 
             } else {
-                document.getElementById('localVideoSmall').srcObject = null;
                 unFlex4();
                 unVideo1I7();
                 startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
@@ -1370,10 +1368,10 @@
         // 设置更多按钮
         $('#userList').on('click', '.shezhigengduo', function () {
             if ($(this).nextAll('.gengduoDialog').css('display') === 'none') {
-                $('#userList').find('.gengduoDialog').hide()
+                $('#userList').find('.gengduoDialog').hide("fast")
                 $(this).nextAll('.gengduoDialog').show();
             } else {
-                $(this).nextAll('.gengduoDialog').hide();
+                $(this).nextAll('.gengduoDialog').hide("fast");
             }
         })
 
@@ -1410,6 +1408,10 @@
         // 改名确定按钮
         $('#gaimingSubBtn').click(function () {
             let val = $('#gmValue').val(); // 新名字
+            if(val == ''){
+                notify('改名内容不能为空！', 'danger');
+                return;
+            }
             if (val && gmUserId) {
                 ws.send({
                     action: 'webrtc',
@@ -1427,6 +1429,7 @@
 
                 });
             }
+            notify('修改成功', 'success');
             UIkit.modal("#gaimingModal").hide();
         });
 
@@ -1496,6 +1499,19 @@
         function setRoomUserId(userId) {
             return 'roomUser_' + userId;
         }
+
+        // 点击除分屏、更多弹窗任意地方关闭他们
+        $("body").click(function (e) {
+            if (!$(e.target).closest("#fenpingContainer,#moreBtn").length) {
+                $("#fenpingContainer").css('visibility', 'hidden');
+            }
+            if (!$(e.target).closest(".shezhigengduo,.gengduoDialog").length) {
+                $(".gengduoDialog").hide("fast");
+            }
+            if (!$(e.target).closest("#menuBtn,#menuDialog").length) {
+                $("#menuDialog").hide("fast");
+            }
+        });
     })
 
 </script>
