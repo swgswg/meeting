@@ -967,7 +967,7 @@ function appendChatList(str) {
 
 
 function createPdf(href) {
-    $('.videoDialog div.videoDialog-container').empty()
+    $('.videoDialog div.videoDialog-container').empty();
     let str = `
         <object data="${href}" class="videoStyle"></object>
     `;
@@ -976,7 +976,7 @@ function createPdf(href) {
 }
 
 function createImage(href) {
-    $('.videoDialog div.videoDialog-container').empty()
+    $('.videoDialog div.videoDialog-container').empty();
     let str = `
             <img src="${href}" class="imageStyle" />
         `;

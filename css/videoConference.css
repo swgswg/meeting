@@ -808,4 +808,5 @@ td{
 
 progress {
     width: 100%;
+    cursor: pointer;
 }
