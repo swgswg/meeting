@@ -208,3 +208,8 @@ function generateRoomId(roomId) {
     }
     return roomId;
 }
+
+
+function getNowTimestamp() {
+    return new Date().getTime();
+}

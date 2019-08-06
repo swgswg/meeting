@@ -847,6 +847,7 @@ function onChannelError(userId, error) {
 
 // 接收文件信息
 var fileInfo = {};
+var fileUserId = '';
 
 /**
  * dataChannel 接收信息
@@ -856,10 +857,9 @@ function onChannelMessage(event) {
     try {
         let message = JSON.parse(event.data);
         if(message.data.hasFile){
-            pdfStart();
-            fileInfo = {};
-            fileInfo = {
-                userId: message.userId,
+            fileInfo[message.data.fileId] = {
+                userId: message.data.userId,
+                fileUserName: message.data.fileUserName,
                 fileId: message.data.fileId,
                 fileName: message.data.fileName,
                 fileSize: message.data.fileSize,
@@ -867,6 +867,8 @@ function onChannelMessage(event) {
                 chunkSize:0,
                 buffer: []
             };
+            fileUserId = message.data.fileId;
+            createProcess(message.data.userId, message.data.fileId);
         } else {
             receiveContent(message.data.userName, message.data.userId, message.data.content);
         }
@@ -882,11 +884,10 @@ function receiveContent(userName, userId, message) {
             <span>${userName}：</span>
             <p data-id="${userId}">
                 ${message}
-            </p >
+            </p>
         </li>
     `;
-    $('#chatList').append(str);
-    $(".meeting-chatList").scrollTop($(".meeting-chatList")[0].scrollHeight);
+    appendChatList(str);
 }
 
 
@@ -895,9 +896,10 @@ function receiveContent(userName, userId, message) {
  * @param fileBuffer
  */
 function receiveChannelFile(fileBuffer) {
-    fileInfo.buffer.push(fileBuffer);
-    fileInfo.chunkSize += fileBuffer.byteLength;
-    if (fileInfo.chunkSize >= fileInfo.fileSize) {
+    fileInfo[fileUserId].buffer.push(fileBuffer);
+    fileInfo[fileUserId].chunkSize += fileBuffer.byteLength;
+    changeProcessValue(fileUserId, fileInfo[fileUserId].chunkSize);
+    if (fileInfo[fileUserId].chunkSize >= fileInfo[fileUserId].fileSize) {
         arrayBufferToBlob();
     }
 }
@@ -907,19 +909,18 @@ function receiveChannelFile(fileBuffer) {
  * 把arrayBuffer数据格式转为blob
  */
 function arrayBufferToBlob() {
-    let received = new Blob(fileInfo.buffer, {type: fileInfo.fileType});
+    let received = new Blob(fileInfo[fileUserId].buffer, {type: fileInfo[fileUserId].fileType});
     let href = URL.createObjectURL(received);
-   
-    let bbb = $('.meeting-r-center video.videoStyle');
-    if(bbb.length > 0){
-        bbb.removeClass('videoStyle');
-        $('.onePeople-videoBox').append(bbb);
-    }
+    fileInfo[fileUserId].href = href;
+    delete(fileInfo[fileUserId].buffer);
+    delete(fileInfo[fileUserId].chunkSize);
+    
+    $('#videoDialogPopup').show("slow");
     if ($('img.imageStyle').length > 0) {
-        $('img.imageStyle').remove()
+        $('.videoDialog div.videoDialog-container').empty()
     }
     if ($('object.videoStyle').length > 0) {
-        $('object.videoStyle').remove()
+        $('.videoDialog div.videoDialog-container').empty()
     }
     
     let ext = getFileExt(fileInfo.fileName);
@@ -934,28 +935,57 @@ function arrayBufferToBlob() {
 }
 
 
+// 进度条
+function createProcess(userId, fileId) {
+    if(!document.getElementById(fileId)){
+        let str = `
+            <li>
+                <span>${localUserId === userId ? '我' : fileInfo[fileId].fileUserName}：</span>
+                <p data-id="${userId}">
+                    <span>${fileInfo[fileId].fileName}</span>
+                    <progress id="${fileId}" max="${fileInfo[fileId].fileSize}" value="0"></progress>
+                </progress>
+            </li>
+        `;
+        appendChatList(str);
+    }
+}
+
+
+function changeProcessValue(fileId, value) {
+    $(`#${fileId}`).attr('value', value);
+}
+
+
+function appendChatList(str) {
+    $('#chatList').append(str);
+    $(".meeting-chatList").scrollTop($(".meeting-chatList")[0].scrollHeight);
+}
+
+
 function createPdf(href) {
     let str = `
-                <object data="${href}" class="videoStyle"></object>
-            `;
+        <object data="${href}" class="videoStyle"></object>
+    `;
     $('.meeting-r-center').append(str);
 }
 
 function createImage(href) {
     let str = `
-                <img src="${href}" class="imageStyle" />
-            `;
+            <img src="${href}" class="imageStyle" />
+        `;
     $('.meeting-r-center').append(str);
 }
 
 
 /**
  * 发送文件
- * @param file 文件流
+ * @param file 文件信息
  * @param offsetChange 每次发送块执行的回调方法
  * @param readEnd      发送完成执行的回调方法
  * @param chunkSize    每次发送块的大小/b
  */
+var localSendFileId = '';
 function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize = 10240) {
     let fileReader = new FileReader();
     let offset = 0;
@@ -964,6 +994,7 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
     fileReader.addEventListener('load', e => {
         sendChannelData(e.target.result, 'string');
         offset += e.target.result.byteLength;
+        changeProcessValue(localSendFileId, offset);
         offsetChange(e.target.result);
         if (offset < file.size) {
             setTimeout(function () {
@@ -979,49 +1010,18 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
         fileReader.readAsArrayBuffer(slice);
     };
     readSlice(0);
-    pdfStart();
-    
-}
-
-
-// pdf开发发送
-function pdfStart(){
-    if($('#waiting').length > 0){
-        pdfEnd();
+    localSendFileId = localUserId + getNowTimestamp();
+    fileInfo[localSendFileId] = {
+        userId: localUserId,
+        fileId: localSendFileId,
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+        chunkSize:0,
+        buffer: []
     };
-    unFlex4();
-    unVideo1I7();
-    if ($('video.videoStyle').length > 0) {
-        $('video.videoStyle').each(function () {
-            $(this).removeClass('videoStyle');
-            $('body').append($(this));
-            $(this).hide();
-        });
-    }
-// 判断中间是否有图片
-    var isImg = $('img.imageStyle');
-    if (isImg.length > 0) {
-        isImg.remove();
-    }
-// 判断中间是否有pdf
-    if ($('object').length > 0) {
-        $('object').remove();
-    }
-    $('#fenpingContainer').hide();
-    var str = `
-        <img src="../images/wait.gif" id="waiting" />
-    `;
-    $('.meeting-r-center').css({background: '#211a4a'});
-    $('.meeting-r-center').append(str);
+    createProcess(localUserId, localSendFileId);
 }
-
-
-// pdf发送结束
-function pdfEnd() {
-    $('.meeting-r-center').css({background: '#787976'});
-    $('#waiting').remove();//#787976
-}
-
 
 
 // 获取音视频流信息
@@ -1042,7 +1042,6 @@ function streamState() {
                             if(!prevLocalInfo[k] ){
                                 prevLocalInfo[k] = {};
                             }
-                
                             res.forEach( (report)=>{
                                 if( report.type === 'codec' ){
                                     nowLocalInfo.mediaType = report.mimeType;
