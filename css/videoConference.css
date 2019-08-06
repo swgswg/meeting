@@ -810,3 +810,7 @@ progress {
     width: 100%;
     cursor: pointer;
 }
+
+.f12{
+    font-size: 0.12rem !important;
+}
