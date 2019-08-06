@@ -20,8 +20,8 @@
       <file leaf-file-name="webrtc.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/webrtc.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="541">
-              <caret line="354" selection-start-line="354" selection-end-line="354" />
+            <state relative-caret-position="475">
+              <caret line="983" column="40" lean-forward="true" selection-start-line="983" selection-start-column="40" selection-end-line="983" selection-end-column="40" />
               <folding>
                 <element signature="e#24114#29576#0" />
               </folding>
@@ -32,8 +32,8 @@
       <file leaf-file-name="videoConference.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videoConference.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="353" column="55" lean-forward="true" selection-start-line="353" selection-start-column="55" selection-end-line="353" selection-end-column="55" />
+            <state relative-caret-position="448">
+              <caret line="1134" column="53" lean-forward="true" selection-start-line="1134" selection-start-column="53" selection-end-line="1134" selection-end-column="53" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
               </folding>
@@ -45,9 +45,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>voice</find>
-      <find>full</find>
-      <find>userM</find>
       <find>id</find>
       <find>localV</find>
       <find>4</find>
@@ -72,9 +69,12 @@
       <find>process</find>
       <find>getFileExt</find>
       <find>fileInfo</find>
-      <find>&lt; img</find>
       <find>sendF</find>
       <find>Send()</find>
+      <find>pro</find>
+      <find>chatList</find>
+      <find>create</find>
+      <find>&lt; img</find>
     </findStrings>
     <replaceStrings>
       <replace>localVideoSmall</replace>
@@ -190,12 +190,12 @@
       <workItem from="1564799286966" duration="25200000" />
       <workItem from="1564923799631" duration="3111000" />
       <workItem from="1564966190130" duration="33084000" />
-      <workItem from="1565052875844" duration="10993000" />
+      <workItem from="1565052875844" duration="11721000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="147863000" />
+    <option name="totallyTimeSpent" value="148591000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -454,8 +454,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/webrtc.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="541">
-          <caret line="354" selection-start-line="354" selection-end-line="354" />
+        <state relative-caret-position="475">
+          <caret line="983" column="40" lean-forward="true" selection-start-line="983" selection-start-column="40" selection-end-line="983" selection-end-column="40" />
           <folding>
             <element signature="e#24114#29576#0" />
           </folding>
@@ -464,8 +464,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/videoConference.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="353" column="55" lean-forward="true" selection-start-line="353" selection-start-column="55" selection-end-line="353" selection-end-column="55" />
+        <state relative-caret-position="448">
+          <caret line="1134" column="53" lean-forward="true" selection-start-line="1134" selection-start-column="53" selection-end-line="1134" selection-end-column="53" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
           </folding>

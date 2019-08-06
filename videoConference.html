@@ -275,7 +275,7 @@
             $(function () {
                 $('.videoList-4').hide();
                 $('.videoList-1-7').hide();
-            })
+            });
 
             function bigVideo(videoId) {
                 unFlex4();
@@ -1033,8 +1033,6 @@
                 if (chunks === file.size) {
                     let received = new Blob(buffers, { type: file.type });
                     let href = URL.createObjectURL(received);
-
-                    $('#videoDialogPopup').show("slow");
                     if (num == 1) {
                         var str = `
                             <img src="${href}" class="imageStyle" />
@@ -1046,6 +1044,7 @@
                             `;
                         $('.videoDialog div.videoDialog-container').empty().append(str);
                     }
+                    $('#videoDialogPopup').show("slow");
                 }
             }, () => {
                 buffers = [];
@@ -1467,11 +1466,19 @@
                 auth: isAudio // true静音/false取消静音
             });
             if(userAudioId == localUserId){
-                console.log(isAudio)
                 muteHandle(isAudio);
             }
             
         });
+
+
+        // 点击进度条显示文件
+        $('#chatList').on('click', 'p', function () {
+             let id = $(this).find('process').attr('id');
+             let href = fileInfo[id].href;
+            showFile(id, href);
+        });
+
 
         function setRoomUserId(userId) {
             return 'roomUser_' + userId;

@@ -922,7 +922,12 @@ function arrayBufferToBlob() {
     if ($('object.videoStyle').length > 0) {
         $('.videoDialog div.videoDialog-container').empty()
     }
+    showFile(fileUserId, href);
     
+}
+
+
+function showFile(fileUserId, href) {
     let ext = getFileExt(fileInfo[fileUserId].fileName);
     if(['pdf'].includes(ext)){
         createPdf(href);
@@ -939,7 +944,7 @@ function createProcess(userId, fileId) {
         let str = `
             <li>
                 <span>${localUserId === userId ? '我' : fileInfo[fileId].fileUserName}：</span>
-                <p data-id="${userId}">
+                <p class="showFile" data-id="${userId}">
                     <span>${fileInfo[fileId].fileName}</span>
                     <progress id="${fileId}" max="${fileInfo[fileId].fileSize}" value="0"></progress>
                 </progress>
@@ -962,19 +967,21 @@ function appendChatList(str) {
 
 
 function createPdf(href) {
-    $('#videoDialogPopup').show("slow");
+    $('.videoDialog div.videoDialog-container').empty()
     let str = `
         <object data="${href}" class="videoStyle"></object>
     `;
     $('.videoDialog div.videoDialog-container').append(str);
+    $('#videoDialogPopup').show("slow");
 }
 
 function createImage(href) {
-    $('#videoDialogPopup').show("slow");
+    $('.videoDialog div.videoDialog-container').empty()
     let str = `
             <img src="${href}" class="imageStyle" />
         `;
     $('.videoDialog div.videoDialog-container').append(str);
+    $('#videoDialogPopup').show("slow");
 }
 
 
