@@ -82,6 +82,7 @@
                     })
                     // 全体静音
                     $('#allMute').click(function () {
+                        isAllMute = !isAllMute;
                         ws.send({
                             action: 'webrtc',
                             event: 'muteAudio',
@@ -101,11 +102,10 @@
                             $('#allMute .iconfont').removeClass('icon-maikefeng').addClass('icon-maikefeng-jingyin');
 
                         }
-                        isAllMute = !isAllMute;
                         $('.voice').each(function (){
                             var uuId = $(this).parent().attr('data-id');
                             if(uuId != roomInfo.owner){
-                                if (!isAllMute) {
+                                if (isAllMute) {
                                     $(this).removeClass('icon-maikefeng-tianchong').addClass('icon-maikefeng-jingyin').addClass('redColor');
                                 } else {
                                     $(this).removeClass('icon-maikefeng-jingyin').removeClass('redColor').addClass('icon-maikefeng-tianchong');
@@ -582,7 +582,7 @@
     var roomInfo = null;
     var ws = null;
     var isAudio = false; // false静音
-    var isAllMute = true; //全体静音
+    var isAllMute = false; //全体静音
 
     $(function () {
         roomInfo = JSON.parse(localStorage.getItem('roomInfo')) || {};
@@ -715,7 +715,7 @@
                 $('.voice').each(function (){
                     var uuId = $(this).parent().attr('data-id');
                     if(uuId != roomInfo.owner){
-                        if (!isAllMute) {
+                        if (isAllMute) {
                             $(this).removeClass('icon-maikefeng-tianchong').addClass('icon-maikefeng-jingyin').addClass('redColor');
                         } else {
                             $(this).removeClass('icon-maikefeng-jingyin').removeClass('redColor').addClass('icon-maikefeng-tianchong');
@@ -1211,6 +1211,14 @@
             $('#userList').empty();
             userInfo.forEach(function (item) {
                 addUserList(item, adminId);
+                $('.voice').each(function(){
+                    var uuId = $(this).parent().attr('data-id');
+                    if (item.muteAudio == 1 && uuId ==item.id) {
+                        $(this).removeClass('icon-maikefeng-tianchong').addClass('icon-maikefeng-jingyin').addClass('redColor');
+                    } else {
+                        $(this).removeClass('icon-maikefeng-jingyin').removeClass('redColor').addClass('icon-maikefeng-tianchong');
+                    }
+                })
             });
         }
 
