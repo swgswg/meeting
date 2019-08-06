@@ -710,7 +710,6 @@
                     isAudio = false;
                     muteHandle(isAudio);
                 }
-                console.log(data);
                 isAllMute = data.auth;
                 $('.voice').each(function (){
                     var uuId = $(this).parent().attr('data-id');
@@ -1331,8 +1330,8 @@
                 return;
             }
             let maxVideoId = $(this).parent().attr('data-id');
-            // unFlex4();
-            // unVideo1I7();
+            unFlex4();
+            unVideo1I7();
             // 判断中间是否有图片
             var isImg = $('img.imageStyle');
             if (isImg.length > 0) {
@@ -1483,9 +1482,12 @@
 
         // 点击进度条显示文件
         $('#chatList').on('click', 'p', function () {
+            $('.videoPopup').removeClass('redColor');
             let id = $(this).find('progress').attr('id');
-            let href = fileInfo[id].href;
-            showFile(id, href);
+            if(fileInfo[id] && fileInfo[id].href){
+                let href = fileInfo[id].href;
+                showFile(id, href);
+            }
         });
 
 

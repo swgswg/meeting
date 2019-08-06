@@ -945,7 +945,7 @@ function createProcess(userId, fileId) {
             <li>
                 <span>${localUserId === userId ? '我' : fileInfo[fileId].fileUserName}：</span>
                 <p class="showFile" data-id="${userId}">
-                    <span class="f12">${fileInfo[fileId].fileName}</span>
+                    <span class="f10">${fileInfo[fileId].fileName}</span>
                     <progress id="${fileId}" max="${fileInfo[fileId].fileSize}" value="0"></progress>
                 </progress>
             </li>
