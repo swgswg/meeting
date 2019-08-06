@@ -490,9 +490,7 @@ span#roomName {
     left: 0;
     right: 0;
     margin: auto;
-    bottom: 5%;
-    /* background: pink; */
-    /* z-index: 10; */
+    bottom: 10%;
 }
 .videoList-1-7 ul{
     width: 100%;
