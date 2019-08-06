@@ -952,6 +952,8 @@
 
             } else {
                 document.getElementById('localVideoSmall').srcObject = null;
+                unFlex4();
+                unVideo1I7();
                 startWebRTC(localUserId, roomId, roomInfo, true, false, videoOptions);
             }
         });
