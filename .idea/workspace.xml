@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4e629ec7-201e-4971-996b-0b99566e94b8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/js/webrtc.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/webrtc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/videoConference.html" beforeDir="false" afterPath="$PROJECT_DIR$/videoConference.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,8 +20,8 @@
       <file leaf-file-name="webrtc.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/webrtc.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="848" column="12" selection-start-line="848" selection-start-column="4" selection-end-line="848" selection-end-column="12" />
+            <state relative-caret-position="541">
+              <caret line="354" selection-start-line="354" selection-end-line="354" />
               <folding>
                 <element signature="e#24114#29576#0" />
               </folding>
@@ -31,8 +32,8 @@
       <file leaf-file-name="videoConference.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videoConference.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="1125" column="25" lean-forward="true" selection-start-line="1125" selection-start-column="25" selection-end-line="1125" selection-end-column="25" />
+            <state relative-caret-position="429">
+              <caret line="353" column="55" lean-forward="true" selection-start-line="353" selection-start-column="55" selection-end-line="353" selection-end-column="55" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
               </folding>
@@ -44,7 +45,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>localVideoSmall</find>
       <find>voice</find>
       <find>full</find>
       <find>userM</find>
@@ -67,13 +67,14 @@
       <find>otherJ</find>
       <find>some</find>
       <find>image</find>
-      <find>sendF</find>
       <find>start</find>
       <find>pdf</find>
       <find>process</find>
       <find>getFileExt</find>
       <find>fileInfo</find>
       <find>&lt; img</find>
+      <find>sendF</find>
+      <find>Send()</find>
     </findStrings>
     <replaceStrings>
       <replace>localVideoSmall</replace>
@@ -94,9 +95,9 @@
         <option value="$PROJECT_DIR$/js/webrtc/webSocketEvent.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/util.js" />
-        <option value="$PROJECT_DIR$/videoConference.html" />
         <option value="$PROJECT_DIR$/css/videoConference.css" />
         <option value="$PROJECT_DIR$/js/webrtc.js" />
+        <option value="$PROJECT_DIR$/videoConference.html" />
       </list>
     </option>
   </component>
@@ -189,12 +190,12 @@
       <workItem from="1564799286966" duration="25200000" />
       <workItem from="1564923799631" duration="3111000" />
       <workItem from="1564966190130" duration="33084000" />
-      <workItem from="1565052875844" duration="10281000" />
+      <workItem from="1565052875844" duration="10993000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="147151000" />
+    <option name="totallyTimeSpent" value="147863000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -437,13 +438,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/util.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="643">
-          <caret line="212" column="24" selection-start-line="212" selection-start-column="9" selection-end-line="212" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/videoConference.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="671">
@@ -451,10 +445,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/util.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="643">
+          <caret line="212" column="24" selection-start-line="212" selection-start-column="9" selection-end-line="212" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/webrtc.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="848" column="12" selection-start-line="848" selection-start-column="4" selection-end-line="848" selection-end-column="12" />
+        <state relative-caret-position="541">
+          <caret line="354" selection-start-line="354" selection-end-line="354" />
           <folding>
             <element signature="e#24114#29576#0" />
           </folding>
@@ -463,8 +464,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/videoConference.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="1125" column="25" lean-forward="true" selection-start-line="1125" selection-start-column="25" selection-end-line="1125" selection-end-column="25" />
+        <state relative-caret-position="429">
+          <caret line="353" column="55" lean-forward="true" selection-start-line="353" selection-start-column="55" selection-end-line="353" selection-end-column="55" />
           <folding>
             <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
           </folding>

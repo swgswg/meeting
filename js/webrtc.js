@@ -858,7 +858,7 @@ function onChannelMessage(event) {
         let message = JSON.parse(event.data);
         if(message.data.hasFile){
             fileInfo[message.data.fileId] = {
-                userId: message.data.userId,
+                userId: message.userId,
                 fileUserName: message.data.fileUserName,
                 fileId: message.data.fileId,
                 fileName: message.data.fileName,
@@ -868,9 +868,9 @@ function onChannelMessage(event) {
                 buffer: []
             };
             fileUserId = message.data.fileId;
-            createProcess(message.data.userId, message.data.fileId);
+            createProcess(message.userId, message.data.fileId);
         } else {
-            receiveContent(message.data.userName, message.data.userId, message.data.content);
+            receiveContent(message.data.userName, message.userId, message.data.content);
         }
     } catch (e) {
         // 文件数据

@@ -188,7 +188,6 @@
                         return;
                     }
                     sendChannelData({
-                        userId: localUserId,
                         userName: userName,
                         content: sendVal,
                     }, 'json');
@@ -352,6 +351,7 @@
             // 取消 1：7
             function unVideo1I7() {
                 var bigId = $('.videoStyle').attr('data-id');
+                $('.videoStyle').css({height: '100%'});
                 $('.allVideo').each(function () {
                     if ($(this).attr('data-id') == bigId) {
                         $(this).removeClass('videoStyle');
@@ -1019,7 +1019,8 @@
             }
             sendChannelData({
                 hasFile: true,
-                // fileId: 'file_' + localUserId,
+                fileUserName: userName,
+                fileId: localUserId + getNowTimestamp(),
                 fileSize: file.size,
                 fileName: file.name,
                 fileType: file.type
