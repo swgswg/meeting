@@ -964,17 +964,19 @@ function appendChatList(str) {
 
 
 function createPdf(href) {
+    $('#videoDialogPopup').show("slow");
     let str = `
         <object data="${href}" class="videoStyle"></object>
     `;
-    $('.meeting-r-center').append(str);
+    $('.videoDialog div.videoDialog-container').append(str);
 }
 
 function createImage(href) {
+    $('#videoDialogPopup').show("slow");
     let str = `
             <img src="${href}" class="imageStyle" />
         `;
-    $('.meeting-r-center').append(str);
+    $('.videoDialog div.videoDialog-container').append(str);
 }
 
 
