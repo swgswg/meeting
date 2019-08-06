@@ -181,10 +181,7 @@
                 function Send() {
                     var sendVal = $('#sendMessage').val();
                     if (sendVal == '') {
-                        UIkit.notify("发送内容不能为空！", {
-                            status: 'danger',
-                            timeout: 1000
-                        });
+                        notify('发送内容不能为空!', 'danger');
                         return;
                     }
                     sendChannelData({
@@ -805,10 +802,7 @@
                 $(`#${roomUserId}`).remove();
                 cleanOneUser(data.from.id);
                 if (removeUserId === localUserId) {
-                    UIkit.notify("您已被移出会议室!!!", {
-                        status: 'success',
-                        timeout: 1000
-                    });
+                    notify('您已被移出会议室!!!');
                     setTimeout(function () {
                         ws.close();
                         window.location.href = 'index.html';
@@ -973,7 +967,7 @@
         // 取消按钮
         $('#shareCancelBtn').click(() => {
             shareModal.hide();
-        })
+        });
         // 点击上传图片
         $('#imgInp').change(function () {
             let file = $(this)[0].files[0];
@@ -982,10 +976,7 @@
                 if( ['png', 'jpeg', 'jpg', 'gif'].includes(ext) ){
                     sendF(file, 1);
                 } else {
-                    UIkit.notify("上传图片格式为[png/jpeg/jpg/gif]!", {
-                        status: 'error',
-                        timeout: 1000
-                    });
+                    notify("上传图片格式为[png/jpeg/jpg/gif]!", 'error');
                 }
             }
 
@@ -999,10 +990,7 @@
                 if( ['pdf'].includes(ext) ){
                     sendF(file, 2);
                 } else {
-                    UIkit.notify("上传pdf文件!", {
-                        status: 'error',
-                        timeout: 1000
-                    });
+                    notify('上传pdf文件!', 'error');
                 }
             }
         });
@@ -1015,6 +1003,11 @@
             }
             if (file.size > 1024 * 1024 * 10) {
                 alert('长传文件不能超过10M!!!');
+            }
+            if(fileUserId || localSendFileId){
+                notify('有文件正在传送, 请稍后再试!!!', 'danger');
+                UIkit.modal("#shareDocModal").hide();
+                return;
             }
             localSendFileId = localUserId + getNowTimestamp();
             sendChannelData({
@@ -1054,7 +1047,7 @@
                 $('#pdfInp').val('');
             });
             // 关闭模态框
-            shareModal.hide()
+            shareModal.hide();
         }
 
         /* **************分屏开始************** */
@@ -1490,6 +1483,13 @@
             }
         });
 
+
+        function notify(info, status = 'success') {
+            UIkit.notify(info, {
+                status: status,
+                timeout: 1000
+            });
+        }
 
         function setRoomUserId(userId) {
             return 'roomUser_' + userId;

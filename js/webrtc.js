@@ -254,10 +254,10 @@ function getUserMediaError(e){
 
 
 function getDisplayMediaError(e) {
-    console.log('getDisplayMediaError');
-    console.log(e);
+    // console.log('getDisplayMediaError');
+    // console.log(e);
     isDisplayMedia = !isDisplayMedia;
-    
+    $('#shareDesktopBtn i.redColor').removeClass('redColor');
 }
 
 
@@ -901,6 +901,7 @@ function receiveChannelFile(fileBuffer) {
     changeProcessValue(fileUserId, fileInfo[fileUserId].chunkSize);
     if (fileInfo[fileUserId].chunkSize >= fileInfo[fileUserId].fileSize) {
         arrayBufferToBlob();
+        fileUserId = '';
     }
 }
 
@@ -923,7 +924,6 @@ function arrayBufferToBlob() {
         $('.videoDialog div.videoDialog-container').empty()
     }
     showFile(fileUserId, href);
-    
 }
 
 
@@ -1009,6 +1009,7 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
             }, 100);
         } else {
             readEnd(file);
+            localSendFileId = '';
         }
     });
     const readSlice = o => {
@@ -1017,7 +1018,6 @@ function sendFiles(file, offsetChange = () => {}, readEnd = () => {}, chunkSize 
     };
     readSlice(0);
     
-    // localSendFileId = localUserId + getNowTimestamp();
     fileInfo[localSendFileId] = {
         userId: localUserId,
         fileId: localSendFileId,
