@@ -60,6 +60,8 @@ var WS = function (obj) {
                 break;
                 case 'out': this.out(data);
                 break;
+                default : this.wsDefaultEvent(data);
+                break;
             }
         } else {
             // this.handleAction[action](data);
