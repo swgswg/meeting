@@ -1,9 +1,10 @@
-function PeerConnect (myUserId, roomId) {
+var PC = function (myUserId, roomId) {
+    
     if(!myUserId && roomId > 65535){
         return;
     }
     
-    this.myUserId = myUserId
+    this.myUserId = myUserId;
     this.roomId = roomId;
     
     
@@ -300,7 +301,7 @@ function PeerConnect (myUserId, roomId) {
     this.setRemoteDesc = function(userId, desc) {
         try {
             this.pc[userId].setRemoteDescription(new RTCSessionDescription(desc));
-            this.setRemoteDescriptionSuccess();
+            this.setRemoteDescriptionSuccess(userId);
         } catch (e) {
             this.setRemoteDescriptionError(e);
         }
@@ -533,7 +534,7 @@ function PeerConnect (myUserId, roomId) {
                     this.onChannelState(userId);
                 };
                 this.dc[userId].onerror = (error) =>{
-                    this.onChannelErrorEvent(userId, error);
+                    this.onChannelError(userId, error);
                 };
                 this.dc[userId].onmessage = this.onChannelMessage;
             }
@@ -554,6 +555,16 @@ function PeerConnect (myUserId, roomId) {
                 this.onDataChannelCloseEvent(userId);
             }
         }
+    };
+    
+    
+    /**
+     * 监听dataChannel错误
+     * @param userId
+     * @param error
+     */
+    this.onChannelError = function(userId, error){
+        this.onDataChannelErrorEvent(userId, error);
     };
     
     
@@ -608,7 +619,7 @@ function PeerConnect (myUserId, roomId) {
         let fileReader = new FileReader();
         let offset = 0;
         fileReader.addEventListener('error', this.sendFileErrorEvent );
-        fileReader.addEventListener('abort', this.sendFileAbortEvent );
+        // fileReader.addEventListener('abort', this.sendFileAbortEvent );
         fileReader.addEventListener('load', e => {
             sendChannelData(e.target.result, receiveId);
             offset += e.target.result.byteLength;
@@ -660,7 +671,7 @@ function PeerConnect (myUserId, roomId) {
                         if(sender.track.kind === 'video'){
                             sender.getStats().then( (res)=>{
                                 res.forEach( (report)=>{
-                                    this.getLocalInfo(report);
+                                    this.getLocalInfo(report, k);
                                     // if( report.type === 'codec' ){
                                     //     nowLocalInfo.mediaType = report.mimeType;
                                     //
@@ -704,7 +715,7 @@ function PeerConnect (myUserId, roomId) {
                         if(receiver.track.kind === 'video'){
                             receiver.getStats().then( (res)=>{
                                 res.forEach( (report)=>{
-                                    this.remoteInfo(report);
+                                    this.remoteInfo(report, k);
                                     // if(report.type === 'codec' ){
                                     //     nowRemoteInfo.mediaType = report.mimeType;
                                     //
@@ -742,7 +753,7 @@ function PeerConnect (myUserId, roomId) {
             }
         }
     }
-}
+};
 
 
 

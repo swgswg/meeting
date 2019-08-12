@@ -1,4 +1,4 @@
-function UserMedia(options = {}) {
+var UM = function(options = {}) {
     this.constraints = {
         audio: {
             // 音量调整（范围 0-1.0， 0为静音，1为最大声）
@@ -57,4 +57,4 @@ function UserMedia(options = {}) {
         return navigator.mediaDevices.enumerateDevices();
     }
     
-}
+};

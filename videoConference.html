@@ -724,7 +724,7 @@
             WS.prototype.userAudio = function (data) {
                 muteUserAudio(!data.auth);
                 muteDisplayAudio(!data.auth);
-                console.log(data.auth, data.webrtc.id == localUserId)
+                console.log(data.auth, data.webrtc.id == localUserId);
                 if(data.webrtc.id == localUserId){
                     if(data.auth){
                         $('#muteBtn').addClass('disAble');
@@ -738,7 +738,7 @@
                 }
                 $('.voice').each(function (){
                     var uuId = $(this).parent().attr('data-id');
-                    console.log(uuId, data.room.id)
+                    console.log(uuId, data.room.id);
                     if(uuId == data.webrtc.id){
                         if (data.auth) {
                             $(this).removeClass('icon-maikefeng-tianchong').addClass('icon-maikefeng-jingyin').addClass('redColor');

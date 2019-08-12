@@ -1,4 +1,4 @@
-function DisplayMedia() {
+var DM = function() {
     this.displayConstraints = {
         video: true,
         audio: true
@@ -21,7 +21,7 @@ function DisplayMedia() {
                 this.getDisplayMediaError(e);
             } );
     }
-}
+};
 
 
 
